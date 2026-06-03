@@ -1,0 +1,9 @@
+.safety-page {
+    width: 100%;
+    background-color: #eef1ea;
+    min-height: 100vh;
+}
+
+.safety-reveal {
+    opacity: 0;
+}

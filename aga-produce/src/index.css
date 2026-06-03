@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+html, body {
+    overscroll-behavior-y: none;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#footer {
+    margin-top: auto;
+}
+
+.page-content {
+    flex: 1;
+    /* padding-top: 20px; */
+    /* padding-left: 15px; */
+    /* padding-right: 15px; */
+}
+
+#navbar {
+    flex-shrink: 0;
+}
+
+#footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}

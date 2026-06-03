@@ -1,0 +1,9 @@
+.about-page {
+    width: 100%;
+    background-color: #eef1ea;
+    min-height: 100vh;
+}
+
+.about-reveal {
+    opacity: 0;
+}

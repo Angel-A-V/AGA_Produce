@@ -1,0 +1,8 @@
+.services-page {
+    width: 100%;
+    background-color: #eef1ea;
+    min-height: 100vh;
+}
+
+.svc-reveal {
+    opacity: 0;
