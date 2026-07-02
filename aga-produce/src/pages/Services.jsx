@@ -30,11 +30,6 @@ const SERVICES = [
         text: 'Consistent quality and dependable volumes for kitchens, caterers, and institutional accounts of every size.',
     },
     {
-        icon: <SearchIcon />,
-        title: 'Custom Sourcing',
-        text: 'Need something we do not normally stock? We source by request through our supplier network and quote fast.',
-    },
-    {
         icon: <Inventory2Icon />,
         title: 'Repacking & Custom Packs',
         text: 'Flexible pack sizes and custom orders, from full cases to specialty counts, built around how you operate.',

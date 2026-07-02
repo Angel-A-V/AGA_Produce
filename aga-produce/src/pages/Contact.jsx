@@ -18,11 +18,11 @@ const GOLD = '#c9a84c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
-const CONTACT_EMAIL = 'orders@agaproduce.com'
+const CONTACT_EMAIL = 'Agaproinfo1@gmail.com'
 const PHONES = ['TEL: (323) 477-1177', 'FAX: (323) 477-1177']
 const IG_HANDLE = 'aga_producecompanyinc'
 const ADDRESS = '1146 S Vail Ave, Montebello, CA 90640'
-const HOURS = 'Mon - Sun: 1:00 AM - 2:00 PM'
+const HOURS = 'Mon - Fri: 1:00 AM - 3:00 PM Sat: 1:00 AM - 10:00 AM'
 
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`
 const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`
@@ -30,7 +30,7 @@ const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIC
 const FAQS = [
     {
         q: 'Do you deliver?',
-        a: 'Yes. We deliver across the greater Los Angeles area. Reach out with your location and order size and we will confirm a delivery window that works for you.',
+        a: 'Yes, we offer both local transportation across the greater Los Angeles area and out-of-state delivery. Reach out with your location and order size, and we will confirm a delivery window that works for you.',
     },
     {
         q: 'Is there a minimum order?',
@@ -195,8 +195,8 @@ function Contact() {
                         </Box>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3, color: 'rgba(255,255,255,0.92)' }}>
-                            <AccessTimeIcon fontSize="small" />
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '1rem' }}>{HOURS}</Typography>
+                            <AccessTimeIcon fontSize="small" sx={{ mt: 0.5 }} />
+                            <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '1rem', whiteSpace: 'pre-line'}}>{HOURS.replace(' Sat:', '\nSat:')}</Typography>
                         </Box>
 
                         <Box className="contact-map">

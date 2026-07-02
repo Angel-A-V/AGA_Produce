@@ -26,6 +26,7 @@ function Footer() {
                     <p>Montebello, CA 90640</p>
                     <p>Tel: <a href="tel:+13234771177">(323) 477-1177</a></p>
                     <p>Fax: (323) 477-1337</p>
+                    <p>Email: <a href="mailto:Agaproinfo1@gmail.com">Agaproinfo1@gmail.com</a></p>
                     <a
                         href="https://www.instagram.com/aga_producecompanyinc/"
                         target="_blank"

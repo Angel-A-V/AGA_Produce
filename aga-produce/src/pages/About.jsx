@@ -69,10 +69,10 @@ function About() {
                     Our Story
                 </Typography>
                 <Typography component="h2" className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '2rem', md: '2.6rem' }, color: GREEN_DARK, lineHeight: 1.1 }}>
-                    About AGA Produce Company
+                    About AGA Produce Company Inc.
                 </Typography>
                 <Typography className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 640, mx: 'auto' }}>
-                    A short placeholder tagline goes here — one line that sums up who AGA Produce is.
+                    Your trusted family-owned partner for high-quality wholesale produce in Montebello and beyond.
                 </Typography>
             </Box>
 
@@ -89,10 +89,10 @@ function About() {
                             Where it all started
                         </Typography>
                         <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65, mb: 2 }}>
-                            Placeholder paragraph one. This is where the company's founding story goes — how AGA Produce began, what drove it, and the people who built it. Replace this text with the real story when you're ready.
+                            AGA Produce Company Inc. was established at the beginning of the year 2020. Our proud owners Julio Cesar Navarro and his wife Gabriela Navarro decided to embark on a new journey, opening a fresh produce business distribution center in Montebello, California. Throughout these past years AGA has enjoyed a long and proud history of providing outstanding service and high quality fruits and vegetables to many companies.
                         </Typography>
                         <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65 }}>
-                            Placeholder paragraph two. Add detail about growth, the warehouse, the customers served, and what sets the company apart in the produce business.
+                            The key to its continued growth and success has been, and will continue to be, the dedication of many loyal employees and the support of our suppliers and loyal customers.
                         </Typography>
                     </Box>
                 </Box>

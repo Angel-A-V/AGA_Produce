@@ -108,7 +108,7 @@ function Home() {
                 </div>
 
                 <div className="home-hero-overlay">
-                    <p className="home-hero-eyebrow">AGA Produce Company</p>
+                    <p className="home-hero-eyebrow">AGA Produce Company Inc.</p>
                     <h1 className="home-hero-title">Only Fresh Goods</h1>
                     <p className="home-hero-sub">
                         Wholesale fruits &amp; vegetables, delivered fresh across Los Angeles.
