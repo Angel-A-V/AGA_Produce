@@ -47,6 +47,11 @@ body {
     width: auto;
     height: 100%;
     object-fit: contain;
+    /* Decorative only. The image's box is wider than the visible fruit
+       (object-fit leaves transparent space), so it overlaps the nav icons.
+       Without this it sits on top and swallows their hover + clicks. */
+    pointer-events: none;
+    z-index: 1;
 }
 
 #fruitbowl1 {
@@ -100,13 +105,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 16px;
-    padding-right: calc(var(--fruitbowl-width) + 12px);
+    gap: 8px;
+    padding-right: calc(var(--fruitbowl-width) + 70px);
     transition: padding-right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Match the same +70px offset when scrolled so character doesn't jump */
 #navbar.nav-scrolled .nav-right {
-    padding-right: calc(var(--fruitbowl-width-scrolled) + 12px);
+    padding-right: calc(var(--fruitbowl-width-scrolled) + 70px);
+}
+
+.nav-socials {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    right: calc(var(--fruitbowl-width) - 25px);
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2; /* sit above the decorative fruit bowls so clicks land */
+}
+
+/* Icons track the shrinking fruit bowl when scrolled */
+#navbar.nav-scrolled .nav-socials {
+    right: calc(var(--fruitbowl-width-scrolled) - 25px);
 }
 
 #nav-character {
@@ -121,18 +142,19 @@ body {
     height: clamp(44px, 6vw, 100px);
 }
 
-.nav-instagram {
+.nav-social-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--green-dark);
     text-decoration: none;
     flex-shrink: 0;
-    transition: color 0.25s ease;
+    transition: color 0.25s ease, opacity 0.25s ease;
 }
 
-.nav-instagram:hover {
+.nav-social-icon:hover {
     color: var(--gold);
+    opacity: 0.85;
 }
 
 .nav-instagram svg {
@@ -144,6 +166,32 @@ body {
     font-size: clamp(34px, 3.4vw, 30px) !important;
 }
 
+.nav-tiktok-img {
+    width: clamp(30px, 3vw, 30px);
+    height: clamp(30px, 3vw, 30px);
+    display: block;
+    background-color: var(--green-dark);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    transition:
+        width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.25s ease;
+}
+
+.nav-tiktok:hover .nav-tiktok-img {
+    background-color: var(--gold);
+}
+
+#navbar.nav-scrolled .nav-tiktok-img {
+    width: clamp(24px, 2.5vw, 24px);
+    height: clamp(24px, 2.5vw, 24px);
+}
+
 .nav-links a {
     font-family: 'Nunito', sans-serif;
     font-size: clamp(14px, 1.5vw, 20px);
@@ -151,12 +199,11 @@ body {
     color: var(--green-dark);
     text-decoration: none;
     padding: clamp(2px, 0.3vw, 5px) clamp(4px, 1vw, 15px);
-    transition: color 0.3s ease, transform 0.2s ease;
+    transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
     color: var(--gold);
-    transform: scale(1.05);
 }
 
 .nav-links a.active {
@@ -164,8 +211,7 @@ body {
 }
 
 .nav-links a.active.hvr-underline-from-center:before {
-    left: 0;
-    right: 0;
+    display: none;
 }
 
 .nav-links a:focus-visible,

@@ -4,6 +4,7 @@ import './Navbar.css'
 import logo from '../assets/logo/logo-transparency.png'
 import fruit from '../assets/logo/fruit-bowl.png'
 import character from '../assets/logo/aga_c.png'
+import tiktokLogo from '../assets/logo/tiktok.webp'
 import DehazeIcon from '@mui/icons-material/Dehaze'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
@@ -115,15 +116,33 @@ function Navbar() {
                     src={character}
                     alt="AGA Mascot"
                 />
-                <a
-                    href="https://www.instagram.com/aga_producecompanyinc/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className='nav-instagram'
-                    aria-label="Follow us on Instagram"
-                >
-                    <InstagramIcon />
-                </a>
+                <div className='nav-socials'>
+                    <a
+                        href="https://www.instagram.com/aga_producecompanyinc/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='nav-social-icon nav-instagram'
+                        aria-label="Follow us on Instagram"
+                    >
+                        <InstagramIcon />
+                    </a>
+                    <a
+                        href="https://www.tiktok.com/@aga.produce.company.inc"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='nav-social-icon nav-tiktok'
+                        aria-label="Follow us on TikTok"
+                    >
+                        <span
+                            className='nav-tiktok-img'
+                            style={{
+                                WebkitMaskImage: `url(${tiktokLogo})`,
+                                maskImage: `url(${tiktokLogo})`,
+                            }}
+                            aria-hidden="true"
+                        />
+                    </a>
+                </div>
             </div>
 
             <img id='fruitbowl2' src={fruit} alt="Fruit-bowl" />
