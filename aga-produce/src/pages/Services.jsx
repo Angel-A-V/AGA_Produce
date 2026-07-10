@@ -12,6 +12,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import './Services.css'
 import crateChar from '../assets/products/crate_char.webp'
+import CertBadges from '../components/CertBadges'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
@@ -135,6 +136,10 @@ function Services() {
                         </Typography>
                     </Box>
                 ))}
+            </Box>
+
+            <Box className="svc-reveal">
+                <CertBadges variant="light" />
             </Box>
 
             <Box sx={{ px: 3, pb: { xs: 8, md: 12 } }}>

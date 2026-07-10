@@ -16,6 +16,7 @@ import safetyImg from '../assets/home/safety.webp'
 import crateChar from '../assets/products/crate_char.webp'
 import front_side from '../assets/home/sideview_logo.webp'
 import trucks from '../assets/contact/contact.webp'
+import CertBadges from '../components/CertBadges'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
@@ -186,6 +187,10 @@ function Home() {
                         </div>
                     </section>
                 ))}
+
+                <section className="reveal">
+                    <CertBadges variant="light" />
+                </section>
 
                 <section className="home-cta-wrap reveal">
                     <Box

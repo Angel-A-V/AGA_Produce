@@ -11,6 +11,7 @@ import FactCheckIcon from '@mui/icons-material/FactCheck'
 import './Safety.css'
 import safetyImg from '../assets/home/safety.webp'
 import crateChar from '../assets/products/crate_char.webp'
+import CertBadges from '../components/CertBadges'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
@@ -99,6 +100,13 @@ function Safety() {
                         </Typography>
                     </Box>
                 ))}
+            </Box>
+
+            <Box className="safety-reveal" sx={{ bgcolor: '#2d5a1b', py: { xs: 1, md: 2 }, mb: { xs: 6, md: 8 } }}>
+                <CertBadges
+                    variant="dark"
+                    subtext="AGA is audited and inspected against recognized food-safety and quality standards."
+                />
             </Box>
 
             <Box sx={{ maxWidth: 1100, mx: 'auto', px: 3, pb: { xs: 7, md: 10 } }}>
