@@ -9,96 +9,152 @@
 .footer-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 40px;
-    max-width: 1400px;
+    gap: 44px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding-bottom: 40px;
+    padding-bottom: 36px;
 }
 
 .footer-brand {
-    flex: 1;
+    flex: 1.3;
     min-width: 200px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
 }
 
 .footer-logo {
     height: 220px;
     width: auto;
+    object-fit: contain;
 }
 
-.footer-tagline {
-    font-family: 'Nunito', sans-serif;
-    font-style: italic;
-    color: var(--green-mid);
-    font-size: 16px;
-    margin: 0;
-}
-
-.footer-links,
-.footer-contact {
+/* NOTE: the JSX uses className='footer-links', not 'footer-col'.
+   Both are matched here so the column styles actually apply. */
+.footer-col,
+.footer-links {
     flex: 1;
-    min-width: 200px;
+    min-width: 170px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 11px;
 }
 
+.footer-col h4,
 .footer-links h4,
 .footer-contact h4 {
     font-family: 'Nunito', sans-serif;
     color: var(--green-dark);
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    letter-spacing: 0.05em;
+    font-size: 15px;
+    font-weight: 800;
+    margin: 0 0 4px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
 }
 
+.footer-col a,
 .footer-links a,
 .footer-contact a {
     font-family: 'Nunito', sans-serif;
     color: var(--text-dark);
     text-decoration: none;
     font-size: 15px;
-    transition: color 0.2s ease;
     width: fit-content;
+    transition: color 0.2s ease;
 }
 
+.footer-col a:hover,
 .footer-links a:hover,
 .footer-contact a:hover {
     color: var(--gold);
 }
 
+.footer-contact {
+    flex: 1.1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
 .footer-contact p {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14.5px;
+    line-height: 1.65;
     color: var(--text-dark);
+    opacity: 0.9;
 }
 
 .footer-company {
     font-weight: 700;
     color: var(--green-dark) !important;
-    margin-bottom: 4px !important;
+    opacity: 1 !important;
 }
 
-.footer-social {
+.footer-socials {
     display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+/* ── Social link: icon badge + handle text ───────────────────────────
+   The <a> contains BOTH the icon and the "@aga_producecompanyinc" text.
+   Previously the 34px green circle + green text colour were applied to
+   this whole anchor, so the icon was green-on-green (invisible) and the
+   text was crammed against a circle sized for an icon alone.
+
+   Fix: the anchor is now a plain flex row. The circle badge is applied
+   to the SVG itself, and the text sits beside it. */
+.footer-social {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    font-weight: 600;
-    color: var(--green-dark) !important;
+    gap: 10px;
+    width: fit-content;
+    margin-top: 6px;
+
+    /* text styling — no background on the anchor itself */
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-decoration: none;
+
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* The icon becomes the circular badge */
+.footer-social svg {
+    width: 34px;
+    height: 34px;
+    padding: 7px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: block;
+
+    border-radius: 50%;
+    background: var(--green-dark);
+    /* light glyph on the dark circle — must CONTRAST, not match */
+    color: var(--cream);
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.footer-social:hover {
+    color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.footer-social:hover svg {
+    background: var(--gold);
+    color: var(--earth-dark); /* dark glyph on gold — readable in both states */
 }
 
 .footer-bottom {
     border-top: 1px solid rgba(45, 90, 27, 0.2);
-    padding: 20px 0;
+    padding: 18px 0;
     text-align: center;
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
 .footer-bottom p {
@@ -112,18 +168,17 @@
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
-        gap: 30px;
         text-align: center;
     }
 
     .footer-brand,
+    .footer-col,
     .footer-links,
     .footer-contact {
         align-items: center;
     }
 
-    .footer-social {
+    .footer-socials {
         justify-content: center;
     }
 }
-

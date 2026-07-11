@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import InstagramIcon from '@mui/icons-material/Instagram'
 import logo from '../assets/logo/logo-transparency.png'
 import './Footer.css'
 
@@ -11,30 +10,53 @@ function Footer() {
                     <img src={logo} alt="AGA Produce Company" className='footer-logo' />
                 </div>
 
-                <div className='footer-links'>
+                <div className='footer-col'>
                     <h4>Explore</h4>
-                    <Link to="/" className="hvr-underline-from-center">Home</Link>
-                    <Link to="/about" className="hvr-underline-from-center">About</Link>
-                    <Link to="/products" className="hvr-underline-from-center">Products</Link>
-                    <Link to="/contact" className="hvr-underline-from-center">Contact</Link>
+                    <Link to="/">Home</Link>
+                    <Link to="/about">About</Link>
+                    <Link to="/products">Products</Link>
+                    <Link to="/contact">Contact</Link>
+                </div>
+
+                <div className='footer-col'>
+                    <h4>Company</h4>
+                    <Link to="/services">Services</Link>
+                    <Link to="/safety">Safety</Link>
                 </div>
 
                 <div className='footer-contact'>
                     <h4>Get in Touch</h4>
-                    <p className='footer-company'>AGA Produce Company Inc. </p>
-                    <p>1146 S Vail Ave</p>
-                    <p>Montebello, CA 90640</p>
+                    <p className='footer-company'>AGA Produce Company Inc.</p>
+                    <p>1146 S Vail Ave<br />Montebello, CA 90640</p>
                     <p>Tel: <a href="tel:+13234771177">(323) 477-1177</a></p>
-                    <p>Fax: (323) 477-1337</p>
                     <p>Email: <a href="mailto:Agaproinfo1@gmail.com">Agaproinfo1@gmail.com</a></p>
-                    <a
-                        href="https://www.instagram.com/aga_producecompanyinc/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className='footer-social'
-                    >
-                        <InstagramIcon /> @aga_producecompanyinc
-                    </a>
+
+                    <div className='footer-socials'>
+                        <a
+                            className='footer-social'
+                            href="https://www.instagram.com/aga_producecompanyinc/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Instagram"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <rect x="3" y="3" width="18" height="18" rx="5" />
+                                <circle cx="12" cy="12" r="4" />
+                                <circle cx="17.2" cy="6.8" r="1" />
+                            </svg>
+                        </a>
+                        <a
+                            className='footer-social'
+                            href="https://www.tiktok.com/@aga.produce.company.inc"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="TikTok"
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 3c.4 2.2 1.9 3.7 4 4v3c-1.5 0-2.9-.4-4-1.2v6.6a5 5 0 1 1-4-4.9v3.1a2 2 0 1 0 1.4 1.9V3h2.6z" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
 
