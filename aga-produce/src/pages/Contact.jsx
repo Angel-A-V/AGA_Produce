@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import './Contact.css'
 import '../components/Buttons.css'
 import contactHero from '../assets/contact/contact.webp'
+import crateChar from '../assets/products/crate_char.webp'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
@@ -23,7 +24,6 @@ const CONTACT_EMAIL = 'Agaproinfo1@gmail.com'
 const PHONES = ['TEL: (323) 477-1177', 'FAX: (323) 477-1177']
 const IG_HANDLE = 'aga_producecompanyinc'
 const ADDRESS = '1146 S Vail Ave, Montebello, CA 90640'
-const HOURS = 'Mon - Fri: 1:00 AM - 3:00 PM Sat: 1:00 AM - 10:00 AM'
 
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`
 const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`
@@ -51,6 +51,40 @@ const FAQS = [
     },
 ]
 
+const IconMail = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+         strokeLinecap="round" strokeLinejoin="round" width="20" height="20" aria-hidden="true">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m2 7 10 6 10-6" />
+    </svg>
+)
+
+const IconShield = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+         strokeLinecap="round" strokeLinejoin="round" width="24" height="24" aria-hidden="true">
+        <path d="M12 2 4 5.5v5c0 5.2 3.4 9.8 8 11.5 4.6-1.7 8-6.3 8-11.5v-5z" />
+        <path d="m9 12 2 2 4-4" />
+    </svg>
+)
+
+const IconStore = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+         strokeLinecap="round" strokeLinejoin="round" width="24" height="24" aria-hidden="true">
+        <path d="M3 9h18l-1.5-5h-15z" />
+        <path d="M4 9v11h16V9" />
+        <path d="M9 20v-6h6v6" />
+    </svg>
+)
+
+const IconLeaf = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+         strokeLinecap="round" strokeLinejoin="round" width="24" height="24" aria-hidden="true">
+        <path d="M12 2 4 5.5v5c0 5.2 3.4 9.8 8 11.5 4.6-1.7 8-6.3 8-11.5v-5z" />
+        <path d="M12 8v5" />
+        <path d="M9.5 10.5h5" />
+    </svg>
+)
+
 function Contact() {
     const pageRef = useRef(null)
     const heroRef = useRef(null)
@@ -58,7 +92,8 @@ function Contact() {
     const [heroLoaded, setHeroLoaded] = useState(false)
     const [openIndex, setOpenIndex] = useState(null)
     const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
-    const [sent, setSent] = useState(false)
+    const [pickerOpen, setPickerOpen] = useState(false)
+    const [copied, setCopied] = useState(false)
 
     useEffect(() => {
         if (heroRef.current && heroRef.current.complete) setHeroLoaded(true)
@@ -76,19 +111,96 @@ function Contact() {
         }
     }, [])
 
+    // Close the mail picker on Escape
+    useEffect(() => {
+        if (!pickerOpen) return
+        const onKey = (e) => {
+            if (e.key === 'Escape') closePicker()
+        }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+    }, [pickerOpen])
+
     const toggleFaq = (i) => setOpenIndex((prev) => (prev === i ? null : i))
 
     const handleChange = (field) => (e) =>
         setForm((f) => ({ ...f, [field]: e.target.value }))
 
+    // Raw (unencoded) pieces — used for the clipboard fallback
+    const rawSubject = `Website inquiry from ${form.name || 'a customer'}`
+    const rawBody =
+        `Name: ${form.name}\n` +
+        `Email: ${form.email}\n` +
+        `Phone: ${form.phone}\n\n` +
+        `${form.message}`
+
+    const subject = encodeURIComponent(rawSubject)
+    const body = encodeURIComponent(rawBody)
+    const to = encodeURIComponent(CONTACT_EMAIL)
+
+    // Web-based compose URLs, so people who read mail in the browser
+    // aren't dumped into a desktop mail app they may not have set up.
+    const mailProviders = [
+        {
+            id: 'gmail',
+            name: 'Gmail',
+            url: `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`,
+        },
+        {
+            id: 'outlook',
+            name: 'Outlook',
+            url: `https://outlook.live.com/mail/0/deeplink/compose?to=${to}&subject=${subject}&body=${body}`,
+        },
+        {
+            id: 'yahoo',
+            name: 'Yahoo Mail',
+            url: `https://compose.mail.yahoo.com/?to=${to}&subject=${subject}&body=${body}`,
+        },
+        {
+            id: 'default',
+            name: 'My default mail app',
+            url: `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
+        },
+    ]
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        const subject = encodeURIComponent(`Website inquiry from ${form.name || 'a customer'}`)
-        const body = encodeURIComponent(
-            `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`
-        )
-        window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`
-        setSent(true)
+        setCopied(false)
+        setPickerOpen(true)
+    }
+
+    const closePicker = () => {
+        setPickerOpen(false)
+        setCopied(false)
+    }
+
+    const openProvider = (provider) => {
+        if (provider.id === 'default') {
+            // mailto: must be a same-tab navigation to trigger the OS handler
+            window.location.href = provider.url
+        } else {
+            window.open(provider.url, '_blank', 'noopener,noreferrer')
+        }
+        setPickerOpen(false)
+    }
+
+    const copyToClipboard = async () => {
+        const text = `To: ${CONTACT_EMAIL}\nSubject: ${rawSubject}\n\n${rawBody}`
+        try {
+            await navigator.clipboard.writeText(text)
+        } catch {
+            // clipboard API can be blocked (e.g. insecure origin) — fall back
+            const ta = document.createElement('textarea')
+            ta.value = text
+            ta.setAttribute('readonly', '')
+            ta.style.position = 'absolute'
+            ta.style.left = '-9999px'
+            document.body.appendChild(ta)
+            ta.select()
+            document.execCommand('copy')
+            document.body.removeChild(ta)
+        }
+        setCopied(true)
     }
 
     const fieldSx = {
@@ -140,13 +252,8 @@ function Contact() {
                         alignItems: 'start',
                     }}
                 >
-                    <Box
-                        className="contact-reveal"
-                        sx={{ bgcolor: GREEN_DARK, borderRadius: 4, p: { xs: 3.5, md: 4 }, boxShadow: 3 }}
-                    >
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 900, fontSize: '1.4rem', color: '#fff', mb: 3 }}>
-                            Reach us directly
-                        </Typography>
+                    <Box className="contact-info-card contact-reveal">
+                        <Typography className="contact-info-title">Reach us directly</Typography>
 
                         {PHONES.map((p) => {
                             const digits = p.replace(/[^0-9]/g, '')
@@ -154,77 +261,65 @@ function Contact() {
                             const inner = (
                                 <>
                                     <PhoneIcon fontSize="small" />
-                                    <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '1.05rem' }}>{p}</Typography>
+                                    <span>{p}</span>
                                 </>
                             )
                             return isFax ? (
-                                <Box key={p} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, color: 'rgba(255,255,255,0.92)' }}>
-                                    {inner}
-                                </Box>
+                                <div className="contact-info-row is-static" key={p}>{inner}</div>
                             ) : (
-                                <Box
-                                    key={p}
-                                    component="a"
-                                    href={`tel:${digits}`}
-                                    sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, color: '#fff', textDecoration: 'none', '&:hover': { color: GOLD } }}
-                                >
-                                    {inner}
-                                </Box>
+                                <a className="contact-info-row" href={`tel:${digits}`} key={p}>{inner}</a>
                             )
                         })}
 
-                        <Box
-                            component="a"
+                        <a className="contact-info-row" href={`mailto:${CONTACT_EMAIL}`}>
+                            <IconMail />
+                            <span>{CONTACT_EMAIL}</span>
+                        </a>
+
+                        <a
+                            className="contact-info-row"
                             href={`https://instagram.com/${IG_HANDLE}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, color: '#fff', textDecoration: 'none', '&:hover': { color: GOLD } }}
                         >
                             <InstagramIcon fontSize="small" />
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '1.05rem' }}>@{IG_HANDLE}</Typography>
-                        </Box>
+                            <span>@{IG_HANDLE}</span>
+                        </a>
 
-                        <Box
-                            component="a"
+                        <a
+                            className="contact-info-row"
                             href={mapLinkUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 2, color: 'rgba(255,255,255,0.92)', textDecoration: 'none', '&:hover': { color: GOLD } }}
                         >
                             <PlaceIcon fontSize="small" />
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '1rem' }}>{ADDRESS}</Typography>
-                        </Box>
+                            <span>{ADDRESS}</span>
+                        </a>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3, color: 'rgba(255,255,255,0.92)' }}>
-                            <AccessTimeIcon fontSize="small" sx={{ mt: 0.5 }} />
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '1rem', whiteSpace: 'pre-line'}}>{HOURS.replace(' Sat:', '\nSat:')}</Typography>
-                        </Box>
-
-                        <Box className="contact-map">
+                        <div className="contact-map">
                             <iframe
                                 title="AGA Produce Company location"
                                 src={mapEmbedUrl}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                             />
-                        </Box>
-                        <Box
-                            component="a"
+                        </div>
+                        <a
+                            className="contact-map-link"
                             href={mapLinkUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            sx={{ display: 'inline-block', mt: 1.5, fontFamily: FONT, fontWeight: 800, fontSize: '0.95rem', color: GOLD, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                         >
-                            View on Google Maps
-                        </Box>
+                            View on Google Maps →
+                        </a>
                     </Box>
 
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
-                        className="contact-reveal"
-                        sx={{ bgcolor: '#ffffff', borderRadius: 4, p: { xs: 3.5, md: 4 }, boxShadow: 3, display: 'flex', flexDirection: 'column', gap: 2.5 }}
+                        className="contact-form-card contact-reveal"
                     >
+                        <Typography className="contact-form-title">Send us a message</Typography>
                         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2.5 }}>
                             <TextField label="Name" value={form.name} onChange={handleChange('name')} required fullWidth sx={fieldSx} />
                             <TextField label="Email" type="email" value={form.email} onChange={handleChange('email')} required fullWidth sx={fieldSx} />
@@ -242,13 +337,55 @@ function Contact() {
                             Send Message
                         </Button>
 
-                        {sent && (
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 700, color: GREEN_DARK, fontSize: '0.98rem' }}>
-                                Thanks! Your email app should have opened with your message ready to send.
-                            </Typography>
-                        )}
                     </Box>
                 </Box>
+                <Box className="contact-mascot-strip contact-reveal" sx={{ maxWidth: 1100, mx: 'auto', px: 3 }}>
+                    <Box
+                        component="img"
+                        src={crateChar}
+                        alt="AGA mascot carrying a crate of produce"
+                        className="contact-mascot-img"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <Typography className="contact-mascot-text">
+                        Family-run and <b>fresh-obsessed,</b> our team is on the other end of every call, ready to help set up your account.
+                    </Typography>
+                </Box>
+
+                <Box
+                    className="contact-reveal"
+                    sx={{ maxWidth: 1280, mx: 'auto', px: 3, pb: { xs: 8, md: 12 } }}
+                >
+                    <div className="contact-hours-band">
+                        <div className="hour-card">
+                            <AccessTimeIcon />
+                            <p className="hour-label">Mon – Fri</p>
+                            <p className="hour-val">1:00 AM – 3:00 PM</p>
+                        </div>
+                        <div className="hour-card">
+                            <AccessTimeIcon />
+                            <p className="hour-label">Saturday</p>
+                            <p className="hour-val">1:00 AM – 10:00 AM</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconShield />
+                            <p className="hour-label">Safety Guaranteed</p>
+                            <p className="hour-val">Cold-chain, every order</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconStore />
+                            <p className="hour-label">Wholesale Only</p>
+                            <p className="hour-val">Restaurants &amp; markets</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconLeaf />
+                            <p className="hour-label">Organic Certified</p>
+                            <p className="hour-val">Selected products</p>
+                        </div>
+                    </div>
+                </Box>
+
                 <Box className="faq-section-wrapper" sx={{bgcolor: '#E7DECE', width: '100%', py: { xs: 8, md: 12 } }}>
                     <Box  sx={{ maxWidth: 760, mx: 'auto', px: 3 }}>
                         <Typography
@@ -283,6 +420,68 @@ function Contact() {
                     </Box>
                 </Box>
             </section>
+
+            {pickerOpen && (
+                <div
+                    className="mail-picker-backdrop"
+                    onClick={closePicker}
+                    role="presentation"
+                >
+                    <div
+                        className="mail-picker"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="mail-picker-title"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            className="mail-picker-close"
+                            onClick={closePicker}
+                            aria-label="Close"
+                        >
+                            &times;
+                        </button>
+
+                        <h3 id="mail-picker-title" className="mail-picker-title">
+                            Where would you like to send from?
+                        </h3>
+                        <p className="mail-picker-sub">
+                            We&apos;ll open your message, pre-filled and addressed to us. Just hit send.
+                        </p>
+
+                        <div className="mail-picker-options">
+                            {mailProviders.map((p) => (
+                                <button
+                                    type="button"
+                                    key={p.id}
+                                    className="mail-picker-option"
+                                    onClick={() => openProvider(p)}
+                                >
+                                    <span>{p.name}</span>
+                                    <span className="mail-picker-arrow" aria-hidden="true">&rarr;</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mail-picker-divider"><span>or</span></div>
+
+                        <button
+                            type="button"
+                            className="mail-picker-copy"
+                            onClick={copyToClipboard}
+                        >
+                            {copied ? 'Copied to clipboard' : 'Copy message instead'}
+                        </button>
+
+                        {copied && (
+                            <p className="mail-picker-copied">
+                                Paste it into any email addressed to <b>{CONTACT_EMAIL}</b>.
+                            </p>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
