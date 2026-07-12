@@ -1,0 +1,104 @@
+
+.cta-wrap {
+    width: 100%;
+    background-color: #eef1ea;
+    padding: clamp(40px, 6vw, 80px) 24px clamp(64px, 9vw, 120px);
+}
+
+.cta-banner {
+    position: relative;
+    overflow: hidden;
+    max-width: 1150px;
+    margin: 0 auto;
+    background-color: #173109;
+    border: 1.5px solid rgba(201, 168, 76, 0.5);
+    border-radius: 22px;
+    padding: clamp(28px, 4vw, 44px) clamp(28px, 5vw, 60px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    box-shadow: 0 16px 40px rgba(26, 46, 15, 0.25);
+}
+
+.cta-banner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(to bottom, #c9a84c, #8bc34a);
+}
+
+.cta-banner::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    bottom: -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 195, 74, 0.25), transparent 70%);
+    z-index: 1;
+}
+
+.cta-banner-text,
+.cta-banner-mascot,
+.cta-banner-btn {
+    position: relative;
+    z-index: 2;
+}
+
+.cta-banner-mascot {
+    height: 130px;
+    width: auto;
+    flex-shrink: 0;
+    display: block;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+    transition: transform 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
+}
+
+.cta-banner:hover .cta-banner-mascot {
+    transform: translateY(-10px) rotate(-6deg);
+}
+
+/* ── Button ───────────────────────────────────────────────────
+   Uses the shared .aga-btn system (components/Buttons.css).
+   This variant is the "dark plate, gold text" look; on hover it
+   inverts to a gold plate with dark text — the behaviour every
+   other button on the site now shares. */
+.cta-banner-btn.MuiButton-root {
+    --btn-bg: #173109;
+    --btn-fg: #c9a84c;
+    --btn-edge: rgba(201, 168, 76, 0.55);
+    --btn-glow: rgba(201, 168, 76, 0.4);
+
+    padding: 15px 28px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .cta-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cta-banner-text .MuiTypography-root {
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta-banner-mascot,
+    .cta-banner-btn.MuiButton-root,
+    .cta-banner-btn .MuiButton-endIcon svg {
+        transition: none;
+    }
+
+    .cta-banner:hover .cta-banner-mascot,
+    .cta-banner-btn.MuiButton-root:hover {
+        transform: none;
+    }
+}

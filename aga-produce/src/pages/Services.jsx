@@ -1,9 +1,7 @@
 import { useRef, useEffect } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
 import { animate, stagger } from 'animejs'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import Inventory2Icon from '@mui/icons-material/Inventory2'
@@ -11,7 +9,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant'
 import SearchIcon from '@mui/icons-material/Search'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import './Services.css'
-import crateChar from '../assets/products/crate_char.webp'
+import CtaBanner from '../components/CtaBanner'
 import CertBadges from '../components/CertBadges'
 
 const GREEN_DARK = '#2d5a1b'
@@ -142,56 +140,11 @@ function Services() {
                 <CertBadges variant="light" />
             </Box>
 
-            <Box sx={{ px: 3, pb: { xs: 8, md: 12 } }}>
-                <Box
-                    className="svc-reveal"
-                    sx={{
-                        maxWidth: 1100,
-                        mx: 'auto',
-                        bgcolor: GREEN_DARK,
-                        borderRadius: 4,
-                        p: { xs: 4, md: 5 },
-                        display: 'flex',
-                        flexDirection: { xs: 'column', md: 'row' },
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: 3,
-                        textAlign: { xs: 'center', md: 'left' },
-                        boxShadow: 3,
-                    }}
-                >
-                    <Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: { xs: '1.4rem', md: '1.7rem' }, color: '#fff', mb: 0.75 }}>
-                            Ready to get started?
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.02rem', color: 'rgba(255,255,255,0.85)', maxWidth: 560 }}>
-                            Tell us what you need and we'll put together a quote that works for your business.
-                        </Typography>
-                    </Box>
-                    <Box
-                        component="img"
-                        src={crateChar}
-                        alt="AGA mascot carrying a crate of produce"
-                        loading="lazy"
-                        decoding="async"
-                        sx={{
-                            height: { xs: 120, md: 175 },
-                            width: 'auto',
-                            display: 'block',
-                            flexShrink: 0,
-                            filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.25))',
-                        }}
-                    />
-                    <Button
-                        component={RouterLink}
-                        to="/contact"
-                        disableElevation
-                        sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', bgcolor: GOLD, color: '#1a2e0f', px: 4, py: 1.5, borderRadius: 2, whiteSpace: 'nowrap', flexShrink: 0, '&:hover': { bgcolor: '#b89640' } }}
-                    >
-                        Contact Us
-                    </Button>
-                </Box>
-            </Box>
+            <CtaBanner
+                className="svc-reveal"
+                title="Ready to get started?"
+                subtitle="Tell us what you need and we'll put together a quote that works for your business."
+            />
         </div>
     )
 }

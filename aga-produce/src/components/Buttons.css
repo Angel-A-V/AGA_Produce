@@ -1,0 +1,116 @@
+/*
+   Shared button system
+
+   Every button on the site uses the same hover BEHAVIOUR as the
+   CTA "Contact Us" button: a full colour INVERSION (background and
+   text swap places), plus a lift and a glow. That makes it
+   unmistakable to any user that the element is clickable.
+
+   Each variant just declares its own two colours via custom
+   properties — the inversion logic below is shared.
+
+    --btn-bg    resting background
+    --btn-fg    resting text/icon colour
+    --btn-edge  border colour (defaults to the background)
+    --btn-glow  hover shadow colour
+ */
+
+.aga-btn.MuiButton-root {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    text-transform: none;
+    font-size: 1.05rem;
+
+    background-color: var(--btn-bg);
+    color: var(--btn-fg);
+    border: 2px solid var(--btn-edge, var(--btn-bg));
+
+    padding: 11px 30px;
+    border-radius: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color 0.22s ease,
+        color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.aga-btn.MuiButton-root:hover {
+    background-color: var(--btn-fg);
+    color: var(--btn-bg);
+    border-color: var(--btn-fg);
+
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px var(--btn-glow, rgba(0, 0, 0, 0.3));
+}
+
+.aga-btn.MuiButton-root:focus-visible {
+    background-color: var(--btn-fg);
+    color: var(--btn-bg);
+    border-color: var(--btn-fg);
+    outline: 3px solid var(--btn-bg);
+    outline-offset: 3px;
+}
+
+.aga-btn.MuiButton-root:active {
+    transform: translateY(-1px);
+}
+
+.aga-btn .MuiButton-endIcon svg {
+    transition: transform 0.25s ease;
+}
+
+.aga-btn.MuiButton-root:hover .MuiButton-endIcon svg {
+    transform: translateX(4px);
+}
+
+
+
+.aga-btn--gold.MuiButton-root {
+    --btn-bg: #c9a84c;
+    --btn-fg: #1a2e0f;
+    --btn-glow: rgba(201, 168, 76, 0.45);
+}
+
+.aga-btn--green.MuiButton-root {
+    --btn-bg: #2d5a1b;
+    --btn-fg: #ffffff;
+    --btn-glow: rgba(26, 46, 15, 0.35);
+}
+
+.aga-btn--outline.MuiButton-root {
+    --btn-bg: transparent;
+    --btn-fg: #ffffff;
+    --btn-edge: rgba(255, 255, 255, 0.85);
+    --btn-glow: rgba(0, 0, 0, 0.35);
+}
+
+.aga-btn--outline.MuiButton-root:hover,
+.aga-btn--outline.MuiButton-root:focus-visible {
+    background-color: #ffffff;
+    color: #1a2e0f;
+    border-color: #ffffff;
+}
+
+.aga-btn--outline.MuiButton-root:focus-visible {
+    outline-color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aga-btn.MuiButton-root,
+    .aga-btn .MuiButton-endIcon svg {
+        transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+    }
+
+    .aga-btn.MuiButton-root:hover,
+    .aga-btn.MuiButton-root:active {
+        transform: none;
+    }
+
+    .aga-btn.MuiButton-root:hover .MuiButton-endIcon svg {
+        transform: none;
+    }
+}

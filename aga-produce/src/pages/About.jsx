@@ -1,22 +1,19 @@
 import { useRef, useEffect } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
 import { animate, stagger } from 'animejs'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import SpaIcon from '@mui/icons-material/Spa'
 import Diversity3Icon from '@mui/icons-material/Diversity3'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import HandshakeIcon from '@mui/icons-material/Handshake'
 import './About.css'
 import storyImg from '../assets/home/about.webp'
-import crateChar from '../assets/products/crate_char.webp'
+import CtaBanner from '../components/CtaBanner'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
-const liftHover = 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease'
 
 const VALUES = [
     {
@@ -147,37 +144,11 @@ function About() {
                 ))}
             </Box>
 
-            <Box sx={{ px: 3, pb: { xs: 8, md: 12 } }}>
-                <Box
-                    className="about-reveal"
-                    sx={{ maxWidth: 1100, mx: 'auto', bgcolor: GREEN_DARK, borderRadius: 4, p: { xs: 4, md: 5 }, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 3, textAlign: { xs: 'center', md: 'left' }, boxShadow: 3 }}
-                >
-                    <Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: { xs: '1.4rem', md: '1.7rem' }, color: '#fff', mb: 0.75 }}>
-                            Want to work with us?
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.02rem', color: 'rgba(255,255,255,0.85)', maxWidth: 560 }}>
-                            Reach out and our team will help you get the fresh produce your business needs.
-                        </Typography>
-                    </Box>
-                    <Box
-                        component="img"
-                        src={crateChar}
-                        alt="AGA mascot carrying a crate of produce"
-                        loading="lazy"
-                        decoding="async"
-                        sx={{ height: { xs: 120, md: 175 }, width: 'auto', display: 'block', flexShrink: 0, filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.25))' }}
-                    />
-                    <Button
-                        component={RouterLink}
-                        to="/contact"
-                        disableElevation
-                        sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', bgcolor: GOLD, color: '#1a2e0f', px: 4, py: 1.5, borderRadius: 2, whiteSpace: 'nowrap', flexShrink: 0, transition: liftHover, '&:hover': { bgcolor: '#b89640', transform: 'translateY(-3px)', boxShadow: '0 10px 22px rgba(0,0,0,0.28)' } }}
-                    >
-                        Contact Us
-                    </Button>
-                </Box>
-            </Box>
+            <CtaBanner
+                className="about-reveal"
+                title="Want to work with us?"
+                subtitle="Reach out and our team will help you get the fresh produce your business needs."
+            />
         </div>
     )
 }

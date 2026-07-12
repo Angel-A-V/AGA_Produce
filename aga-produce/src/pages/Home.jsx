@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import './Home.css'
+import '../components/Buttons.css'
 import front from '../assets/home/front.webp'
 import docks from '../assets/home/docks.webp'
 import reception from '../assets/home/reception.webp'
@@ -13,16 +12,10 @@ import greens from '../assets/home/greens.webp'
 import aboutImg from '../assets/home/about.webp'
 import productsImg from '../assets/home/products.webp'
 import safetyImg from '../assets/home/safety.webp'
-import crateChar from '../assets/products/crate_char.webp'
+import CtaBanner from '../components/CtaBanner'
 import front_side from '../assets/home/sideview_logo.webp'
 import trucks from '../assets/contact/contact.webp'
 import CertBadges from '../components/CertBadges'
-
-const GREEN_DARK = '#2d5a1b'
-const GOLD = '#c9a84c'
-const FONT = 'Nunito, sans-serif'
-
-const liftHover = 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease'
 
 const SLIDES = [
     { src: front_side, alt: 'Side View of the company' },
@@ -119,7 +112,7 @@ function Home() {
                             component={RouterLink}
                             to="/products"
                             disableElevation
-                            sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', bgcolor: GOLD, color: '#1a2e0f', px: 4, py: 1.4, borderRadius: 2, transition: liftHover, '&:hover': { bgcolor: '#b89640', transform: 'translateY(-3px)', boxShadow: '0 10px 24px rgba(0,0,0,0.3)' } }}
+                            className="aga-btn aga-btn--gold"
                         >
                             Browse Products
                         </Button>
@@ -127,7 +120,7 @@ function Home() {
                             component={RouterLink}
                             to="/contact"
                             disableElevation
-                            sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', color: '#fff', px: 4, py: 1.4, borderRadius: 2, border: '2px solid rgba(255,255,255,0.85)', transition: liftHover, '&:hover': { bgcolor: 'rgba(255,255,255,0.16)', borderColor: '#fff', transform: 'translateY(-3px)', boxShadow: '0 10px 24px rgba(0,0,0,0.3)' } }}
+                            className="aga-btn aga-btn--outline"
                         >
                             Contact Us
                         </Button>
@@ -155,11 +148,13 @@ function Home() {
 
             <div className="home-body">
                 <section className="home-intro reveal">
-                    <p className="home-intro-eyebrow">Wholesale Produce, Done Right</p>
-                    <h2 className="home-intro-title">Fresh produce your business can count on</h2>
-                    <p className="home-intro-text">
-                        From sourcing to delivery, we handle the produce side so you can focus on your customers. Explore what we do.
-                    </p>
+                    <div className="home-intro-inner">
+                        <p className="home-intro-eyebrow">Wholesale Produce, Done Right</p>
+                        <h2 className="home-intro-title">Fresh produce your business can count on</h2>
+                        <p className="home-intro-text">
+                            From sourcing to delivery, we handle the produce side so you can focus on your customers. Explore what we do.
+                        </p>
+                    </div>
                 </section>
 
                 {FEATURES.map((f, i) => (
@@ -179,7 +174,7 @@ function Home() {
                                     component={RouterLink}
                                     to={f.to}
                                     disableElevation
-                                    sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1rem', bgcolor: GREEN_DARK, color: '#fff', px: 3.5, py: 1.3, borderRadius: 2, transition: liftHover, '&:hover': { bgcolor: '#244a16', transform: 'translateY(-3px)', boxShadow: '0 10px 22px rgba(26,46,15,0.3)' } }}
+                                    className="aga-btn aga-btn--green"
                                 >
                                     {f.cta}
                                 </Button>
@@ -192,49 +187,11 @@ function Home() {
                     <CertBadges variant="light" />
                 </section>
 
-                <section className="home-cta-wrap reveal">
-                    <Box
-                        sx={{
-                            maxWidth: 1150,
-                            mx: 'auto',
-                            bgcolor: GREEN_DARK,
-                            borderRadius: 5,
-                            p: { xs: 4, md: 5 },
-                            display: 'flex',
-                            flexDirection: { xs: 'column', md: 'row' },
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: 3,
-                            textAlign: { xs: 'center', md: 'left' },
-                            boxShadow: '0 16px 40px rgba(26,46,15,0.2)',
-                        }}
-                    >
-                        <Box>
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: { xs: '1.5rem', md: '1.9rem' }, color: '#fff', mb: 0.75 }}>
-                                Ready to order fresh?
-                            </Typography>
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: 'rgba(255,255,255,0.85)', maxWidth: 560 }}>
-                                Tell us what your business needs and we'll get you set up with a quote — fast.
-                            </Typography>
-                        </Box>
-                        <Box
-                            component="img"
-                            src={crateChar}
-                            alt="AGA mascot carrying a crate of produce"
-                            loading="lazy"
-                            decoding="async"
-                            sx={{ height: { xs: 120, md: 175 }, width: 'auto', display: 'block', flexShrink: 0, filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.25))' }}
-                        />
-                        <Button
-                            component={RouterLink}
-                            to="/contact"
-                            disableElevation
-                            sx={{ fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', bgcolor: GOLD, color: '#1a2e0f', px: 4, py: 1.5, borderRadius: 2, whiteSpace: 'nowrap', flexShrink: 0, transition: liftHover, '&:hover': { bgcolor: '#b89640', transform: 'translateY(-3px)', boxShadow: '0 10px 24px rgba(0,0,0,0.3)' } }}
-                        >
-                            Contact Us
-                        </Button>
-                    </Box>
-                </section>
+                <CtaBanner
+                    className="reveal"
+                    title="Ready to order fresh?"
+                    subtitle="Tell us what your business needs and we'll get you set up with a quote, fast."
+                />
             </div>
         </div>
     )

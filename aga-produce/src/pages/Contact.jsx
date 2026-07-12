@@ -11,6 +11,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import SendIcon from '@mui/icons-material/Send'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import './Contact.css'
+import '../components/Buttons.css'
 import contactHero from '../assets/contact/contact.webp'
 
 const GREEN_DARK = '#2d5a1b'
@@ -235,7 +236,8 @@ function Contact() {
                             type="submit"
                             endIcon={<SendIcon />}
                             disableElevation
-                            sx={{ alignSelf: 'flex-start', fontFamily: FONT, fontWeight: 800, textTransform: 'none', fontSize: '1.05rem', bgcolor: GOLD, color: '#1a2e0f', px: 4, py: 1.4, borderRadius: 2, '&:hover': { bgcolor: '#b89640' } }}
+                            className="aga-btn aga-btn--gold"
+                            sx={{ alignSelf: 'flex-start' }}
                         >
                             Send Message
                         </Button>
