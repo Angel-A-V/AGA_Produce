@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react'
 import { animate, stagger } from 'animejs'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -51,6 +51,8 @@ const FAQS = [
     },
 ]
 
+/* Inline SVGs — avoids depending on icon names that may not exist
+   in this @mui/icons-material install. */
 const IconMail = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
          strokeLinecap="round" strokeLinejoin="round" width="20" height="20" aria-hidden="true">
@@ -85,13 +87,86 @@ const IconLeaf = () => (
     </svg>
 )
 
+/* Defined once at module scope. Previously these were object literals
+   inside the component, so every keystroke produced brand-new `sx`
+   objects and forced MUI/Emotion to re-serialize the styles for every
+   field — the single biggest cause of the typing lag. */
+const fieldSx = {
+    '& .MuiOutlinedInput-root': {
+        fontFamily: FONT,
+        '& fieldset': { borderColor: 'rgba(45,90,27,0.25)' },
+        '&:hover fieldset': { borderColor: GREEN_DARK },
+        '&.Mui-focused fieldset': { borderColor: GREEN_DARK },
+    },
+    '& label.Mui-focused': { color: GREEN_DARK },
+    '& label': { fontFamily: FONT },
+}
+
+const nameRowSx = {
+    display: 'grid',
+    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+    gap: 2.5,
+}
+
+const submitBtnSx = { alignSelf: 'flex-start' }
+
+/* The form owns its own state. Because it's a separate component,
+   typing re-renders ONLY the form — not the hero, the Google Maps
+   iframe, the hour cards, or the FAQ list, all of which used to
+   re-render on every single keypress. */
+const ContactForm = memo(function ContactForm({ onSend }) {
+    const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+
+    const handleChange = useCallback(
+        (field) => (e) => {
+            const { value } = e.target
+            setForm((f) => ({ ...f, [field]: value }))
+        },
+        []
+    )
+
+    const handleSubmit = useCallback(
+        (e) => {
+            e.preventDefault()
+            onSend(form)
+        },
+        [form, onSend]
+    )
+
+    return (
+        <Box
+            component="form"
+            onSubmit={handleSubmit}
+            className="contact-form-card contact-reveal"
+        >
+            <Typography className="contact-form-title">Send us a message</Typography>
+            <Box sx={nameRowSx}>
+                <TextField label="Name" value={form.name} onChange={handleChange('name')} required fullWidth sx={fieldSx} />
+                <TextField label="Email" type="email" value={form.email} onChange={handleChange('email')} required fullWidth sx={fieldSx} />
+            </Box>
+            <TextField label="Phone (optional)" value={form.phone} onChange={handleChange('phone')} fullWidth sx={fieldSx} />
+            <TextField label="Message" value={form.message} onChange={handleChange('message')} required fullWidth multiline minRows={4} sx={fieldSx} />
+
+            <Button
+                type="submit"
+                endIcon={<SendIcon />}
+                disableElevation
+                className="aga-btn aga-btn--gold"
+                sx={submitBtnSx}
+            >
+                Send Message
+            </Button>
+        </Box>
+    )
+})
+
 function Contact() {
     const pageRef = useRef(null)
     const heroRef = useRef(null)
 
     const [heroLoaded, setHeroLoaded] = useState(false)
     const [openIndex, setOpenIndex] = useState(null)
-    const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+    const [submitted, setSubmitted] = useState(null)
     const [pickerOpen, setPickerOpen] = useState(false)
     const [copied, setCopied] = useState(false)
 
@@ -111,7 +186,64 @@ function Contact() {
         }
     }, [])
 
-    // Close the mail picker on Escape
+    const toggleFaq = (i) => setOpenIndex((prev) => (prev === i ? null : i))
+
+    // Links are built ONLY when the form is submitted, from the snapshot
+    // below — not recomputed (and re-encoded) on every keystroke.
+    const mailProviders = useMemo(() => {
+        if (!submitted) return []
+
+        const rawSubject = `Website inquiry from ${submitted.name || 'a customer'}`
+        const rawBody =
+            `Name: ${submitted.name}\n` +
+            `Email: ${submitted.email}\n` +
+            `Phone: ${submitted.phone}\n\n` +
+            `${submitted.message}`
+
+        const subject = encodeURIComponent(rawSubject)
+        const body = encodeURIComponent(rawBody)
+        const to = encodeURIComponent(CONTACT_EMAIL)
+
+        return [
+            {
+                id: 'gmail',
+                name: 'Gmail',
+                url: `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`,
+            },
+            {
+                id: 'outlook',
+                name: 'Outlook',
+                url: `https://outlook.live.com/mail/0/deeplink/compose?to=${to}&subject=${subject}&body=${body}`,
+            },
+            {
+                id: 'yahoo',
+                name: 'Yahoo Mail',
+                url: `https://compose.mail.yahoo.com/?to=${to}&subject=${subject}&body=${body}`,
+            },
+            {
+                id: 'default',
+                name: 'My default mail app',
+                url: `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
+            },
+        ]
+    }, [submitted])
+
+    // Stable identity so the memoized <ContactForm /> never re-renders
+    // just because the parent did.
+    const handleSend = useCallback((formData) => {
+        setSubmitted(formData)
+        setCopied(false)
+        setPickerOpen(true)
+    }, [])
+
+    const closePicker = useCallback(() => {
+        setPickerOpen(false)
+        setCopied(false)
+    }, [])
+
+    // Close the mail picker on Escape.
+    // Placed after closePicker so it isn't referenced before definition,
+    // and closePicker is in the dep array (it's useCallback-stable).
     useEffect(() => {
         if (!pickerOpen) return
         const onKey = (e) => {
@@ -119,62 +251,9 @@ function Contact() {
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
-    }, [pickerOpen])
+    }, [pickerOpen, closePicker])
 
-    const toggleFaq = (i) => setOpenIndex((prev) => (prev === i ? null : i))
-
-    const handleChange = (field) => (e) =>
-        setForm((f) => ({ ...f, [field]: e.target.value }))
-
-    // Raw (unencoded) pieces — used for the clipboard fallback
-    const rawSubject = `Website inquiry from ${form.name || 'a customer'}`
-    const rawBody =
-        `Name: ${form.name}\n` +
-        `Email: ${form.email}\n` +
-        `Phone: ${form.phone}\n\n` +
-        `${form.message}`
-
-    const subject = encodeURIComponent(rawSubject)
-    const body = encodeURIComponent(rawBody)
-    const to = encodeURIComponent(CONTACT_EMAIL)
-
-    // Web-based compose URLs, so people who read mail in the browser
-    // aren't dumped into a desktop mail app they may not have set up.
-    const mailProviders = [
-        {
-            id: 'gmail',
-            name: 'Gmail',
-            url: `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`,
-        },
-        {
-            id: 'outlook',
-            name: 'Outlook',
-            url: `https://outlook.live.com/mail/0/deeplink/compose?to=${to}&subject=${subject}&body=${body}`,
-        },
-        {
-            id: 'yahoo',
-            name: 'Yahoo Mail',
-            url: `https://compose.mail.yahoo.com/?to=${to}&subject=${subject}&body=${body}`,
-        },
-        {
-            id: 'default',
-            name: 'My default mail app',
-            url: `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
-        },
-    ]
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        setCopied(false)
-        setPickerOpen(true)
-    }
-
-    const closePicker = () => {
-        setPickerOpen(false)
-        setCopied(false)
-    }
-
-    const openProvider = (provider) => {
+    const openProvider = useCallback((provider) => {
         if (provider.id === 'default') {
             // mailto: must be a same-tab navigation to trigger the OS handler
             window.location.href = provider.url
@@ -182,14 +261,22 @@ function Contact() {
             window.open(provider.url, '_blank', 'noopener,noreferrer')
         }
         setPickerOpen(false)
-    }
+    }, [])
 
-    const copyToClipboard = async () => {
+    const copyToClipboard = useCallback(async () => {
+        if (!submitted) return
+        const rawSubject = `Website inquiry from ${submitted.name || 'a customer'}`
+        const rawBody =
+            `Name: ${submitted.name}\n` +
+            `Email: ${submitted.email}\n` +
+            `Phone: ${submitted.phone}\n\n` +
+            `${submitted.message}`
         const text = `To: ${CONTACT_EMAIL}\nSubject: ${rawSubject}\n\n${rawBody}`
+
         try {
             await navigator.clipboard.writeText(text)
         } catch {
-            // clipboard API can be blocked (e.g. insecure origin) — fall back
+            // Clipboard API is blocked on insecure origins — fall back
             const ta = document.createElement('textarea')
             ta.value = text
             ta.setAttribute('readonly', '')
@@ -201,18 +288,7 @@ function Contact() {
             document.body.removeChild(ta)
         }
         setCopied(true)
-    }
-
-    const fieldSx = {
-        '& .MuiOutlinedInput-root': {
-            fontFamily: FONT,
-            '& fieldset': { borderColor: 'rgba(45,90,27,0.25)' },
-            '&:hover fieldset': { borderColor: GREEN_DARK },
-            '&.Mui-focused fieldset': { borderColor: GREEN_DARK },
-        },
-        '& label.Mui-focused': { color: GREEN_DARK },
-        '& label': { fontFamily: FONT },
-    }
+    }, [submitted])
 
     return (
         <div className="contact-page" ref={pageRef}>
@@ -314,30 +390,7 @@ function Contact() {
                         </a>
                     </Box>
 
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        className="contact-form-card contact-reveal"
-                    >
-                        <Typography className="contact-form-title">Send us a message</Typography>
-                        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2.5 }}>
-                            <TextField label="Name" value={form.name} onChange={handleChange('name')} required fullWidth sx={fieldSx} />
-                            <TextField label="Email" type="email" value={form.email} onChange={handleChange('email')} required fullWidth sx={fieldSx} />
-                        </Box>
-                        <TextField label="Phone (optional)" value={form.phone} onChange={handleChange('phone')} fullWidth sx={fieldSx} />
-                        <TextField label="Message" value={form.message} onChange={handleChange('message')} required fullWidth multiline minRows={4} sx={fieldSx} />
-
-                        <Button
-                            type="submit"
-                            endIcon={<SendIcon />}
-                            disableElevation
-                            className="aga-btn aga-btn--gold"
-                            sx={{ alignSelf: 'flex-start' }}
-                        >
-                            Send Message
-                        </Button>
-
-                    </Box>
+                    <ContactForm onSend={handleSend} />
                 </Box>
                 <Box className="contact-mascot-strip contact-reveal" sx={{ maxWidth: 1100, mx: 'auto', px: 3 }}>
                     <Box
@@ -349,7 +402,7 @@ function Contact() {
                         decoding="async"
                     />
                     <Typography className="contact-mascot-text">
-                        Family-run and <b>fresh-obsessed,</b> our team is on the other end of every call, ready to help set up your account.
+                        Family-run and <b>fresh-obsessed</b> — our team is on the other end of every call, ready to help set up your account.
                     </Typography>
                 </Box>
 
