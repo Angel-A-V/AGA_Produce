@@ -1,0 +1,77 @@
+.quick-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1400;
+
+    display: none; /* mobile only — enabled in the media query below */
+    gap: 10px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(245, 240, 232, 0.96);
+    backdrop-filter: blur(8px);
+    border-top: 1.5px solid rgba(45, 90, 27, 0.18);
+    box-shadow: 0 -8px 24px rgba(26, 46, 15, 0.14);
+
+    transform: translateY(110%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-bar.is-visible {
+    transform: none;
+}
+
+.quick-bar-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 12px;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.quick-bar-call {
+    background: #2d5a1b;
+    color: #f5f0e8;
+}
+
+.quick-bar-call:active {
+    background: #c9a84c;
+    color: #1a2e0f;
+}
+
+.quick-bar-msg {
+    background: #fff;
+    color: #2d5a1b;
+    border: 2px solid rgba(45, 90, 27, 0.3);
+}
+
+.quick-bar-msg:active {
+    background: #2d5a1b;
+    color: #fff;
+}
+
+/* Mobile only */
+@media (max-width: 700px) {
+    .quick-bar {
+        display: flex;
+    }
+
+    /* keep the back-to-top button clear of the bar */
+    .back-to-top {
+        bottom: calc(78px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quick-bar {
+        transition: none;
+    }
+}

@@ -78,3 +78,70 @@
 .fade-img.is-loaded {
     opacity: 1;
 }
+
+
+/* ── Product search ─────────────────────────────────────────── */
+.product-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 2px solid rgba(45, 90, 27, 0.22);
+    border-radius: 14px;
+    padding: 12px 16px;
+    box-shadow: 0 6px 20px rgba(26, 46, 15, 0.08);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-search:focus-within {
+    border-color: #2d5a1b;
+    box-shadow: 0 8px 24px rgba(45, 90, 27, 0.16);
+}
+
+.product-search svg {
+    color: #c9a84c;
+    flex-shrink: 0;
+}
+
+.product-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #3d3228;
+    min-width: 0;
+}
+
+.product-search input::placeholder {
+    color: #3d3228;
+    opacity: 0.45;
+}
+
+/* hide the native clear (we provide our own) */
+.product-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.product-search-clear {
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    color: #3d3228;
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.product-search-clear:hover {
+    opacity: 1;
+    background: #f2efe7;
+}

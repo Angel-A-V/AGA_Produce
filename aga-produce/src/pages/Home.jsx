@@ -16,6 +16,7 @@ import CtaBanner from '../components/CtaBanner'
 import front_side from '../assets/home/sideview_logo.webp'
 import trucks from '../assets/contact/contact.webp'
 import CertBadges from '../components/CertBadges'
+import StatsBand from '../components/StatsBand'
 
 const SLIDES = [
     { src: front_side, alt: 'Side View of the company' },
@@ -156,6 +157,8 @@ function Home() {
                         </p>
                     </div>
                 </section>
+
+                <StatsBand />
 
                 {FEATURES.map((f, i) => (
                     <section

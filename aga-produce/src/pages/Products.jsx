@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import './Products.css'
@@ -58,9 +58,33 @@ const categories = [
     },
 ]
 
+/* Returns the item's display name whether it's a plain string
+   or an object like { name, tag }. */
+const itemName = (item) => (typeof item === 'string' ? item : item.name)
+
 function Products() {
     const [heroLoaded, setHeroLoaded] = useState(false)
+    const [query, setQuery] = useState('')
     const heroRef = useRef(null)
+
+    /* Live search: matches category titles AND individual items.
+       - If the query matches a category title, the whole card shows.
+       - Otherwise the card shows with only its matching items.
+       Recomputed only when the query changes. */
+    const filtered = useMemo(() => {
+        const q = query.trim().toLowerCase()
+        if (!q) return categories
+
+        return categories
+            .map((cat) => {
+                if (cat.title.toLowerCase().includes(q)) return cat
+                const items = cat.items.filter((it) =>
+                    itemName(it).toLowerCase().includes(q)
+                )
+                return items.length ? { ...cat, items } : null
+            })
+            .filter(Boolean)
+    }, [query])
 
     useEffect(() => {
         if (heroRef.current && heroRef.current.complete) {
@@ -134,6 +158,36 @@ function Products() {
                     </Typography>
                 </Box>
 
+                <Box sx={{ maxWidth: 520, mx: 'auto', px: 3, pt: { xs: 3.5, md: 5 } }}>
+                    <div className="product-search">
+                        <svg
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                            width="20" height="20" aria-hidden="true"
+                        >
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                        <input
+                            type="search"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="Search produce… e.g. jalapeño, citrus, rice"
+                            aria-label="Search products"
+                        />
+                        {query && (
+                            <button
+                                type="button"
+                                className="product-search-clear"
+                                onClick={() => setQuery('')}
+                                aria-label="Clear search"
+                            >
+                                &times;
+                            </button>
+                        )}
+                    </div>
+                </Box>
+
                 <Box
                     sx={{
                         display: 'grid',
@@ -148,7 +202,7 @@ function Products() {
                         pb: { xs: 6, md: 8 },
                     }}
                 >
-                    {categories.map((cat) => (
+                    {filtered.map((cat) => (
                         <ProductCard
                             key={cat.title}
                             title={cat.title}
@@ -157,6 +211,33 @@ function Products() {
                         />
                     ))}
                 </Box>
+
+                {filtered.length === 0 && (
+                    <Box sx={{ textAlign: 'center', px: 3, pb: { xs: 6, md: 8 } }}>
+                        <Typography
+                            sx={{
+                                fontFamily: FONT,
+                                fontWeight: 800,
+                                fontSize: '1.15rem',
+                                color: GREEN_DARK,
+                                mb: 0.75,
+                            }}
+                        >
+                            No matches for &ldquo;{query}&rdquo;
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontFamily: FONT,
+                                fontWeight: 500,
+                                fontSize: '0.98rem',
+                                color: TEXT_DARK,
+                                opacity: 0.75,
+                            }}
+                        >
+                            We source by request — ask us about it below.
+                        </Typography>
+                    </Box>
+                )}
             </section>
 
             <CtaBanner

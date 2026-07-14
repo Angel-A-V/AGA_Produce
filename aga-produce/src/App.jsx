@@ -7,6 +7,8 @@ import Products from './pages/Products'
 import Services from './pages/Services'
 import Safety from './pages/Safety'
 import Footer from './components/Footer'
+import BackToTop from './components/BackToTop'
+import QuickBar from './components/QuickBar'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -30,6 +32,9 @@ function App() {
                 </Routes>
             </main>
             <Footer />
+            {/* Floating utilities — rendered on every page */}
+            <BackToTop />
+            <QuickBar />
         </Router>
     )
 }
