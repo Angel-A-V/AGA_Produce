@@ -7,7 +7,7 @@ import './StatsBand.css'
  * Respects prefers-reduced-motion (numbers just appear).
  */
 
-const STATS = [
+const DEFAULT_STATS = [
     { value: new Date().getFullYear() - 2020, suffix: '+', label: 'Years in business' },
     { value: 6, suffix: '', label: 'Delivery days a week' },
     { value: 30, suffix: '+', label: 'Produce varieties' },
@@ -20,10 +20,16 @@ function easeOut(t) {
     return 1 - Math.pow(1 - t, 3)
 }
 
-function StatsBand() {
+/**
+ * props:
+ *   stats — optional array of { value, suffix?, label }.
+ *           Numeric values count up when the band scrolls into view;
+ *           string values (e.g. 'LA') render as-is.
+ */
+function StatsBand({ stats = DEFAULT_STATS }) {
     const ref = useRef(null)
     const [started, setStarted] = useState(false)
-    const [counts, setCounts] = useState(STATS.map(() => 0))
+    const [counts, setCounts] = useState(stats.map((s) => (typeof s.value === 'number' ? 0 : s.value)))
 
     // Start once, when the band enters the viewport
     useEffect(() => {
@@ -48,7 +54,7 @@ function StatsBand() {
 
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
         if (reduce) {
-            setCounts(STATS.map((s) => s.value))
+            setCounts(stats.map((s) => s.value))
             return
         }
 
@@ -57,7 +63,9 @@ function StatsBand() {
         const tick = (now) => {
             const p = Math.min((now - t0) / DURATION, 1)
             const eased = easeOut(p)
-            setCounts(STATS.map((s) => Math.round(s.value * eased)))
+            setCounts(stats.map((s) =>
+                typeof s.value === 'number' ? Math.round(s.value * eased) : s.value
+            ))
             if (p < 1) raf = requestAnimationFrame(tick)
         }
         raf = requestAnimationFrame(tick)
@@ -67,7 +75,7 @@ function StatsBand() {
     return (
         <div className="stats-band" ref={ref}>
             <div className="stats-band-inner">
-                {STATS.map((s, i) => (
+                {stats.map((s, i) => (
                     <div className="stat" key={s.label}>
                         <p className="stat-value">
                             {counts[i]}

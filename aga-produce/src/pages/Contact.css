@@ -14,7 +14,22 @@
     width: 100%;
     height: 100vh;
     z-index: -1;
-    background-color: #2d5a1b;
+    /* neutral — the green plate tinted the photo while it loaded */
+    background-color: #111;
+}
+
+
+.contact-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        rgba(8, 28, 6, 0.55) 0%,
+        rgba(8, 28, 6, 0.35) 45%,
+        rgba(8, 28, 6, 0.65) 100%
+    );
 }
 
 .contact-hero-img {
@@ -35,12 +50,7 @@
     justify-content: center;
     text-align: center;
     padding: 20px;
-    background: linear-gradient(
-        to bottom,
-        rgba(8, 28, 6, 0.66) 0%,
-        rgba(8, 28, 6, 0.52) 45%,
-        rgba(8, 28, 6, 0.78) 100%
-    );
+    /* background removed — tint now lives on .contact-hero-bg::after */
 }
 
 .contact-hero-eyebrow {
@@ -246,13 +256,42 @@
     margin-top: 8px;
     position: relative;
     z-index: 1;
+    height: 190px;
+    /* light plate so a loading/blocked embed never reads as an
+       empty green hole in the card */
+    background: #e9efe4;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
+/* Fallback layer (under the iframe) — visible only if the embed
+   doesn't paint. Clicking opens Google Maps in a new tab. */
+.contact-map-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #2d5a1b;
+}
+
+.contact-map-fallback svg {
+    font-size: 30px;
+    color: #c9a84c;
+}
+
 .contact-map iframe {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
-    height: 190px;
+    height: 100%;
     border: 0;
 }
 
@@ -410,8 +449,11 @@
     position: fixed;
     inset: 0;
     z-index: 2000;
-    background: rgba(12, 24, 8, 0.55);
-    backdrop-filter: blur(3px);
+    /* No backdrop-filter here: blurring the whole page behind the
+       modal forces an expensive repaint on every hover/state change,
+       which made the picker feel laggy. A slightly deeper tint gives
+       the same separation for free. */
+    background: rgba(12, 24, 8, 0.62);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -503,10 +545,9 @@
     text-align: left;
     cursor: pointer;
     transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
 }
 
 .mail-picker-option:hover,
@@ -514,7 +555,6 @@
     background: #2d5a1b;
     color: #fff;
     border-color: #2d5a1b;
-    transform: translateY(-2px);
     outline: none;
 }
 
@@ -560,16 +600,14 @@
     font-size: 0.98rem;
     cursor: pointer;
     transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+        background-color 0.15s ease,
+        color 0.15s ease;
 }
 
 .mail-picker-copy:hover,
 .mail-picker-copy:focus-visible {
     background: #c9a84c;
     color: #1a2e0f;
-    transform: translateY(-2px);
     outline: none;
 }
 
@@ -601,5 +639,46 @@
     .mail-picker-option:hover,
     .mail-picker-copy:hover {
         transform: none;
+    }
+}
+
+
+/* ── FAQ section: smooth colour transition ────────────────────
+   Previously the beige (#E7DECE) was an inline bgcolor meeting the
+   page's #eef1ea in a hard line. The gradient bridges the two over
+   the first 140px, then holds solid beige. */
+.faq-section-wrapper {
+    background: linear-gradient(180deg, #eef1ea 0%, #E7DECE 140px, #E7DECE 100%);
+}
+
+
+/* ── Mobile / portrait tablets: kill the parallax zoom ──────────
+   The fixed 100vh bg made object-fit:cover blow the landscape photo
+   up to fill a tall, narrow viewport (hyper-zoomed centre crop).
+   Below 900px the bg is absolute and sized to the hero itself. */
+@media (max-width: 900px) {
+    .contact-hero-bg {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+    }
+
+    /* The white bar under the hero: .contact-mascot-strip's 52px
+       margin-top collapsed THROUGH .contact-body (no top padding or
+       border to stop it), pushing the whole section down and exposing
+       a strip of bare white page background. Invisible before, when
+       the fixed full-viewport photo showed through the gap.
+       display: flow-root stops the margin from escaping, so it becomes
+       space INSIDE the body's background instead. margin-top: -1px
+       additionally covers any subpixel rounding seam. */
+    .contact-body {
+        display: flow-root;
+        margin-top: -1px;
+    }
+}
+
+@media (max-width: 700px) {
+    .contact-hero {
+        height: clamp(300px, 46vh, 420px);
     }
 }

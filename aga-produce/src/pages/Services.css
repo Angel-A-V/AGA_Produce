@@ -1,9 +1,93 @@
 .services-page {
     width: 100%;
-    background-color: #eef1ea;
     min-height: 100vh;
+    /* Smooth continuous fade (same approach as Home) — flat colour
+       blocks were reading as abrupt steps. Ends on footer cream. */
+    background: linear-gradient(
+        180deg,
+        #eef3e6 0%,
+        #f1f2ea 30%,
+        #ecf0e3 65%,
+        #ede9dd 88%,
+        #f5f0e8 100%
+    );
 }
 
 .svc-reveal {
     opacity: 0;
+}
+
+/* ── Compact service cards (icon + copy inline) ──────────────── */
+.services-wrap {
+    background: transparent;
+    padding: clamp(24px, 4vw, 48px) clamp(24px, 5vw, 50px) clamp(48px, 6vw, 72px);
+}
+
+.gridB {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.cardB {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(26, 46, 15, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cardB:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px rgba(26, 46, 15, 0.16);
+}
+
+.cardB-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2d5a1b, #4a8c2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #fff;
+}
+
+.cardB-icon svg {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+}
+
+.cardB-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #2d5a1b;
+    margin: 0 0 6px;
+}
+
+.cardB-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    color: #3d3228;
+    opacity: 0.72;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cardB:hover { transform: none; }
+}
+
+
+/* CTA band inherits the page fade — no colour step before the footer */
+.services-page .cta-wrap {
+    background: transparent;
 }

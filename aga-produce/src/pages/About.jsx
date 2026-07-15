@@ -2,13 +2,10 @@ import { useRef, useEffect } from 'react'
 import { animate, stagger } from 'animejs'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import SpaIcon from '@mui/icons-material/Spa'
-import Diversity3Icon from '@mui/icons-material/Diversity3'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import HandshakeIcon from '@mui/icons-material/Handshake'
 import './About.css'
 import storyImg from '../assets/home/about.webp'
 import CtaBanner from '../components/CtaBanner'
+import StatsBand from '../components/StatsBand'
 
 const GREEN_DARK = '#2d5a1b'
 const GOLD = '#c9a84c'
@@ -16,32 +13,17 @@ const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
 const VALUES = [
-    {
-        icon: <SpaIcon />,
-        title: 'Freshness First',
-        text: 'Placeholder copy — describe the company commitment to quality and the "only fresh goods" promise here.',
-    },
-    {
-        icon: <Diversity3Icon />,
-        title: 'Family-Run',
-        text: 'Placeholder copy — a few sentences about the family behind AGA Produce and the team culture.',
-    },
-    {
-        icon: <LocalShippingIcon />,
-        title: 'Dependable Delivery',
-        text: 'Placeholder copy — note the delivery reach, schedule, and reliability customers can count on.',
-    },
-    {
-        icon: <HandshakeIcon />,
-        title: 'Community Rooted',
-        text: 'Placeholder copy — speak to relationships with growers, customers, and the local community.',
-    },
+    ['01', 'Freshness First', 'Our commitment to quality and the "only fresh goods" promise, on every order.'],
+    ['02', 'Family-Run', 'The family behind AGA Produce and the team culture that keeps us grounded.'],
+    ['03', 'Dependable Delivery', 'Delivery reach, schedule, and reliability customers can count on.'],
+    ['04', 'Community Rooted', 'Relationships with growers, customers, and the local community.'],
 ]
 
-const STATS = [
-    { num: '2020', label: 'Founded' },
-    { num: '6 Days', label: 'Delivering Weekly' },
-    { num: 'LA', label: 'Wide Reach' },
+/* Hoisted so its identity is stable — StatsBand animates it once. */
+const ABOUT_STATS = [
+    { value: 2020, label: 'Founded' },
+    { value: 6, suffix: ' Days', label: 'Delivering Weekly' },
+    { value: 'LA', label: 'Wide Reach' },
 ]
 
 function About() {
@@ -95,53 +77,25 @@ function About() {
                 </Box>
             </Box>
 
-            <Box
-                className="about-reveal"
-                sx={{ bgcolor: GREEN_DARK, py: { xs: 4, md: 5 }, px: 3, mb: { xs: 6, md: 9 } }}
-            >
-                <Box sx={{ maxWidth: 1000, mx: 'auto', display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: { xs: 3, sm: 2 }, textAlign: 'center' }}>
-                    {STATS.map((s) => (
-                        <Box key={s.label}>
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '2rem', md: '2.6rem' }, color: GOLD, lineHeight: 1 }}>
-                                {s.num}
-                            </Typography>
-                            <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', mt: 1 }}>
-                                {s.label}
-                            </Typography>
+            <Box className="about-reveal" sx={{ mb: { xs: 6, md: 9 } }}>
+                <StatsBand stats={ABOUT_STATS} />
+            </Box>
+
+            <Box className="value-wrap about-reveal">
+                <Typography className="vg-eyebrow">What We Stand For</Typography>
+                <Typography className="vg-title">Our Values</Typography>
+                <Typography className="vg-sub">The principles behind every delivery.</Typography>
+                <Box className="rowsA">
+                    {VALUES.map(([num, title, text]) => (
+                        <Box className="rowA" key={num}>
+                            <span className="rowA-num">{num}</span>
+                            <div>
+                                <p className="rowA-title">{title}</p>
+                                <p className="rowA-text">{text}</p>
+                            </div>
                         </Box>
                     ))}
                 </Box>
-            </Box>
-
-            <Box sx={{ textAlign: 'center', px: 3, pb: { xs: 2, md: 3 } }}>
-                <Typography className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.78rem', color: GOLD, mb: 1 }}>
-                    What We Stand For
-                </Typography>
-                <Typography component="h3" className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.7rem', md: '2.2rem' }, color: GREEN_DARK }}>
-                    Our Values
-                </Typography>
-            </Box>
-
-            <Box
-                sx={{ maxWidth: 1100, mx: 'auto', px: 3, pt: { xs: 3, md: 4 }, pb: { xs: 6, md: 9 }, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 4 }}
-            >
-                {VALUES.map((v) => (
-                    <Box
-                        key={v.title}
-                        className="about-reveal"
-                        sx={{ bgcolor: '#ffffff', borderRadius: 4, p: { xs: 3.5, md: 4 }, boxShadow: 3, transition: 'transform 0.25s ease, box-shadow 0.25s ease', '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 } }}
-                    >
-                        <Box sx={{ width: 56, height: 56, borderRadius: '50%', bgcolor: 'rgba(45,90,27,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: GREEN_DARK, mb: 2.5, '& svg': { fontSize: 28 } }}>
-                            {v.icon}
-                        </Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: '1.2rem', color: GREEN_DARK, mb: 1 }}>
-                            {v.title}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1rem', color: TEXT_DARK, opacity: 0.82, lineHeight: 1.6 }}>
-                            {v.text}
-                        </Typography>
-                    </Box>
-                ))}
             </Box>
 
             <CtaBanner

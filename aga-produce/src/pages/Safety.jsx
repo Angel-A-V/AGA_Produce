@@ -16,26 +16,27 @@ const GOLD = '#c9a84c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
-const PILLARS = [
-    {
-        icon: <AcUnitIcon />,
-        title: 'Cold-Chain Integrity',
-        text: 'Produce is kept at temperature from the moment it arrives through refrigerated storage and transport, so freshness and safety never break.',
-    },
+const HERO_PILLAR = {
+    icon: <AcUnitIcon sx={{ fontSize: 32 }} />,
+    title: 'Cold-Chain Integrity',
+    text: 'Produce is kept at temperature from the moment it arrives through refrigerated storage and transport, so freshness and safety never break.',
+}
+
+const TILES = [
     {
         icon: <VerifiedUserIcon />,
         title: 'Trained & Equipped Team',
-        text: 'Our staff work in gloves, hairnets, and hi-vis gear, following handling procedures designed to protect both the product and the people.',
+        text: 'Gloves, hairnets, and hi-vis gear, following procedures that protect product and people.',
     },
     {
         icon: <CleaningServicesIcon />,
         title: 'Clean, Inspected Facilities',
-        text: 'Regular sanitation and routine inspections keep our warehouse and equipment held to a standard we are proud to stand behind.',
+        text: 'Regular sanitation and routine inspections keep our warehouse held to a standard.',
     },
     {
         icon: <FactCheckIcon />,
         title: 'Traceable Sourcing',
-        text: 'We know where our produce comes from and track it through receiving and weighing, so every order can be accounted for.',
+        text: 'We track produce through receiving and weighing, so every order can be accounted for.',
     },
 ]
 
@@ -68,39 +69,34 @@ function Safety() {
                 </Typography>
             </Box>
 
-            <Box
-                sx={{
-                    maxWidth: 1100,
-                    mx: 'auto',
-                    px: 3,
-                    pt: { xs: 4, md: 6 },
-                    pb: { xs: 6, md: 8 },
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                    gap: 4,
-                    alignItems: 'stretch',
-                }}
-            >
-                {PILLARS.map((p) => (
-                    <Box
-                        key={p.title}
-                        className="safety-reveal"
-                        sx={{ bgcolor: '#ffffff', borderRadius: 4, p: { xs: 3.5, md: 4 }, boxShadow: 3, transition: 'transform 0.25s ease, box-shadow 0.25s ease', '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 } }}
-                    >
-                        <Box sx={{ width: 56, height: 56, borderRadius: '50%', bgcolor: 'rgba(45,90,27,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: GREEN_DARK, mb: 2.5, '& svg': { fontSize: 28 } }}>
-                            {p.icon}
-                        </Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: '1.2rem', color: GREEN_DARK, mb: 1 }}>
-                            {p.title}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1rem', color: TEXT_DARK, opacity: 0.82, lineHeight: 1.6 }}>
-                            {p.text}
-                        </Typography>
-                    </Box>
-                ))}
+            <Box className="safety-wrap">
+                <Box className="heroC safety-reveal">
+                    <div className="heroC-icon">{HERO_PILLAR.icon}</div>
+                    <div>
+                        <p className="heroC-title">{HERO_PILLAR.title}</p>
+                        <p className="heroC-text">{HERO_PILLAR.text}</p>
+                    </div>
+                </Box>
+
+                <Box className="tilesC">
+                    {TILES.map((t) => (
+                        <div className="tileC safety-reveal" key={t.title}>
+                            <div className="tileC-icon">{t.icon}</div>
+                            <p className="tileC-title">{t.title}</p>
+                            <p className="tileC-text">{t.text}</p>
+                        </div>
+                    ))}
+                </Box>
             </Box>
 
-            <Box className="safety-reveal" sx={{ bgcolor: '#2d5a1b', py: { xs: 1, md: 2 }, mb: { xs: 6, md: 8 } }}>
+            <Box
+                className="safety-reveal"
+                sx={{
+                    background: 'linear-gradient(135deg, #1c3d10, #2d5a1b 65%, #35661f)',
+                    py: { xs: 1, md: 2 },
+                    mb: { xs: 6, md: 8 },
+                }}
+            >
                 <CertBadges
                     variant="dark"
                     subtext="AGA is audited and inspected against recognized food-safety and quality standards."

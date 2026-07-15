@@ -166,7 +166,18 @@
 .home-body {
     position: relative;
     z-index: 1;
-    background-color: #eef3e6;
+    /* ONE continuous fade for the whole page body. Individual sections
+       are transparent, so there are no per-section gradient boundaries
+       (that's what caused the visible colour steps/banding).
+       Ends on cream (#f5f0e8) so it flows straight into the footer. */
+    background: linear-gradient(
+        180deg,
+        #eef3e6 0%,
+        #f1f2ea 30%,
+        #ecf0e3 65%,
+        #ede9dd 88%,
+        #f5f0e8 100%
+    );
 }
 
 .home-intro {
@@ -178,15 +189,15 @@
     width: 100%;
     text-align: center;
     margin: 0;
-    padding: clamp(56px, 8vw, 96px) 24px clamp(8px, 2vw, 24px);
-    background: linear-gradient(180deg, #eef3e6 0%, #f6f4ee 100%);
+    padding: clamp(64px, 9vw, 120px) 24px clamp(16px, 3vw, 40px);
+    background: transparent;
 }
 
 /* Keeps the intro copy at its original reading width */
 .home-intro-eyebrow,
 .home-intro-title,
 .home-intro-text {
-    max-width: 760px;
+    max-width: 880px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -196,7 +207,7 @@
     font-weight: 800;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    font-size: 0.8rem;
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
     color: #c9a84c;
     margin-top: 0;
     margin-bottom: 14px;
@@ -205,9 +216,9 @@
 .home-intro-title {
     font-family: 'Nunito', sans-serif;
     font-weight: 900;
-    font-size: clamp(1.9rem, 4vw, 2.7rem);
+    font-size: clamp(2.3rem, 4.8vw, 3.4rem);
     color: #2d5a1b;
-    line-height: 1.1;
+    line-height: 1.08;
     margin-top: 0;
     margin-bottom: 16px;
 }
@@ -215,7 +226,7 @@
 .home-intro-text {
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: clamp(1.12rem, 1.9vw, 1.3rem);
     color: #3d3228;
     opacity: 0.8;
     line-height: 1.6;
@@ -228,12 +239,11 @@
     padding: clamp(48px, 7vw, 96px) 24px;
 }
 
-.home-feature.tone-a {
-    background: linear-gradient(180deg, #f6f4ee 0%, #f0f4ea 100%);
-}
-
+/* Sections are transparent — the .home-body gradient shows through,
+   so every transition between sections is perfectly smooth. */
+.home-feature.tone-a,
 .home-feature.tone-b {
-    background: linear-gradient(180deg, #f0f4ea 0%, #e9f0e0 100%);
+    background: transparent;
 }
 
 .home-feature-inner {
@@ -352,5 +362,52 @@
     .home-feature.in-view .feature-media,
     .home-feature.in-view .feature-text {
         transform: none;
+    }
+
+    /* Fixed 300px height forced a near-square crop of landscape
+       photos on narrow screens. Let each photo keep its natural
+       aspect ratio (capped so portrait shots don't run too tall). */
+    .feature-media img {
+        height: auto;
+        max-height: 420px;
+    }
+}
+
+/* The CTA band inherits the page fade instead of its own flat colour,
+   removing the last colour step before the footer. */
+.home .cta-wrap {
+    background: transparent;
+}
+
+
+/* ── Mobile / portrait tablets: kill the parallax zoom ──────────
+   The bg was position:fixed at 100vh, so object-fit:cover scaled
+   landscape photos to fill the whole (tall, narrow) viewport —
+   showing only a hyper-zoomed centre crop. Below 900px the bg is
+   absolute and sized to the hero itself, so the photo only has to
+   cover a short, wide box → far less cropping. */
+@media (max-width: 900px) {
+    .home-hero-bg {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+    }
+
+    /* flow-root stops child margins collapsing through the body
+       (which would expose white page background under the hero);
+       -1px covers any subpixel rounding seam. */
+    .home-body {
+        display: flow-root;
+        margin-top: -1px;
+    }
+}
+
+@media (max-width: 700px) {
+    .home-hero {
+        height: clamp(340px, 52vh, 480px);
+    }
+
+    .home-hero-title {
+        font-size: clamp(2.1rem, 9vw, 2.8rem);
     }
 }

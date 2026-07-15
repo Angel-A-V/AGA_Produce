@@ -145,3 +145,30 @@
     opacity: 1;
     background: #f2efe7;
 }
+
+
+/* ── Mobile / portrait tablets: kill the parallax zoom ──────────
+   The fixed 100vh bg made object-fit:cover blow the landscape photo
+   up to fill a tall, narrow viewport (hyper-zoomed centre crop).
+   Below 900px the bg is absolute and sized to the hero itself. */
+@media (max-width: 900px) {
+    .products-hero-bg {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+    }
+
+    /* flow-root stops child margins collapsing through the body
+       (which would expose white page background under the hero);
+       -1px covers any subpixel rounding seam. */
+    .products-body {
+        display: flow-root;
+        margin-top: -1px;
+    }
+}
+
+@media (max-width: 700px) {
+    .products-hero {
+        height: clamp(300px, 46vh, 420px);
+    }
+}

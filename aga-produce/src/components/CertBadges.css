@@ -1,0 +1,103 @@
+/* ── Certification band: framed credential tiles ─────────────── */
+.cert-band {
+    width: 100%;
+    text-align: center;
+    padding: clamp(40px, 6vw, 72px) 24px;
+}
+
+.cert-band-eyebrow.MuiTypography-root {
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    color: #c9a84c;
+    margin: 0 0 10px;
+}
+
+.cert-band-sub.MuiTypography-root {
+    font-weight: 500;
+    font-size: 1.02rem;
+    color: #3d3228;
+    opacity: 0.78;
+    max-width: 620px;
+    margin: 0 auto 34px;
+    line-height: 1.55;
+}
+
+.cert-band--dark .cert-band-sub.MuiTypography-root {
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 1;
+}
+
+.cert-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 2.2vw, 22px);
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.cert-tile {
+    background: #ffffff;
+    border: 1.5px solid #e3decd;
+    border-radius: 18px;
+    padding: 26px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.cert-tile:hover {
+    border-color: #c9a84c;
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(26, 46, 15, 0.12);
+}
+
+.cert-tile-logo {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.cert-tile-logo img {
+    max-height: 100%;
+    max-width: 130px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Tagline only — the logo already carries the name */
+.cert-tile-note {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: #3d3228;
+    opacity: 0.7;
+    margin: 0;
+}
+
+@media (max-width: 820px) {
+    .cert-tiles {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .cert-tiles {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cert-tile:hover {
+        transform: none;
+    }
+}

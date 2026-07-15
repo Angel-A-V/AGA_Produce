@@ -1,10 +1,18 @@
+/* ── Outer band ───────────────────────────────────────────────
+   Same wrapper spacing on every page, so the CTA always lands in
+   the identical spot above the footer.
 
+   The background here is a DEFAULT. Pages that run a gradient
+   chain (e.g. Home) override it with a scoped rule such as
+   `.home .cta-wrap { background: linear-gradient(...) }` so the
+   band blends into the section above it. */
 .cta-wrap {
     width: 100%;
     background-color: #eef1ea;
     padding: clamp(40px, 6vw, 80px) 24px clamp(64px, 9vw, 120px);
 }
 
+/* ── Banner card ─────────────────────────────────────────────── */
 .cta-banner {
     position: relative;
     overflow: hidden;
@@ -22,6 +30,7 @@
     box-shadow: 0 16px 40px rgba(26, 46, 15, 0.25);
 }
 
+/* gold→green rail on the left edge */
 .cta-banner::before {
     content: '';
     position: absolute;
@@ -32,6 +41,7 @@
     background: linear-gradient(to bottom, #c9a84c, #8bc34a);
 }
 
+/* soft glow bottom-right */
 .cta-banner::after {
     content: '';
     position: absolute;
@@ -79,17 +89,48 @@
     flex-shrink: 0;
 }
 
+/* ── Mobile ───────────────────────────────────────────────────── */
+/* ── Mobile: compact, like the desktop proportions — not a huge
+   stacked block. Smaller padding, smaller mascot, tighter type. ── */
 @media (max-width: 768px) {
     .cta-banner {
         flex-direction: column;
         text-align: center;
+        gap: 14px;
+        padding: 24px 20px 26px;
+        border-radius: 18px;
     }
 
     .cta-banner-text .MuiTypography-root {
         max-width: 100%;
     }
+
+    /* headline + copy scale down */
+    .cta-banner-text .MuiTypography-root:first-of-type {
+        font-size: 1.3rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    .cta-banner-text .MuiTypography-root:last-of-type {
+        font-size: 0.92rem !important;
+        line-height: 1.5;
+    }
+
+    .cta-banner-mascot {
+        height: 92px;
+    }
+
+    .cta-banner-btn.MuiButton-root {
+        padding: 11px 22px;
+        font-size: 0.95rem;
+    }
+
+    .cta-wrap {
+        padding: clamp(28px, 5vw, 40px) 20px clamp(40px, 7vw, 64px);
+    }
 }
 
+/* respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
     .cta-banner-mascot,
     .cta-banner-btn.MuiButton-root,

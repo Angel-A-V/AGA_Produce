@@ -6,7 +6,6 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import Inventory2Icon from '@mui/icons-material/Inventory2'
 import RestaurantIcon from '@mui/icons-material/Restaurant'
-import SearchIcon from '@mui/icons-material/Search'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import './Services.css'
 import CtaBanner from '../components/CtaBanner'
@@ -84,56 +83,18 @@ function Services() {
                 </Typography>
             </Box>
 
-            <Box
-                sx={{
-                    maxWidth: 1100,
-                    mx: 'auto',
-                    px: 3,
-                    pt: { xs: 4, md: 6 },
-                    pb: { xs: 6, md: 8 },
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                    gap: 4,
-                    alignItems: 'stretch',
-                }}
-            >
-                {SERVICES.map((s) => (
-                    <Box
-                        key={s.title}
-                        className="svc-reveal"
-                        sx={{
-                            bgcolor: '#ffffff',
-                            borderRadius: 4,
-                            p: { xs: 3.5, md: 4 },
-                            boxShadow: 3,
-                            transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                            '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 },
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: 60,
-                                height: 60,
-                                borderRadius: '50%',
-                                bgcolor: 'rgba(45,90,27,0.08)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: GREEN_DARK,
-                                mb: 2.5,
-                                '& svg': { fontSize: 30 },
-                            }}
-                        >
-                            {s.icon}
+            <Box className="services-wrap">
+                <Box className="gridB">
+                    {SERVICES.map((s) => (
+                        <Box className="cardB svc-reveal" key={s.title}>
+                            <div className="cardB-icon">{s.icon}</div>
+                            <div>
+                                <p className="cardB-title">{s.title}</p>
+                                <p className="cardB-text">{s.text}</p>
+                            </div>
                         </Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 800, fontSize: '1.3rem', color: GREEN_DARK, mb: 1 }}>
-                            {s.title}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.02rem', color: TEXT_DARK, opacity: 0.82, lineHeight: 1.6 }}>
-                            {s.text}
-                        </Typography>
-                    </Box>
-                ))}
+                    ))}
+                </Box>
             </Box>
 
             <Box className="svc-reveal">

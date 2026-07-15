@@ -25,7 +25,7 @@ const PHONES = ['TEL: (323) 477-1177', 'FAX: (323) 477-1177']
 const IG_HANDLE = 'aga_producecompanyinc'
 const ADDRESS = '1146 S Vail Ave, Montebello, CA 90640'
 
-const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`
+const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=15&output=embed`
 const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`
 
 const FAQS = [
@@ -315,13 +315,60 @@ function Contact() {
             </section>
 
             <section className="contact-body">
+                <Box className="contact-mascot-strip contact-reveal" sx={{ maxWidth: 1100, mx: 'auto', px: 3, pt: { xs: 5, md: 7 } }}>
+                    <Box
+                        component="img"
+                        src={crateChar}
+                        alt="AGA mascot carrying a crate of produce"
+                        className="contact-mascot-img"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <Typography className="contact-mascot-text">
+                        Family-run and <b>fresh-obsessed</b> — our team is on the other end of every call, ready to help set up your account.
+                    </Typography>
+                </Box>
+
+                <Box
+                    className="contact-reveal"
+                    sx={{ maxWidth: 1280, mx: 'auto', px: 3, pb: { xs: 2, md: 3 } }}
+                >
+                    <div className="contact-hours-band">
+                        <div className="hour-card">
+                            <AccessTimeIcon />
+                            <p className="hour-label">Mon – Fri</p>
+                            <p className="hour-val">1:00 AM – 3:00 PM</p>
+                        </div>
+                        <div className="hour-card">
+                            <AccessTimeIcon />
+                            <p className="hour-label">Saturday</p>
+                            <p className="hour-val">1:00 AM – 10:00 AM</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconShield />
+                            <p className="hour-label">Safety Guaranteed</p>
+                            <p className="hour-val">Cold-chain, every order</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconStore />
+                            <p className="hour-label">Wholesale Only</p>
+                            <p className="hour-val">Restaurants &amp; markets</p>
+                        </div>
+                        <div className="hour-card">
+                            <IconLeaf />
+                            <p className="hour-label">Organic Certified</p>
+                            <p className="hour-val">Selected products</p>
+                        </div>
+                    </div>
+                </Box>
+
                 <Box
                     sx={{
                         maxWidth: 1100,
                         mx: 'auto',
                         px: 3,
-                        pt: { xs: 6, md: 9 },
-                        pb: { xs: 6, md: 9 },
+                        pt: { xs: 4, md: 6 },
+                        pb: { xs: 10, md: 14 },
                         display: 'grid',
                         gridTemplateColumns: { xs: '1fr', md: '0.85fr 1.15fr' },
                         gap: { xs: 4, md: 5 },
@@ -373,10 +420,23 @@ function Contact() {
                         </a>
 
                         <div className="contact-map">
+                            {/* Fallback sits UNDER the iframe. If the embed loads,
+                                map tiles cover it; if it's ever blocked, the user
+                                sees a clean clickable card instead of a blank box. */}
+                            <a
+                                className="contact-map-fallback"
+                                href={mapLinkUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <PlaceIcon />
+                                <span>Open map</span>
+                            </a>
                             <iframe
                                 title="AGA Produce Company location"
                                 src={mapEmbedUrl}
                                 loading="lazy"
+                                allowFullScreen
                                 referrerPolicy="no-referrer-when-downgrade"
                             />
                         </div>
@@ -392,54 +452,7 @@ function Contact() {
 
                     <ContactForm onSend={handleSend} />
                 </Box>
-                <Box className="contact-mascot-strip contact-reveal" sx={{ maxWidth: 1100, mx: 'auto', px: 3 }}>
-                    <Box
-                        component="img"
-                        src={crateChar}
-                        alt="AGA mascot carrying a crate of produce"
-                        className="contact-mascot-img"
-                        loading="lazy"
-                        decoding="async"
-                    />
-                    <Typography className="contact-mascot-text">
-                        Family-run and <b>fresh-obsessed</b> — our team is on the other end of every call, ready to help set up your account.
-                    </Typography>
-                </Box>
-
-                <Box
-                    className="contact-reveal"
-                    sx={{ maxWidth: 1280, mx: 'auto', px: 3, pb: { xs: 8, md: 12 } }}
-                >
-                    <div className="contact-hours-band">
-                        <div className="hour-card">
-                            <AccessTimeIcon />
-                            <p className="hour-label">Mon – Fri</p>
-                            <p className="hour-val">1:00 AM – 3:00 PM</p>
-                        </div>
-                        <div className="hour-card">
-                            <AccessTimeIcon />
-                            <p className="hour-label">Saturday</p>
-                            <p className="hour-val">1:00 AM – 10:00 AM</p>
-                        </div>
-                        <div className="hour-card">
-                            <IconShield />
-                            <p className="hour-label">Safety Guaranteed</p>
-                            <p className="hour-val">Cold-chain, every order</p>
-                        </div>
-                        <div className="hour-card">
-                            <IconStore />
-                            <p className="hour-label">Wholesale Only</p>
-                            <p className="hour-val">Restaurants &amp; markets</p>
-                        </div>
-                        <div className="hour-card">
-                            <IconLeaf />
-                            <p className="hour-label">Organic Certified</p>
-                            <p className="hour-val">Selected products</p>
-                        </div>
-                    </div>
-                </Box>
-
-                <Box className="faq-section-wrapper" sx={{bgcolor: '#E7DECE', width: '100%', py: { xs: 8, md: 12 } }}>
+                <Box className="faq-section-wrapper" sx={{ width: '100%', py: { xs: 8, md: 12 } }}>
                     <Box  sx={{ maxWidth: 760, mx: 'auto', px: 3 }}>
                         <Typography
                             component="h3"
