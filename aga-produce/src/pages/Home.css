@@ -51,9 +51,9 @@
     padding: 24px;
     background: linear-gradient(
         to bottom,
-        rgba(8, 28, 6, 0.55) 0%,
-        rgba(8, 28, 6, 0.35) 45%,
-        rgba(8, 28, 6, 0.65) 100%
+        rgba(8, 28, 6, 0.6) 0%,
+        rgba(8, 28, 6, 0.42) 45%,
+        rgba(8, 28, 6, 0.7) 100%
     );
 }
 
@@ -133,28 +133,70 @@
 
 .home-dots {
     position: absolute;
-    bottom: 26px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 4px;
 }
 
+/* Hit area is 44x44 (touch-target minimum); the visible dot is a small
+   ::after centred inside it, so the enlarged target doesn't look bloated. */
 .home-dot {
-    width: 12px;
-    height: 12px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
     cursor: pointer;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-dot::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
     transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
-.home-dot.active {
+.home-dot.active::after {
     background-color: #c9a84c;
     transform: scale(1.3);
+}
+
+.home-pause {
+    position: absolute;
+    bottom: 20px;
+    right: clamp(14px, 3vw, 30px);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background-color 0.25s ease;
+}
+
+.home-pause:hover,
+.home-pause:focus-visible {
+    background-color: rgba(201, 168, 76, 0.85);
+}
+
+.home-pause svg {
+    font-size: 18px;
 }
 
 /* ── Page body: gradient colour scheme ──────────────────────────
@@ -208,7 +250,8 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     font-size: clamp(0.85rem, 1.4vw, 1rem);
-    color: #c9a84c;
+    /* Darker gold step — #c9a84c fails 4.5:1 on this light background. */
+    color: #71591c;
     margin-top: 0;
     margin-bottom: 14px;
 }
@@ -304,7 +347,8 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-size: 0.78rem;
-    color: #c9a84c;
+    /* Darker gold step — #c9a84c fails 4.5:1 on this light background. */
+    color: #71591c;
     margin: 0 0 12px;
 }
 
@@ -409,5 +453,20 @@
 
     .home-hero-title {
         font-size: clamp(2.1rem, 9vw, 2.8rem);
+    }
+
+    /* Keep hero copy clear of the 52px arrow buttons — the Spanish
+       subhead runs noticeably longer than English and was wrapping
+       under the arrows at narrow widths. */
+    .home-hero-overlay {
+        padding-left: 64px;
+        padding-right: 64px;
+    }
+
+    /* Distill: the sticky QuickBar already puts Call/Message one tap
+       away on mobile, so the hero doesn't need a second contact CTA
+       competing with eyebrow + title + subhead + primary button. */
+    .home-hero-actions .aga-btn--outline {
+        display: none;
     }
 }

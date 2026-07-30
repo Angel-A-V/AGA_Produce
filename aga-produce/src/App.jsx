@@ -11,30 +11,33 @@ import BackToTop from './components/BackToTop'
 import QuickBar from './components/QuickBar'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './i18n/LanguageContext'
 
 function App() {
     return(
         // Router wraps everything so any component can use navigation hooks
         <Router>
-            {/* Resets scroll to top on every route change */}
-            <ScrollToTop />
-            {/* Navbar sits outside Routes so it renders on every page */}
-            <Navbar />  
-            <main className="page-content">
-                {/* Routes renders only the one Route whose path matches the URL */}
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/services" element={<Services />} />
-                    <Route path="/safety" element={<Safety />} />
-                </Routes>
-            </main>
-            <Footer />
-            {/* Floating utilities — rendered on every page */}
-            <BackToTop />
-            <QuickBar />
+            <LanguageProvider>
+                {/* Resets scroll to top on every route change */}
+                <ScrollToTop />
+                {/* Navbar sits outside Routes so it renders on every page */}
+                <Navbar />
+                <main className="page-content">
+                    {/* Routes renders only the one Route whose path matches the URL */}
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/services" element={<Services />} />
+                        <Route path="/safety" element={<Safety />} />
+                    </Routes>
+                </main>
+                <Footer />
+                {/* Floating utilities — rendered on every page */}
+                <BackToTop />
+                <QuickBar />
+            </LanguageProvider>
         </Router>
     )
 }

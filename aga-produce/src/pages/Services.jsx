@@ -10,42 +10,21 @@ import StorefrontIcon from '@mui/icons-material/Storefront'
 import './Services.css'
 import CtaBanner from '../components/CtaBanner'
 import CertBadges from '../components/CertBadges'
+import { useLanguage } from '../i18n/useLanguage'
 
 const GREEN_DARK = '#2d5a1b'
-const GOLD = '#c9a84c'
+/* Darker gold step than the brand's #c9a84c accent — this one is used
+   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
+const EYEBROW_GOLD = '#71591c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
-const SERVICES = [
-    {
-        icon: <LocalShippingIcon />,
-        title: 'Wholesale Distribution',
-        text: 'Reliable bulk supply of fresh fruits and vegetables for restaurants, markets, and food businesses across the region.',
-    },
-    {
-        icon: <RestaurantIcon />,
-        title: 'Foodservice Supply',
-        text: 'Consistent quality and dependable volumes for kitchens, caterers, and institutional accounts of every size.',
-    },
-    {
-        icon: <Inventory2Icon />,
-        title: 'Repacking & Custom Packs',
-        text: 'Flexible pack sizes and custom orders, from full cases to specialty counts, built around how you operate.',
-    },
-    {
-        icon: <AcUnitIcon />,
-        title: 'Cold Chain Transport',
-        text: 'Refrigerated trucks keep produce at temperature from our warehouse to your door, so it arrives market-fresh.',
-    },
-    {
-        icon: <StorefrontIcon />,
-        title: 'Daily Delivery',
-        text: 'Six-day-a-week delivery across the greater Los Angeles area, with windows that fit your prep schedule.',
-    },
-]
+const ICONS = [LocalShippingIcon, RestaurantIcon, Inventory2Icon, AcUnitIcon, StorefrontIcon]
 
 function Services() {
     const pageRef = useRef(null)
+    const { t } = useLanguage()
+    const services = t('services.list')
 
     useEffect(() => {
         if (pageRef.current) {
@@ -64,36 +43,39 @@ function Services() {
             <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 12, md: 16 }, pb: { xs: 3, md: 5 } }}>
                 <Typography
                     className="svc-reveal"
-                    sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: GOLD, mb: 1.25 }}
+                    sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: EYEBROW_GOLD, mb: 1.25 }}
                 >
-                    What We Do
+                    {t('services.eyebrow')}
                 </Typography>
                 <Typography
                     component="h2"
                     className="svc-reveal"
                     sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.9rem', md: '2.5rem' }, color: GREEN_DARK, lineHeight: 1.1 }}
                 >
-                    Our Services
+                    {t('services.title')}
                 </Typography>
                 <Typography
                     className="svc-reveal"
                     sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 600, mx: 'auto' }}
                 >
-                    From sourcing to your door, we handle the produce side so you can focus on your business.
+                    {t('services.sub')}
                 </Typography>
             </Box>
 
             <Box className="services-wrap">
                 <Box className="gridB">
-                    {SERVICES.map((s) => (
-                        <Box className="cardB svc-reveal" key={s.title}>
-                            <div className="cardB-icon">{s.icon}</div>
-                            <div>
-                                <p className="cardB-title">{s.title}</p>
-                                <p className="cardB-text">{s.text}</p>
-                            </div>
-                        </Box>
-                    ))}
+                    {services.map((s, i) => {
+                        const Icon = ICONS[i]
+                        return (
+                            <Box className="cardB svc-reveal" key={i}>
+                                <div className="cardB-icon"><Icon /></div>
+                                <div>
+                                    <p className="cardB-title">{s.title}</p>
+                                    <p className="cardB-text">{s.text}</p>
+                                </div>
+                            </Box>
+                        )
+                    })}
                 </Box>
             </Box>
 
@@ -103,8 +85,8 @@ function Services() {
 
             <CtaBanner
                 className="svc-reveal"
-                title="Ready to get started?"
-                subtitle="Tell us what you need and we'll put together a quote that works for your business."
+                title={t('services.ctaTitle')}
+                subtitle={t('services.ctaSubtitle')}
             />
         </div>
     )

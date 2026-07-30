@@ -32,7 +32,8 @@
     font-weight: 800;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #c9a84c;
+    /* Darker gold step — #c9a84c fails 4.5:1 on this light background. */
+    color: #71591c;
     margin: 0 0 12px;
 }
 

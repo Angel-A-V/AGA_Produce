@@ -8,12 +8,14 @@ import tiktokLogo from '../assets/logo/tiktok.webp'
 import DehazeIcon from '@mui/icons-material/Dehaze'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { useLanguage } from '../i18n/useLanguage'
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [aboutOpen, setAboutOpen] = useState(false)
     const [isResizing, setIsResizing] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+    const { lang, toggleLang, t } = useLanguage()
 
     const location = useLocation()
     const aboutActive = ['/about', '/services', '/safety'].includes(location.pathname)
@@ -77,7 +79,7 @@ function Navbar() {
             </button>
 
             <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-                <NavLink to="/" end className={linkClass} onClick={closeAll}>Home</NavLink>
+                <NavLink to="/" end className={linkClass} onClick={closeAll}>{t('nav.home')}</NavLink>
 
                 <div className={`nav-dropdown ${aboutOpen ? 'open' : ''}`}>
                     <div className='nav-dropdown-trigger'>
@@ -87,12 +89,12 @@ function Navbar() {
                                 `hvr-underline-from-center${isActive || aboutActive ? ' active' : ''}`}
                             onClick={closeAll}
                         >
-                            About
+                            {t('nav.about')}
                         </NavLink>
                         <button
                             type='button'
                             className='nav-dropdown-toggle'
-                            aria-label='Toggle About menu'
+                            aria-label={t('nav.toggleAbout')}
                             aria-expanded={aboutOpen}
                             onClick={() => setAboutOpen(o => !o)}
                         >
@@ -101,13 +103,22 @@ function Navbar() {
                     </div>
 
                     <div className='nav-dropdown-menu'>
-                        <NavLink to="/services" className='nav-dropdown-item' onClick={closeAll}>Services</NavLink>
-                        <NavLink to="/safety" className='nav-dropdown-item' onClick={closeAll}>Safety</NavLink>
+                        <NavLink to="/services" className='nav-dropdown-item' onClick={closeAll}>{t('nav.services')}</NavLink>
+                        <NavLink to="/safety" className='nav-dropdown-item' onClick={closeAll}>{t('nav.safety')}</NavLink>
                     </div>
                 </div>
 
-                <NavLink to="/products" className={linkClass} onClick={closeAll}>Products</NavLink>
-                <NavLink to="/contact" className={linkClass} onClick={closeAll}>Contact</NavLink>
+                <NavLink to="/products" className={linkClass} onClick={closeAll}>{t('nav.products')}</NavLink>
+                <NavLink to="/contact" className={linkClass} onClick={closeAll}>{t('nav.contact')}</NavLink>
+
+                <button
+                    type='button'
+                    className='nav-lang-toggle nav-lang-toggle--mobile'
+                    onClick={toggleLang}
+                    aria-label={t('nav.switchLang')}
+                >
+                    {t('nav.langShort')}
+                </button>
             </div>
 
             <div className='nav-right'>
@@ -117,12 +128,21 @@ function Navbar() {
                     alt="AGA Mascot"
                 />
                 <div className='nav-socials'>
+                    <button
+                        type='button'
+                        className='nav-lang-toggle'
+                        onClick={toggleLang}
+                        aria-label={t('nav.switchLang')}
+                        lang={lang === 'en' ? 'es' : 'en'}
+                    >
+                        {t('nav.langShort')}
+                    </button>
                     <a
                         href="https://www.instagram.com/aga_producecompanyinc/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className='nav-social-icon nav-instagram'
-                        aria-label="Follow us on Instagram"
+                        aria-label={t('nav.instagram')}
                     >
                         <InstagramIcon />
                     </a>
@@ -131,7 +151,7 @@ function Navbar() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className='nav-social-icon nav-tiktok'
-                        aria-label="Follow us on TikTok"
+                        aria-label={t('nav.tiktok')}
                     >
                         <span
                             className='nav-tiktok-img'

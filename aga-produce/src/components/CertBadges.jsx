@@ -5,15 +5,9 @@ import primusgfs from '../assets/certifications/primusgfs.webp'
 import usda from '../assets/certifications/usda.webp'
 import ifco from '../assets/certifications/ifco.webp'
 import pco from '../assets/certifications/pco.webp'
+import { useLanguage } from '../i18n/useLanguage'
 
 const FONT = 'Nunito, sans-serif'
-
-const SEALS = [
-    { src: primusgfs, alt: 'PrimusGFS Certified', note: 'Food-safety audited' },
-    { src: usda, alt: 'USDA', note: 'Federal standards' },
-    { src: pco, alt: 'PCO Certified Organic', note: 'Selected products' },
-    { src: ifco, alt: 'IFCO', note: 'Reusable packaging' },
-]
 
 /**
  * Certification / standards band.
@@ -22,30 +16,42 @@ const SEALS = [
  *
  * props:
  *   variant  'light' (default) | 'dark'
- *   heading / subtext — pass null to hide
+ *   heading / subtext — pass null to hide, otherwise defaults to the translated copy
  */
 function CertBadges({
     variant = 'light',
-    heading = 'Certifications & Standards',
-    subtext = 'Audited, inspected, and held to recognized food-safety and quality standards.',
+    heading,
+    subtext,
     className = '',
 }) {
+    const { t } = useLanguage()
+    const resolvedHeading = heading === null ? null : (heading ?? t('certBadges.heading'))
+    const resolvedSubtext = subtext === null ? null : (subtext ?? t('certBadges.subtextDefault'))
+    const seals = t('certBadges.seals')
+
+    const SEALS = [
+        { src: primusgfs, alt: 'PrimusGFS Certified', note: seals.primusgfs },
+        { src: usda, alt: 'USDA', note: seals.usda },
+        { src: pco, alt: 'PCO Certified Organic', note: seals.pco },
+        { src: ifco, alt: 'IFCO', note: seals.ifco },
+    ]
+
     return (
         <Box className={`cert-band cert-band--${variant} ${className}`.trim()}>
-            {heading && (
+            {resolvedHeading && (
                 <Typography
                     className="cert-band-eyebrow"
                     sx={{ fontFamily: FONT }}
                 >
-                    {heading}
+                    {resolvedHeading}
                 </Typography>
             )}
-            {subtext && (
+            {resolvedSubtext && (
                 <Typography
                     className="cert-band-sub"
                     sx={{ fontFamily: FONT }}
                 >
-                    {subtext}
+                    {resolvedSubtext}
                 </Typography>
             )}
 

@@ -10,8 +10,15 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     font-size: 0.82rem;
-    color: #c9a84c;
+    /* Darker gold step — #c9a84c fails 4.5:1 on the light/cream surface
+       this variant sits on. */
+    color: #71591c;
     margin: 0 0 10px;
+}
+
+.cert-band--dark .cert-band-eyebrow.MuiTypography-root {
+    /* Lighter gold step for legibility on the dark green surface. */
+    color: #e8d9a8;
 }
 
 .cert-band-sub.MuiTypography-root {

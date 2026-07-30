@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import logo from '../assets/logo/logo-transparency.png'
 import './Footer.css'
+import { useLanguage } from '../i18n/useLanguage'
 
 function Footer() {
+    const { t } = useLanguage()
+
     return (
         <footer id='footer'>
             <div className='footer-content'>
@@ -11,21 +14,21 @@ function Footer() {
                 </div>
 
                 <div className='footer-col'>
-                    <h4>Explore</h4>
-                    <Link to="/">Home</Link>
-                    <Link to="/about">About</Link>
-                    <Link to="/products">Products</Link>
-                    <Link to="/contact">Contact</Link>
+                    <h4>{t('footer.explore')}</h4>
+                    <Link to="/">{t('nav.home')}</Link>
+                    <Link to="/about">{t('nav.about')}</Link>
+                    <Link to="/products">{t('nav.products')}</Link>
+                    <Link to="/contact">{t('nav.contact')}</Link>
                 </div>
 
                 <div className='footer-col'>
-                    <h4>Company</h4>
-                    <Link to="/services">Services</Link>
-                    <Link to="/safety">Safety</Link>
+                    <h4>{t('footer.company')}</h4>
+                    <Link to="/services">{t('nav.services')}</Link>
+                    <Link to="/safety">{t('nav.safety')}</Link>
                 </div>
 
                 <div className='footer-contact'>
-                    <h4>Get in Touch</h4>
+                    <h4>{t('footer.getInTouch')}</h4>
                     <p className='footer-company'>AGA Produce Company Inc.</p>
                     <p>1146 S Vail Ave<br />Montebello, CA 90640</p>
                     <p>Tel: <a href="tel:+13234771177">(323) 477-1177</a></p>
@@ -61,7 +64,7 @@ function Footer() {
             </div>
 
             <div className='footer-bottom'>
-                <p>© {new Date().getFullYear()} AGA Produce Company Inc. All Rights Reserved.</p>
+                <p>{t('footer.rights')(new Date().getFullYear())}</p>
             </div>
         </footer>
     )

@@ -6,16 +6,22 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import crateChar from '../assets/products/crate_char.webp'
 import './Buttons.css'
 import './CtaBanner.css'
+import { useLanguage } from '../i18n/useLanguage'
 
 const FONT = 'Nunito, sans-serif'
 
 function CtaBanner({
-    title = 'Ready to order fresh?',
-    subtitle = "Tell us what your business needs and we'll get you set up with a quote, fast.",
-    button = 'Contact Us',
+    title,
+    subtitle,
+    button,
     to = '/contact',
     className = '',
 }) {
+    const { t } = useLanguage()
+    const resolvedTitle = title ?? t('ctaBanner.defaultTitle')
+    const resolvedSubtitle = subtitle ?? t('ctaBanner.defaultSubtitle')
+    const resolvedButton = button ?? t('ctaBanner.defaultButton')
+
     return (
         <section className={`cta-wrap ${className}`.trim()}>
             <Box className="cta-banner">
@@ -29,7 +35,7 @@ function CtaBanner({
                             mb: 1,
                         }}
                     >
-                        {title}
+                        {resolvedTitle}
                     </Typography>
                     <Typography
                         sx={{
@@ -40,7 +46,7 @@ function CtaBanner({
                             maxWidth: 460,
                         }}
                     >
-                        {subtitle}
+                        {resolvedSubtitle}
                     </Typography>
                 </Box>
 
@@ -60,7 +66,7 @@ function CtaBanner({
                     className="aga-btn cta-banner-btn"
                     endIcon={<ChevronRightIcon />}
                 >
-                    {button}
+                    {resolvedButton}
                 </Button>
             </Box>
         </section>

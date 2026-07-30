@@ -10,38 +10,22 @@ import './Safety.css'
 import safetyImg from '../assets/home/safety.webp'
 import CtaBanner from '../components/CtaBanner'
 import CertBadges from '../components/CertBadges'
+import { useLanguage } from '../i18n/useLanguage'
 
 const GREEN_DARK = '#2d5a1b'
-const GOLD = '#c9a84c'
+/* Darker gold step than the brand's #c9a84c accent — this one is used
+   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
+const EYEBROW_GOLD = '#71591c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
-const HERO_PILLAR = {
-    icon: <AcUnitIcon sx={{ fontSize: 32 }} />,
-    title: 'Cold-Chain Integrity',
-    text: 'Produce is kept at temperature from the moment it arrives through refrigerated storage and transport, so freshness and safety never break.',
-}
-
-const TILES = [
-    {
-        icon: <VerifiedUserIcon />,
-        title: 'Trained & Equipped Team',
-        text: 'Gloves, hairnets, and hi-vis gear, following procedures that protect product and people.',
-    },
-    {
-        icon: <CleaningServicesIcon />,
-        title: 'Clean, Inspected Facilities',
-        text: 'Regular sanitation and routine inspections keep our warehouse held to a standard.',
-    },
-    {
-        icon: <FactCheckIcon />,
-        title: 'Traceable Sourcing',
-        text: 'We track produce through receiving and weighing, so every order can be accounted for.',
-    },
-]
+const TILE_ICONS = [VerifiedUserIcon, CleaningServicesIcon, FactCheckIcon]
 
 function Safety() {
     const pageRef = useRef(null)
+    const { t } = useLanguage()
+    const heroPillar = t('safety.heroPillar')
+    const tiles = t('safety.tiles')
 
     useEffect(() => {
         if (pageRef.current) {
@@ -58,34 +42,37 @@ function Safety() {
     return (
         <div className="safety-page" ref={pageRef}>
             <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 12, md: 16 }, pb: { xs: 3, md: 5 } }}>
-                <Typography className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: GOLD, mb: 1.25 }}>
-                    Food Safety
+                <Typography className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: EYEBROW_GOLD, mb: 1.25 }}>
+                    {t('safety.eyebrow')}
                 </Typography>
                 <Typography component="h2" className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.9rem', md: '2.5rem' }, color: GREEN_DARK, lineHeight: 1.1 }}>
-                    Safety In Every Step
+                    {t('safety.title')}
                 </Typography>
                 <Typography className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 620, mx: 'auto' }}>
-                    Fresh isn't just about quality — it's about handling produce the right way, from the dock to your door.
+                    {t('safety.sub')}
                 </Typography>
             </Box>
 
             <Box className="safety-wrap">
                 <Box className="heroC safety-reveal">
-                    <div className="heroC-icon">{HERO_PILLAR.icon}</div>
+                    <div className="heroC-icon"><AcUnitIcon sx={{ fontSize: 32 }} /></div>
                     <div>
-                        <p className="heroC-title">{HERO_PILLAR.title}</p>
-                        <p className="heroC-text">{HERO_PILLAR.text}</p>
+                        <p className="heroC-title">{heroPillar.title}</p>
+                        <p className="heroC-text">{heroPillar.text}</p>
                     </div>
                 </Box>
 
                 <Box className="tilesC">
-                    {TILES.map((t) => (
-                        <div className="tileC safety-reveal" key={t.title}>
-                            <div className="tileC-icon">{t.icon}</div>
-                            <p className="tileC-title">{t.title}</p>
-                            <p className="tileC-text">{t.text}</p>
-                        </div>
-                    ))}
+                    {tiles.map((tile, i) => {
+                        const Icon = TILE_ICONS[i]
+                        return (
+                            <div className="tileC safety-reveal" key={i}>
+                                <div className="tileC-icon"><Icon /></div>
+                                <p className="tileC-title">{tile.title}</p>
+                                <p className="tileC-text">{tile.text}</p>
+                            </div>
+                        )
+                    })}
                 </Box>
             </Box>
 
@@ -99,7 +86,7 @@ function Safety() {
             >
                 <CertBadges
                     variant="dark"
-                    subtext="AGA is audited and inspected against recognized food-safety and quality standards."
+                    subtext={t('safety.certSubtext')}
                 />
             </Box>
 
@@ -118,13 +105,13 @@ function Safety() {
                     </Box>
                     <Box>
                         <Typography sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.6rem', md: '2.1rem' }, color: GREEN_DARK, mb: 2, lineHeight: 1.15 }}>
-                            Protecting the product and the people
+                            {t('safety.sectionTitle')}
                         </Typography>
                         <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65, mb: 2 }}>
-                            Every crate that moves through our warehouse is received, weighed, and inspected by trained team members in proper protective equipment. It's a small thing you might never see — and exactly why our customers trust what shows up on their dock.
+                            {t('safety.para1')}
                         </Typography>
                         <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65 }}>
-                            Have a question about our handling or sourcing standards? We're always happy to walk you through them.
+                            {t('safety.para2')}
                         </Typography>
                     </Box>
                 </Box>
@@ -132,8 +119,8 @@ function Safety() {
 
             <CtaBanner
                 className="safety-reveal"
-                title="Questions about our standards?"
-                subtitle="Reach out and our team will gladly walk you through how we keep produce safe."
+                title={t('safety.ctaTitle')}
+                subtitle={t('safety.ctaSubtitle')}
             />
         </div>
     )

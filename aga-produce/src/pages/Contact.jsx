@@ -14,10 +14,9 @@ import './Contact.css'
 import '../components/Buttons.css'
 import contactHero from '../assets/contact/contact.webp'
 import crateChar from '../assets/products/crate_char.webp'
+import { useLanguage } from '../i18n/useLanguage'
 
 const GREEN_DARK = '#2d5a1b'
-const GOLD = '#c9a84c'
-const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
 const CONTACT_EMAIL = 'Agaproinfo1@gmail.com'
@@ -27,29 +26,6 @@ const ADDRESS = '1146 S Vail Ave, Montebello, CA 90640'
 
 const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=15&output=embed`
 const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`
-
-const FAQS = [
-    {
-        q: 'Do you deliver?',
-        a: 'Yes, we offer both local transportation across the greater Los Angeles area and out-of-state delivery. Reach out with your location and order size, and we will confirm a delivery window that works for you.',
-    },
-    {
-        q: 'Is there a minimum order?',
-        a: 'Minimums vary by product and delivery zone. Most wholesale accounts have a small per-delivery minimum. Contact us and we will walk you through what applies to your business.',
-    },
-    {
-        q: 'How do I set up a wholesale account?',
-        a: 'Give us a call or send a message through this page with your business name and what you are looking to source. We will get you set up and quoting within a day.',
-    },
-    {
-        q: 'Can you source produce you do not normally stock?',
-        a: 'Often, yes. We source by request through our supplier network. Tell us what you need and we will let you know availability and pricing.',
-    },
-    {
-        q: 'Do you sell to the public?',
-        a: 'We are primarily a wholesale distributor serving restaurants, markets, and food businesses. Reach out and we will point you in the right direction.',
-    },
-]
 
 /* Inline SVGs — avoids depending on icon names that may not exist
    in this @mui/icons-material install. */
@@ -114,7 +90,7 @@ const submitBtnSx = { alignSelf: 'flex-start' }
    typing re-renders ONLY the form — not the hero, the Google Maps
    iframe, the hour cards, or the FAQ list, all of which used to
    re-render on every single keypress. */
-const ContactForm = memo(function ContactForm({ onSend }) {
+const ContactForm = memo(function ContactForm({ onSend, labels }) {
     const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
 
     const handleChange = useCallback(
@@ -139,13 +115,13 @@ const ContactForm = memo(function ContactForm({ onSend }) {
             onSubmit={handleSubmit}
             className="contact-form-card contact-reveal"
         >
-            <Typography className="contact-form-title">Send us a message</Typography>
+            <Typography className="contact-form-title">{labels.formTitle}</Typography>
             <Box sx={nameRowSx}>
-                <TextField label="Name" value={form.name} onChange={handleChange('name')} required fullWidth sx={fieldSx} />
-                <TextField label="Email" type="email" value={form.email} onChange={handleChange('email')} required fullWidth sx={fieldSx} />
+                <TextField label={labels.nameLabel} value={form.name} onChange={handleChange('name')} required fullWidth sx={fieldSx} />
+                <TextField label={labels.emailLabel} type="email" value={form.email} onChange={handleChange('email')} required fullWidth sx={fieldSx} />
             </Box>
-            <TextField label="Phone (optional)" value={form.phone} onChange={handleChange('phone')} fullWidth sx={fieldSx} />
-            <TextField label="Message" value={form.message} onChange={handleChange('message')} required fullWidth multiline minRows={4} sx={fieldSx} />
+            <TextField label={labels.phoneLabel} value={form.phone} onChange={handleChange('phone')} fullWidth sx={fieldSx} />
+            <TextField label={labels.messageLabel} value={form.message} onChange={handleChange('message')} required fullWidth multiline minRows={4} sx={fieldSx} />
 
             <Button
                 type="submit"
@@ -154,7 +130,7 @@ const ContactForm = memo(function ContactForm({ onSend }) {
                 className="aga-btn aga-btn--gold"
                 sx={submitBtnSx}
             >
-                Send Message
+                {labels.sendButton}
             </Button>
         </Box>
     )
@@ -163,12 +139,16 @@ const ContactForm = memo(function ContactForm({ onSend }) {
 function Contact() {
     const pageRef = useRef(null)
     const heroRef = useRef(null)
+    const { t } = useLanguage()
 
     const [heroLoaded, setHeroLoaded] = useState(false)
     const [openIndex, setOpenIndex] = useState(null)
     const [submitted, setSubmitted] = useState(null)
     const [pickerOpen, setPickerOpen] = useState(false)
     const [copied, setCopied] = useState(false)
+
+    const hours = t('contact.hours')
+    const faqs = t('contact.faqs')
 
     useEffect(() => {
         if (heroRef.current && heroRef.current.complete) setHeroLoaded(true)
@@ -193,7 +173,7 @@ function Contact() {
     const mailProviders = useMemo(() => {
         if (!submitted) return []
 
-        const rawSubject = `Website inquiry from ${submitted.name || 'a customer'}`
+        const rawSubject = t('contact.subjectPrefix')(submitted.name || 'a customer')
         const rawBody =
             `Name: ${submitted.name}\n` +
             `Email: ${submitted.email}\n` +
@@ -226,6 +206,7 @@ function Contact() {
                 url: `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
             },
         ]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submitted])
 
     // Stable identity so the memoized <ContactForm /> never re-renders
@@ -265,7 +246,7 @@ function Contact() {
 
     const copyToClipboard = useCallback(async () => {
         if (!submitted) return
-        const rawSubject = `Website inquiry from ${submitted.name || 'a customer'}`
+        const rawSubject = t('contact.subjectPrefix')(submitted.name || 'a customer')
         const rawBody =
             `Name: ${submitted.name}\n` +
             `Email: ${submitted.email}\n` +
@@ -288,6 +269,7 @@ function Contact() {
             document.body.removeChild(ta)
         }
         setCopied(true)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submitted])
 
     return (
@@ -306,11 +288,9 @@ function Contact() {
                     />
                 </div>
                 <div className="contact-hero-overlay">
-                    <p className="contact-hero-eyebrow">Get In Touch</p>
-                    <h1 className="contact-hero-title">Contact Us</h1>
-                    <p className="contact-hero-sub">
-                        Questions, orders, or sourcing requests, we'd love to hear from you.
-                    </p>
+                    <p className="contact-hero-eyebrow">{t('contact.heroEyebrow')}</p>
+                    <h1 className="contact-hero-title">{t('contact.heroTitle')}</h1>
+                    <p className="contact-hero-sub">{t('contact.heroSub')}</p>
                 </div>
             </section>
 
@@ -325,7 +305,7 @@ function Contact() {
                         decoding="async"
                     />
                     <Typography className="contact-mascot-text">
-                        Family-run and <b>fresh-obsessed</b> — our team is on the other end of every call, ready to help set up your account.
+                        {t('contact.mascotPre')}<b>{t('contact.mascotBold')}</b>{t('contact.mascotPost')}
                     </Typography>
                 </Box>
 
@@ -336,28 +316,28 @@ function Contact() {
                     <div className="contact-hours-band">
                         <div className="hour-card">
                             <AccessTimeIcon />
-                            <p className="hour-label">Mon – Fri</p>
-                            <p className="hour-val">1:00 AM – 3:00 PM</p>
+                            <p className="hour-label">{hours.monFri}</p>
+                            <p className="hour-val">{hours.monFriVal}</p>
                         </div>
                         <div className="hour-card">
                             <AccessTimeIcon />
-                            <p className="hour-label">Saturday</p>
-                            <p className="hour-val">1:00 AM – 10:00 AM</p>
+                            <p className="hour-label">{hours.saturday}</p>
+                            <p className="hour-val">{hours.saturdayVal}</p>
                         </div>
                         <div className="hour-card">
                             <IconShield />
-                            <p className="hour-label">Safety Guaranteed</p>
-                            <p className="hour-val">Cold-chain, every order</p>
+                            <p className="hour-label">{hours.safetyGuaranteed}</p>
+                            <p className="hour-val">{hours.safetyGuaranteedVal}</p>
                         </div>
                         <div className="hour-card">
                             <IconStore />
-                            <p className="hour-label">Wholesale Only</p>
-                            <p className="hour-val">Restaurants &amp; markets</p>
+                            <p className="hour-label">{hours.wholesaleOnly}</p>
+                            <p className="hour-val">{hours.wholesaleOnlyVal}</p>
                         </div>
                         <div className="hour-card">
                             <IconLeaf />
-                            <p className="hour-label">Organic Certified</p>
-                            <p className="hour-val">Selected products</p>
+                            <p className="hour-label">{hours.organicCertified}</p>
+                            <p className="hour-val">{hours.organicCertifiedVal}</p>
                         </div>
                     </div>
                 </Box>
@@ -376,7 +356,7 @@ function Contact() {
                     }}
                 >
                     <Box className="contact-info-card contact-reveal">
-                        <Typography className="contact-info-title">Reach us directly</Typography>
+                        <Typography className="contact-info-title">{t('contact.reachUsTitle')}</Typography>
 
                         {PHONES.map((p) => {
                             const digits = p.replace(/[^0-9]/g, '')
@@ -430,7 +410,7 @@ function Contact() {
                                 rel="noopener noreferrer"
                             >
                                 <PlaceIcon />
-                                <span>Open map</span>
+                                <span>{t('contact.openMap')}</span>
                             </a>
                             <iframe
                                 title="AGA Produce Company location"
@@ -446,11 +426,21 @@ function Contact() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            View on Google Maps →
+                            {t('contact.viewOnMaps')}
                         </a>
                     </Box>
 
-                    <ContactForm onSend={handleSend} />
+                    <ContactForm
+                        onSend={handleSend}
+                        labels={{
+                            formTitle: t('contact.formTitle'),
+                            nameLabel: t('contact.nameLabel'),
+                            emailLabel: t('contact.emailLabel'),
+                            phoneLabel: t('contact.phoneLabel'),
+                            messageLabel: t('contact.messageLabel'),
+                            sendButton: t('contact.sendButton'),
+                        }}
+                    />
                 </Box>
                 <Box className="faq-section-wrapper" sx={{ width: '100%', py: { xs: 8, md: 12 } }}>
                     <Box  sx={{ maxWidth: 760, mx: 'auto', px: 3 }}>
@@ -459,14 +449,14 @@ function Contact() {
                             className="contact-reveal"
                             sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.6rem', md: '2rem' }, color: GREEN_DARK, textAlign: 'center', mb: 4 }}
                         >
-                            Frequently Asked
+                            {t('contact.faqTitle')}
                         </Typography>
 
                         <div className="faq-list">
-                            {FAQS.map((item, i) => {
+                            {faqs.map((item, i) => {
                                 const open = openIndex === i
                                 return (
-                                    <div className={`faq-item ${open ? 'open' : ''}`} key={item.q}>
+                                    <div className={`faq-item ${open ? 'open' : ''}`} key={i}>
                                         <button
                                             type="button"
                                             className="faq-question"
@@ -504,16 +494,16 @@ function Contact() {
                             type="button"
                             className="mail-picker-close"
                             onClick={closePicker}
-                            aria-label="Close"
+                            aria-label={t('contact.close')}
                         >
                             &times;
                         </button>
 
                         <h3 id="mail-picker-title" className="mail-picker-title">
-                            Where would you like to send from?
+                            {t('contact.mailPickerTitle')}
                         </h3>
                         <p className="mail-picker-sub">
-                            We&apos;ll open your message, pre-filled and addressed to us. Just hit send.
+                            {t('contact.mailPickerSub')}
                         </p>
 
                         <div className="mail-picker-options">
@@ -530,19 +520,19 @@ function Contact() {
                             ))}
                         </div>
 
-                        <div className="mail-picker-divider"><span>or</span></div>
+                        <div className="mail-picker-divider"><span>{t('contact.or')}</span></div>
 
                         <button
                             type="button"
                             className="mail-picker-copy"
                             onClick={copyToClipboard}
                         >
-                            {copied ? 'Copied to clipboard' : 'Copy message instead'}
+                            {copied ? t('contact.copied') : t('contact.copyInstead')}
                         </button>
 
                         {copied && (
                             <p className="mail-picker-copied">
-                                Paste it into any email addressed to <b>{CONTACT_EMAIL}</b>.
+                                {t('contact.copiedNote')(CONTACT_EMAIL)}
                             </p>
                         )}
                     </div>

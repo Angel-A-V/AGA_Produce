@@ -11,66 +11,33 @@ import tomatoesImg from '../assets/products/tomatoes.webp'
 import dryGrainsImg from '../assets/products/dry_grains.webp'
 import leafyGreensImg from '../assets/products/leafy_greens.webp'
 import citrusImg from '../assets/products/citrus.webp'
+import { useLanguage } from '../i18n/useLanguage'
 
 const GREEN_DARK = '#2d5a1b'
-const GOLD = '#c9a84c'
+/* Darker gold step than the brand's #c9a84c accent — this one is used
+   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
+const EYEBROW_GOLD = '#71591c'
 const TEXT_DARK = '#3d3228'
 const FONT = 'Nunito, sans-serif'
 
-const categories = [
-    {
-        title: 'Chiles',
-        image: chilesImg,
-        items: ['Anaheim', 'Habanero', 'Jalapeño', 'Pasilla', 'Serrano'],
-    },
-    {
-        title: 'Onions',
-        image: onionsImg,
-        items: ['Red', 'Brown / Yellow', 'White'],
-    },
-    {
-        title: 'Tomatoes',
-        image: tomatoesImg,
-        items: ['Beefsteak', 'Milpero', 'Tomatillo', 'Roma'],
-    },
-    {
-        title: 'Dry Grains',
-        image: dryGrainsImg,
-        items: [
-            { name: 'Rice', tag: '50 lb bags' },
-            { name: 'Beans', tag: '50 lb bags' },
-            { name: 'Lentil', tag: '50 lb bags' },
-        ],
-    },
-    {
-        title: 'Leafy Greens',
-        image: leafyGreensImg,
-        items: [
-            { name: 'Lettuce', tag: 'Cello / Romaine / Butter' },
-            'Cabbage',
-            { name: 'Cilantro', tag: '60ct / 30ct' },
-        ],
-    },
-    {
-        title: 'Citrus',
-        image: citrusImg,
-        items: ['Oranges', 'Grapefruit', 'Mandarin', 'Lemon', 'Limes'],
-    },
-]
+const categoryImages = [chilesImg, onionsImg, tomatoesImg, dryGrainsImg, leafyGreensImg, citrusImg]
 
 /* Returns the item's display name whether it's a plain string
    or an object like { name, tag }. */
 const itemName = (item) => (typeof item === 'string' ? item : item.name)
 
 function Products() {
+    const { t } = useLanguage()
     const [heroLoaded, setHeroLoaded] = useState(false)
     const [query, setQuery] = useState('')
     const heroRef = useRef(null)
 
+    const categories = t('products.categories').map((cat, i) => ({ ...cat, image: categoryImages[i] }))
+
     /* Live search: matches category titles AND individual items.
        - If the query matches a category title, the whole card shows.
        - Otherwise the card shows with only its matching items.
-       Recomputed only when the query changes. */
+       Recomputed only when the query or language changes. */
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase()
         if (!q) return categories
@@ -84,7 +51,8 @@ function Products() {
                 return items.length ? { ...cat, items } : null
             })
             .filter(Boolean)
-    }, [query])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query, categories])
 
     useEffect(() => {
         if (heroRef.current && heroRef.current.complete) {
@@ -108,10 +76,8 @@ function Products() {
                     />
                 </div>
                 <div className="products-hero-overlay">
-                    <h1 className="products-hero-title">Our Products</h1>
-                    <p className="products-hero-sub">
-                        Fresh produce, usually in stock. Contact us for current availability.
-                    </p>
+                    <h1 className="products-hero-title">{t('products.heroTitle')}</h1>
+                    <p className="products-hero-sub">{t('products.heroSub')}</p>
                 </div>
             </section>
 
@@ -124,11 +90,11 @@ function Products() {
                             letterSpacing: '0.22em',
                             textTransform: 'uppercase',
                             fontSize: '0.8rem',
-                            color: GOLD,
+                            color: EYEBROW_GOLD,
                             mb: 1.25,
                         }}
                     >
-                        What We Carry
+                        {t('products.eyebrow')}
                     </Typography>
                     <Typography
                         component="h2"
@@ -140,7 +106,7 @@ function Products() {
                             lineHeight: 1.1,
                         }}
                     >
-                        Browse Our Categories
+                        {t('products.title')}
                     </Typography>
                     <Typography
                         sx={{
@@ -154,7 +120,7 @@ function Products() {
                             mx: 'auto',
                         }}
                     >
-                        Fresh produce sourced and delivered year-round.
+                        {t('products.sub')}
                     </Typography>
                 </Box>
 
@@ -172,15 +138,15 @@ function Products() {
                             type="search"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search produce… e.g. jalapeño, citrus, rice"
-                            aria-label="Search products"
+                            placeholder={t('products.searchPlaceholder')}
+                            aria-label={t('products.searchAriaLabel')}
                         />
                         {query && (
                             <button
                                 type="button"
                                 className="product-search-clear"
                                 onClick={() => setQuery('')}
-                                aria-label="Clear search"
+                                aria-label={t('products.clearAriaLabel')}
                             >
                                 &times;
                             </button>
@@ -204,7 +170,7 @@ function Products() {
                 >
                     {filtered.map((cat) => (
                         <ProductCard
-                            key={cat.title}
+                            key={cat.id}
                             title={cat.title}
                             items={cat.items}
                             image={cat.image}
@@ -223,7 +189,7 @@ function Products() {
                                 mb: 0.75,
                             }}
                         >
-                            No matches for &ldquo;{query}&rdquo;
+                            {t('products.noMatchesTitle')(query)}
                         </Typography>
                         <Typography
                             sx={{
@@ -234,15 +200,15 @@ function Products() {
                                 opacity: 0.75,
                             }}
                         >
-                            We source by request — ask us about it below.
+                            {t('products.noMatchesSub')}
                         </Typography>
                     </Box>
                 )}
             </section>
 
             <CtaBanner
-                title="Don't see what you're looking for?"
-                subtitle="We source produce by request, reach out and we'll help you find it."
+                title={t('products.ctaTitle')}
+                subtitle={t('products.ctaSubtitle')}
             />
         </div>
     )

@@ -76,7 +76,7 @@ function StatsBand({ stats = DEFAULT_STATS }) {
         <div className="stats-band" ref={ref}>
             <div className="stats-band-inner">
                 {stats.map((s, i) => (
-                    <div className="stat" key={s.label}>
+                    <div className="stat" key={i}>
                         <p className="stat-value">
                             {counts[i]}
                             <span className="stat-suffix">{s.suffix}</span>

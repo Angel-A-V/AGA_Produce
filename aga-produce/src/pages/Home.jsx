@@ -3,12 +3,12 @@ import { Link as RouterLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import PauseIcon from '@mui/icons-material/Pause'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import './Home.css'
 import '../components/Buttons.css'
-import front from '../assets/home/front.webp'
 import docks from '../assets/home/docks.webp'
 import reception from '../assets/home/reception.webp'
-import greens from '../assets/home/greens.webp'
 import aboutImg from '../assets/home/about.webp'
 import productsImg from '../assets/home/products.webp'
 import safetyImg from '../assets/home/safety.webp'
@@ -17,50 +17,22 @@ import front_side from '../assets/home/sideview_logo.webp'
 import trucks from '../assets/contact/contact.webp'
 import CertBadges from '../components/CertBadges'
 import StatsBand from '../components/StatsBand'
+import { useLanguage } from '../i18n/useLanguage'
 
+/* reception leads: a clean, uncluttered first frame. front_side (the
+   building's own painted signage) moved off slide 1 — it was colliding
+   visually with the H1 overlaid on top of it. */
 const SLIDES = [
-    { src: front_side, alt: 'Side View of the company' },
     { src: reception, alt: 'AGA Produce reception' },
-    { src: trucks, alt: 'AGA Trucks in Dock'}
-]
-
-const FEATURES = [
-    {
-        eyebrow: 'About Us',
-        title: 'Family-run, fresh-obsessed',
-        text: 'AGA Produce Company has supplied Los Angeles with quality fruits and vegetables since 2020. We are a wholesale distributor built on one simple promise — only fresh goods.',
-        img: aboutImg,
-        to: '/about',
-        cta: 'Learn About Us',
-    },
-    {
-        eyebrow: 'Our Products',
-        title: 'Everything your kitchen needs',
-        text: 'Chiles, onions, tomatoes, citrus, leafy greens, dry grains and more — sourced and packed for restaurants, markets, and food businesses across the region.',
-        img: productsImg,
-        to: '/products',
-        cta: 'Browse Products',
-    },
-    {
-        eyebrow: 'Our Services',
-        title: 'From our warehouse to your business',
-        text: 'Wholesale distribution, six-day-a-week delivery, custom sourcing, and refrigerated transport that keeps produce at temperature all the way to your door.',
-        img: docks,
-        to: '/services',
-        cta: 'See Our Services',
-    },
-    {
-        eyebrow: 'Food Safety',
-        title: 'Handled with care, every step',
-        text: 'Cold-chain integrity, a trained and equipped team, and clean, inspected facilities. Safety is built into how we receive, store, and deliver every order.',
-        img: safetyImg,
-        to: '/safety',
-        cta: 'Our Safety Standards',
-    },
+    { src: front_side, alt: 'Side View of the company' },
+    { src: trucks, alt: 'AGA Trucks in Dock' },
 ]
 
 function Home() {
+    const { t } = useLanguage()
     const [slide, setSlide] = useState(0)
+    const [paused, setPaused] = useState(false)
+    const [hovering, setHovering] = useState(false)
     const pageRef = useRef(null)
     const timerRef = useRef(null)
 
@@ -68,11 +40,14 @@ function Home() {
     const prev = () => setSlide((s) => (s - 1 + SLIDES.length) % SLIDES.length)
     const goTo = (i) => setSlide(i)
 
+    const effectivelyPaused = paused || hovering
+
     useEffect(() => {
         clearInterval(timerRef.current)
+        if (effectivelyPaused) return undefined
         timerRef.current = setInterval(next, 5500)
         return () => clearInterval(timerRef.current)
-    }, [next, slide])
+    }, [next, slide, effectivelyPaused])
 
     useEffect(() => {
         const els = pageRef.current?.querySelectorAll('.reveal, .home-feature') || []
@@ -91,9 +66,19 @@ function Home() {
         return () => observer.disconnect()
     }, [])
 
+    const FEATURES = t('home.features')
+    const featureImages = [aboutImg, productsImg, docks, safetyImg]
+    const featureRoutes = ['/about', '/products', '/services', '/safety']
+
     return (
         <div className="home" ref={pageRef}>
-            <section className="home-hero">
+            <section
+                className="home-hero"
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}
+                onFocus={() => setHovering(true)}
+                onBlur={() => setHovering(false)}
+            >
                 <div className="home-hero-bg">
                     {SLIDES.map((s, i) => (
                         <div key={s.src} className={`home-slide ${i === slide ? 'active' : ''}`}>
@@ -103,11 +88,9 @@ function Home() {
                 </div>
 
                 <div className="home-hero-overlay">
-                    <p className="home-hero-eyebrow">AGA Produce Company Inc.</p>
-                    <h1 className="home-hero-title">Only Fresh Goods</h1>
-                    <p className="home-hero-sub">
-                        Wholesale fruits &amp; vegetables, delivered fresh across Los Angeles.
-                    </p>
+                    <p className="home-hero-eyebrow">{t('home.heroEyebrow')}</p>
+                    <h1 className="home-hero-title">{t('home.heroTitle')}</h1>
+                    <p className="home-hero-sub">{t('home.heroSub')}</p>
                     <div className="home-hero-actions">
                         <Button
                             component={RouterLink}
@@ -115,7 +98,7 @@ function Home() {
                             disableElevation
                             className="aga-btn aga-btn--gold"
                         >
-                            Browse Products
+                            {t('home.browseProducts')}
                         </Button>
                         <Button
                             component={RouterLink}
@@ -123,14 +106,14 @@ function Home() {
                             disableElevation
                             className="aga-btn aga-btn--outline"
                         >
-                            Contact Us
+                            {t('home.contactUs')}
                         </Button>
                     </div>
 
-                    <button className="home-arrow home-arrow-left" onClick={prev} aria-label="Previous slide">
+                    <button className="home-arrow home-arrow-left" onClick={prev} aria-label={t('home.prevSlide')}>
                         <ChevronLeftIcon />
                     </button>
-                    <button className="home-arrow home-arrow-right" onClick={next} aria-label="Next slide">
+                    <button className="home-arrow home-arrow-right" onClick={next} aria-label={t('home.nextSlide')}>
                         <ChevronRightIcon />
                     </button>
 
@@ -140,34 +123,48 @@ function Home() {
                                 key={s.src}
                                 className={`home-dot ${i === slide ? 'active' : ''}`}
                                 onClick={() => goTo(i)}
-                                aria-label={`Go to slide ${i + 1}`}
+                                aria-label={t('home.goToSlide')(i + 1)}
                             />
                         ))}
                     </div>
+
+                    <button
+                        className="home-pause"
+                        onClick={() => setPaused((p) => !p)}
+                        aria-label={paused ? t('home.playSlideshow') : t('home.pauseSlideshow')}
+                        aria-pressed={paused}
+                    >
+                        {paused ? <PlayArrowIcon /> : <PauseIcon />}
+                    </button>
                 </div>
             </section>
 
             <div className="home-body">
                 <section className="home-intro reveal">
                     <div className="home-intro-inner">
-                        <p className="home-intro-eyebrow">Wholesale Produce, Done Right</p>
-                        <h2 className="home-intro-title">Fresh produce your business can count on</h2>
-                        <p className="home-intro-text">
-                            From sourcing to delivery, we handle the produce side so you can focus on your customers. Explore what we do.
-                        </p>
+                        <p className="home-intro-eyebrow">{t('home.introEyebrow')}</p>
+                        <h2 className="home-intro-title">{t('home.introTitle')}</h2>
+                        <p className="home-intro-text">{t('home.introText')}</p>
                     </div>
                 </section>
 
-                <StatsBand />
+                <StatsBand
+                    stats={[
+                        { value: new Date().getFullYear() - 2020, suffix: '+', label: t('home.statLabels')[0] },
+                        { value: 6, suffix: '', label: t('home.statLabels')[1] },
+                        { value: 30, suffix: '+', label: t('home.statLabels')[2] },
+                        { value: 100, suffix: '%', label: t('home.statLabels')[3] },
+                    ]}
+                />
 
                 {FEATURES.map((f, i) => (
                     <section
-                        key={f.to}
+                        key={i}
                         className={`home-feature ${i % 2 === 1 ? 'reversed' : ''} ${i % 2 === 0 ? 'tone-a' : 'tone-b'}`}
                     >
                         <div className="home-feature-inner">
                             <div className="feature-media">
-                                <img src={f.img} alt={f.title} loading="lazy" decoding="async" />
+                                <img src={featureImages[i]} alt={f.title} loading="lazy" decoding="async" />
                             </div>
                             <div className="feature-text">
                                 <p className="feature-eyebrow">{f.eyebrow}</p>
@@ -175,7 +172,7 @@ function Home() {
                                 <p className="feature-body">{f.text}</p>
                                 <Button
                                     component={RouterLink}
-                                    to={f.to}
+                                    to={featureRoutes[i]}
                                     disableElevation
                                     className="aga-btn aga-btn--green"
                                 >
@@ -192,8 +189,8 @@ function Home() {
 
                 <CtaBanner
                     className="reveal"
-                    title="Ready to order fresh?"
-                    subtitle="Tell us what your business needs and we'll get you set up with a quote, fast."
+                    title={t('home.ctaTitle')}
+                    subtitle={t('home.ctaSubtitle')}
                 />
             </div>
         </div>
