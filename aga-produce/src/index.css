@@ -1,10 +1,24 @@
+:root {
+    --green-dark:    #2d5a1b;
+    --green-mid:     #4a8c2a;
+    --green-light:   #8bc34a;
+    --gold:          #c9a84c;
+    --cream:         #f5f0e8;
+    --linen:         #e8e0d0;
+    --earth-dark:    #1a2e0f;
+    --text-dark:     #3d3228;
+
+    --fruitbowl-width: clamp(150px, 15vw, 195px);
+    --fruitbowl-width-scrolled: clamp(96px, 10.5vw, 120px);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html, body {
     height: 100%;
 }
 

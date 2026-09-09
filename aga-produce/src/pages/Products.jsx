@@ -1,215 +1,214 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Products.css'
-import ProductCard from '../components/Productcard.jsx'
-import CtaBanner from '../components/CtaBanner'
-import ourProduce from '../assets/logo/our_produce.webp'
+import { useCopy } from '../i18n/useCopy'
+import { productsCopy } from './Products.copy'
+import { PHONE, PHONE_HREF } from '../siteInfo'
+
 import chilesImg from '../assets/products/chiles.webp'
 import onionsImg from '../assets/products/onions.webp'
 import tomatoesImg from '../assets/products/tomatoes.webp'
 import dryGrainsImg from '../assets/products/dry_grains.webp'
 import leafyGreensImg from '../assets/products/leafy_greens.webp'
 import citrusImg from '../assets/products/citrus.webp'
-import { useLanguage } from '../i18n/useLanguage'
+import mascot from '../assets/products/crate_char.webp'
 
-const GREEN_DARK = '#2d5a1b'
-/* Darker gold step than the brand's #c9a84c accent — this one is used
-   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
-const EYEBROW_GOLD = '#71591c'
-const TEXT_DARK = '#3d3228'
-const FONT = 'Nunito, sans-serif'
+const IMAGES = [chilesImg, onionsImg, tomatoesImg, dryGrainsImg, leafyGreensImg, citrusImg]
 
-const categoryImages = [chilesImg, onionsImg, tomatoesImg, dryGrainsImg, leafyGreensImg, citrusImg]
+const pad = (i) => `${i < 9 ? '0' : ''}${i + 1}`
 
-/* Returns the item's display name whether it's a plain string
-   or an object like { name, tag }. */
-const itemName = (item) => (typeof item === 'string' ? item : item.name)
+function Marked({ text, q }) {
+    if (!q) return text
+    const i = text.toLowerCase().indexOf(q)
+    if (i < 0) return text
+    return (
+        <>
+            {text.slice(0, i)}
+            <mark className="aga-pl-mark">{text.slice(i, i + q.length)}</mark>
+            {text.slice(i + q.length)}
+        </>
+    )
+}
 
 function Products() {
-    const { t } = useLanguage()
-    const [heroLoaded, setHeroLoaded] = useState(false)
+    const c = useCopy(productsCopy)
     const [query, setQuery] = useState('')
-    const heroRef = useRef(null)
 
-    const categories = t('products.categories').map((cat, i) => ({ ...cat, image: categoryImages[i] }))
+    const categories = useMemo(
+        () => c.categories.map((cat, i) => ({ ...cat, n: pad(i), image: IMAGES[i] })),
+        [c]
+    )
 
-    /* Live search: matches category titles AND individual items.
-       - If the query matches a category title, the whole card shows.
-       - Otherwise the card shows with only its matching items.
-       Recomputed only when the query or language changes. */
-    const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase()
+    const totalItems = useMemo(
+        () => categories.reduce((a, cat) => a + cat.items.length, 0),
+        [categories]
+    )
+
+    const q = query.trim().toLowerCase()
+
+    const results = useMemo(() => {
         if (!q) return categories
-
         return categories
             .map((cat) => {
-                if (cat.title.toLowerCase().includes(q)) return cat
-                const items = cat.items.filter((it) =>
-                    itemName(it).toLowerCase().includes(q)
-                )
+                if (cat.title.toLowerCase().includes(q)) return { ...cat, titleHit: true }
+                const items = cat.items.filter((it) => it.n.toLowerCase().includes(q))
                 return items.length ? { ...cat, items } : null
             })
             .filter(Boolean)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query, categories])
+    }, [q, categories])
 
-    useEffect(() => {
-        if (heroRef.current && heroRef.current.complete) {
-            setHeroLoaded(true)
-        }
-    }, [])
+    const shown = results.reduce((a, cat) => a + cat.items.length, 0)
+
+    const pick = (title) => () =>
+        setQuery((cur) => (cur.trim().toLowerCase() === title.toLowerCase() ? '' : title))
 
     return (
-        <div className="products">
-            <section className="products-hero">
-                <div className="products-hero-bg">
-                    <img
-                        ref={heroRef}
-                        src={ourProduce}
-                        alt="Fresh produce"
-                        className={`products-hero-img fade-img ${heroLoaded ? 'is-loaded' : ''}`}
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="async"
-                        onLoad={() => setHeroLoaded(true)}
-                    />
+        <div className="aga-pl">
+            <header className="aga-pl-mast aga-pad">
+                <div className="aga-pl-mast-text">
+                    <span className="aga-pl-label">{c.eyebrow}</span>
+                    <h1 className="aga-h1 aga-pl-h1">
+                        {c.titleA}
+                        <br />
+                        {c.titleB}
+                    </h1>
+                    <div className="aga-pl-badges">
+                        <span className="aga-pl-badge aga-pl-badge--brass">
+                            {c.badgeCats(categories.length)}
+                        </span>
+                        <span className="aga-pl-badge aga-pl-badge--green">
+                            {c.badgeItems(totalItems)}
+                        </span>
+                    </div>
+                    <p className="aga-pl-lede">{c.lede}</p>
                 </div>
-                <div className="products-hero-overlay">
-                    <h1 className="products-hero-title">{t('products.heroTitle')}</h1>
-                    <p className="products-hero-sub">{t('products.heroSub')}</p>
+
+                <nav className="aga-pl-strip" aria-label={c.searchLabel}>
+                    {categories.map((cat) => (
+                        <a
+                            key={cat.id}
+                            href={`#${cat.id}`}
+                            className="aga-pl-strip-item"
+                            onClick={pick(cat.title)}
+                        >
+                            <img src={cat.image} alt="" aria-hidden="true" />
+                            <span>{cat.short}</span>
+                        </a>
+                    ))}
+                </nav>
+            </header>
+
+            <section className="aga-pl-search aga-pad">
+                <div className="aga-pl-search-head">
+                    <span className="aga-pl-search-k">{c.searchLabel}</span>
+                    <span className="aga-pl-tally" role="status" aria-live="polite">
+                        {q
+                            ? c.tallyMatch(shown, totalItems, query.trim())
+                            : c.tallyIdle(totalItems, categories.length)}
+                    </span>
+                </div>
+
+                <div className="aga-pl-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                    <input
+                        type="search"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder={c.searchPlaceholder}
+                        aria-label={c.searchAria}
+                    />
+                    <button
+                        type="button"
+                        className="aga-pl-clear"
+                        onClick={() => setQuery('')}
+                        hidden={!q}
+                    >
+                        {c.clear}
+                    </button>
+                </div>
+
+                <div className="aga-pl-chips">
+                    {categories.map((cat) => (
+                        <button
+                            key={cat.id}
+                            type="button"
+                            className={`aga-pl-chip${q === cat.title.toLowerCase() ? ' is-on' : ''}`}
+                            aria-pressed={q === cat.title.toLowerCase()}
+                            onClick={pick(cat.title)}
+                        >
+                            {cat.title}
+                        </button>
+                    ))}
                 </div>
             </section>
 
-            <section className="products-body">
-                <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 6, md: 9 } }}>
-                    <Typography
-                        sx={{
-                            fontFamily: FONT,
-                            fontWeight: 800,
-                            letterSpacing: '0.22em',
-                            textTransform: 'uppercase',
-                            fontSize: '0.8rem',
-                            color: EYEBROW_GOLD,
-                            mb: 1.25,
-                        }}
-                    >
-                        {t('products.eyebrow')}
-                    </Typography>
-                    <Typography
-                        component="h2"
-                        sx={{
-                            fontFamily: FONT,
-                            fontWeight: 900,
-                            fontSize: { xs: '1.9rem', md: '2.5rem' },
-                            color: GREEN_DARK,
-                            lineHeight: 1.1,
-                        }}
-                    >
-                        {t('products.title')}
-                    </Typography>
-                    <Typography
-                        sx={{
-                            fontFamily: FONT,
-                            fontWeight: 500,
-                            fontSize: '1.05rem',
-                            color: TEXT_DARK,
-                            opacity: 0.75,
-                            mt: 1.5,
-                            maxWidth: 560,
-                            mx: 'auto',
-                        }}
-                    >
-                        {t('products.sub')}
-                    </Typography>
-                </Box>
+            <section className="aga-pl-results aga-pad">
+                {results.map((cat) => (
+                    <article key={cat.id} id={cat.id} className="aga-pl-row">
+                        <div className="aga-pl-thumb">
+                            <img src={cat.image} alt="" aria-hidden="true" loading="lazy" />
+                            <span className="aga-pl-n">{cat.n}</span>
+                        </div>
 
-                <Box sx={{ maxWidth: 520, mx: 'auto', px: 3, pt: { xs: 3.5, md: 5 } }}>
-                    <div className="product-search">
-                        <svg
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                            width="20" height="20" aria-hidden="true"
-                        >
-                            <circle cx="11" cy="11" r="7" />
-                            <path d="m21 21-4.3-4.3" />
-                        </svg>
-                        <input
-                            type="search"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder={t('products.searchPlaceholder')}
-                            aria-label={t('products.searchAriaLabel')}
-                        />
-                        {query && (
-                            <button
-                                type="button"
-                                className="product-search-clear"
-                                onClick={() => setQuery('')}
-                                aria-label={t('products.clearAriaLabel')}
-                            >
-                                &times;
-                            </button>
-                        )}
+                        <div className="aga-pl-row-body">
+                            <h2 className="aga-pl-cat">
+                                <Marked text={cat.title} q={q} />
+                            </h2>
+                            <ul className="aga-pl-items">
+                                {cat.items.map((it) => (
+                                    <li key={it.n} className="aga-pl-item">
+                                        <span>
+                                            <Marked text={it.n} q={cat.titleHit ? '' : q} />
+                                        </span>
+                                        {it.tag && <span className="aga-pl-item-tag">{it.tag}</span>}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="aga-pl-count">
+                            <span className="aga-pl-count-n">{cat.items.length}</span>
+                            <span className="aga-pl-count-l">
+                                {cat.items.length === 1 ? c.varietyOne : c.varietyMany}
+                            </span>
+                        </div>
+                    </article>
+                ))}
+
+                {q && results.length === 0 && (
+                    <div className="aga-pl-empty">
+                        <span className="aga-pl-empty-k">{c.emptyKicker}</span>
+                        <h2 className="aga-pl-empty-t">{c.emptyTitle(query.trim())}</h2>
+                        <p className="aga-pl-empty-b">{c.emptyBody}</p>
+                        <a href={PHONE_HREF} className="aga-pl-empty-cta">{c.emptyCta} {PHONE}</a>
                     </div>
-                </Box>
-
-                <Box
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: 4,
-                        alignItems: 'start',
-                        justifyItems: 'center',
-                        maxWidth: 1040,
-                        mx: 'auto',
-                        px: 3,
-                        pt: { xs: 4, md: 6 },
-                        pb: { xs: 6, md: 8 },
-                    }}
-                >
-                    {filtered.map((cat) => (
-                        <ProductCard
-                            key={cat.id}
-                            title={cat.title}
-                            items={cat.items}
-                            image={cat.image}
-                        />
-                    ))}
-                </Box>
-
-                {filtered.length === 0 && (
-                    <Box sx={{ textAlign: 'center', px: 3, pb: { xs: 6, md: 8 } }}>
-                        <Typography
-                            sx={{
-                                fontFamily: FONT,
-                                fontWeight: 800,
-                                fontSize: '1.15rem',
-                                color: GREEN_DARK,
-                                mb: 0.75,
-                            }}
-                        >
-                            {t('products.noMatchesTitle')(query)}
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontFamily: FONT,
-                                fontWeight: 500,
-                                fontSize: '0.98rem',
-                                color: TEXT_DARK,
-                                opacity: 0.75,
-                            }}
-                        >
-                            {t('products.noMatchesSub')}
-                        </Typography>
-                    </Box>
                 )}
             </section>
 
-            <CtaBanner
-                title={t('products.ctaTitle')}
-                subtitle={t('products.ctaSubtitle')}
-            />
+            <section className="aga-pl-notes aga-pad">
+                {c.notes.map((note) => (
+                    <div key={note.k} className="aga-pl-note">
+                        <span className="aga-pl-note-k">{note.k}</span>
+                        <span className="aga-pl-note-v">{note.v}</span>
+                    </div>
+                ))}
+            </section>
+
+            <section className="aga-pl-cta aga-pad">
+                <div className="aga-pl-cta-text">
+                    <span className="aga-pl-cta-k">{c.ctaKicker}</span>
+                    <h2 className="aga-pl-cta-t">{c.ctaTitle}</h2>
+                    <p className="aga-pl-cta-b">{c.ctaBody}</p>
+                    <div className="aga-pl-cta-actions">
+                        <a href={PHONE_HREF} className="aga-btn aga-btn--fill">{PHONE}</a>
+                        <Link to="/contact" className="aga-btn aga-btn--line-light">{c.ctaMessage}</Link>
+                    </div>
+                </div>
+                <img className="aga-pl-mascot" src={mascot} alt="" aria-hidden="true" />
+            </section>
         </div>
     )
 }

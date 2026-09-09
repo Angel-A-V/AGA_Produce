@@ -1,114 +1,168 @@
-.about-page {
-    width: 100%;
-    min-height: 100vh;
-    /* Smooth continuous fade (same approach as Home) — flat colour
-       blocks were reading as abrupt steps. Ends on footer cream. */
-    background: linear-gradient(
-        180deg,
-        #eef3e6 0%,
-        #f1f2ea 30%,
-        #ecf0e3 65%,
-        #ede9dd 88%,
-        #f5f0e8 100%
-    );
+.aga-about-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+    align-items: stretch;
 }
-
-.about-reveal {
-    opacity: 0;
-}
-
-/* ── Our Values: numbered editorial rows ─────────────────────── */
-/* background transparent so it sits on the page colour with no
-   colour step (the provided design's #eef1ea would add a seam)   */
-.value-wrap {
-    background: transparent;
-    padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 50px);
-}
-
-.vg-eyebrow.MuiTypography-root {
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    /* Darker gold step — #c9a84c fails 4.5:1 on this light background. */
-    color: #71591c;
-    margin: 0 0 12px;
-}
-
-.vg-title.MuiTypography-root {
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(1.8rem, 3.4vw, 2.3rem);
-    font-weight: 900;
-    color: #2d5a1b;
-    margin: 0 0 14px;
-}
-
-.vg-sub.MuiTypography-root {
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-    font-size: 1rem;
-    color: #3d3228;
-    opacity: 0.7;
-    max-width: 520px;
-    margin: 0 auto 40px;
-}
-
-.rowsA {
-    max-width: 820px;
-    margin: 0 auto;
+.aga-about-hero-text {
     display: flex;
     flex-direction: column;
+    gap: 26px;
+    padding-top: 110px;
+    padding-bottom: 96px;
+}
+.aga-about-hero-text .aga-lede { max-width: 540px; }
+.aga-about-stamps { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+.aga-about-hero-text .aga-link { margin-top: 14px; }
+
+.aga-about-hero-img {
+    position: relative;
+    overflow: hidden;
+    background: var(--aga-ink);
+    min-height: clamp(300px, 39vw, 560px);
+}
+.aga-about-hero-img img {
+    position: absolute;
+    left: 0;
+    top: -12%;
+    width: 100%;
+    height: 124%;
+    object-fit: cover;
+    filter: saturate(0.9) contrast(1.04);
+    will-change: transform;
+}
+.aga-about-hero-cap {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(242, 239, 228, 0.8);
 }
 
-.rowA {
+.aga-about-story {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 660px);
+    gap: 96px;
+    align-items: start;
+    padding-top: 112px;
+    padding-bottom: 100px;
+}
+.aga-about-ledger {
     display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    padding: 26px 4px;
-    border-bottom: 1px solid rgba(45, 90, 27, 0.15);
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--aga-muted);
 }
-
-.rowA:first-of-type { padding-top: 0; }
-.rowA:last-of-type { border-bottom: none; }
-
-.rowA-num {
-    font-family: 'Nunito', sans-serif;
-    font-size: 2.1rem;
-    font-weight: 900;
-    color: #c9a84c;
-    opacity: 0.55;
-    width: 56px;
-    flex-shrink: 0;
-    line-height: 1;
+.aga-about-ledger > * {
+    padding: 14px 0;
+    border-top: 1px solid var(--aga-rule);
 }
+.aga-about-ledger > *:first-child { border-top-color: var(--aga-rule-strong); color: var(--aga-brass); }
+.aga-about-ledger > *:last-child { border-bottom: 1px solid var(--aga-rule); }
 
-.rowA-title {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: #2d5a1b;
-    margin: 0 0 6px;
+.aga-about-story-text { display: flex; flex-direction: column; gap: 24px; }
+
+.aga-about-quote {
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    padding-top: 96px;
+    padding-bottom: 96px;
 }
-
-.rowA-text {
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.95rem;
-    color: #3d3228;
-    opacity: 0.75;
-    line-height: 1.55;
+.aga-about-quote-inner { max-width: 1040px; display: flex; flex-direction: column; gap: 30px; }
+.aga-about-quote-k {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--aga-brass-light);
+}
+.aga-about-quote-t {
     margin: 0;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(30px, 3.2vw, 44px);
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+}
+.aga-about-quote-by {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--aga-on-dark);
 }
 
-@media (max-width: 560px) {
-    .rowA { gap: 16px; }
-    .rowA-num { font-size: 1.6rem; width: 42px; }
+.aga-about-sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--aga-rule-strong);
 }
 
+.aga-about-values { padding-top: var(--aga-section); padding-bottom: var(--aga-section); }
+.aga-about-value {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 300px) minmax(0, 1fr);
+    gap: 40px;
+    align-items: baseline;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--aga-rule);
+}
+.aga-about-value-n {
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--aga-brass);
+}
+.aga-about-value-t { font-size: 23px; font-weight: 600; line-height: 1.24; color: var(--aga-green); }
+.aga-about-value-d { font-size: 17px; line-height: 1.68; color: var(--aga-body); }
 
-/* CTA band inherits the page fade — no colour step before the footer */
-.about-page .cta-wrap {
-    background: transparent;
+.aga-about-inside {
+    background: var(--aga-paper-2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+    padding-top: 96px;
+    padding-bottom: 96px;
+}
+.aga-about-inside-head { grid-column: 1 / -1; margin-bottom: 6px; border-bottom: none; padding-bottom: 0; }
+.aga-about-inside-img { height: clamp(200px, 21vw, 300px); }
+
+.aga-about-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    gap: 64px;
+    align-items: center;
+    padding-top: var(--aga-section);
+    padding-bottom: var(--aga-section);
+}
+.aga-about-cta-text { display: flex; flex-direction: column; gap: 20px; }
+.aga-about-cta-text .aga-body { max-width: 520px; }
+.aga-about-cta-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+.aga-about-cta-mascot { justify-self: end; height: 230px; width: auto; object-fit: contain; }
+
+@media (max-width: 1080px) {
+    .aga-about-hero { grid-template-columns: 1fr; }
+    .aga-about-hero-img { min-height: 0; height: clamp(240px, 42vw, 420px); }
+    .aga-about-hero-img img { top: -6%; height: 112%; }
+    .aga-about-story { grid-template-columns: 1fr; gap: 44px; }
+    .aga-about-inside { grid-template-columns: 1fr; }
+    .aga-about-cta { grid-template-columns: 1fr; }
+    .aga-about-cta-mascot { justify-self: start; height: 180px; }
+}
+
+@media (max-width: 720px) {
+    .aga-about-hero-img img { top: 0; height: 100%; }
+    .aga-about-hero-text { padding-top: 64px; padding-bottom: 56px; }
+    .aga-about-value { grid-template-columns: 1fr; gap: 10px; }
+    .aga-about-sec-head { flex-direction: column; align-items: flex-start; gap: 12px; }
 }

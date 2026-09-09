@@ -1,93 +1,118 @@
-.services-page {
-    width: 100%;
-    min-height: 100vh;
-    /* Smooth continuous fade (same approach as Home) — flat colour
-       blocks were reading as abrupt steps. Ends on footer cream. */
-    background: linear-gradient(
-        180deg,
-        #eef3e6 0%,
-        #f1f2ea 30%,
-        #ecf0e3 65%,
-        #ede9dd 88%,
-        #f5f0e8 100%
-    );
+@import '../styles/sheet.css';
+
+.aga-sv {
+    background: var(--aga-paper);
+    color: var(--aga-ink);
+    font-family: var(--aga-sans);
 }
 
-.svc-reveal {
-    opacity: 0;
-}
-
-/* ── Compact service cards (icon + copy inline) ──────────────── */
-.services-wrap {
-    background: transparent;
-    padding: clamp(24px, 4vw, 48px) clamp(24px, 5vw, 50px) clamp(48px, 6vw, 72px);
-}
-
-.gridB {
-    max-width: 1100px;
-    margin: 0 auto;
+.aga-sv-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+    padding: 44px 0;
+    border-top: 1px solid var(--aga-rule);
 }
-
-.cardB {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 6px 18px rgba(26, 46, 15, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+.aga-sv-n {
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--aga-brass);
+    font-variant-numeric: tabular-nums;
 }
-
-.cardB:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 30px rgba(26, 46, 15, 0.16);
+.aga-sv-row-body {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
 }
-
-.cardB-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #2d5a1b, #4a8c2a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #fff;
-}
-
-.cardB-icon svg {
-    width: 22px;
-    height: 22px;
-    font-size: 22px;
-}
-
-.cardB-title {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #2d5a1b;
-    margin: 0 0 6px;
-}
-
-.cardB-text {
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.9rem;
-    color: #3d3228;
-    opacity: 0.72;
-    line-height: 1.5;
+.aga-sv-row-title {
     margin: 0;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--aga-green);
+}
+.aga-sv-row-text { display: flex; flex-direction: column; gap: 14px; }
+.aga-sv-row-text p { margin: 0; font-size: 20px; line-height: 1.6; color: var(--aga-body); }
+.aga-sv-row-meta {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7A7565;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .cardB:hover { transform: none; }
+.aga-sv-band {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: minmax(0, 880px) 1fr;
+    align-items: center;
+}
+.aga-sv-band > img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.9) contrast(1.05);
+}
+.aga-sv-band-text {
+    position: relative;
+    z-index: 2;
+    margin-left: -160px;
+    max-width: 540px;
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    padding: 56px 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.aga-sv-band-k {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--aga-brass-light);
+}
+.aga-sv-band-t {
+    margin: 0;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 46px;
+    line-height: 1.04;
+}
+.aga-sv-band-b { margin: 0; font-size: 19px; line-height: 1.6; color: var(--aga-on-dark-strong); }
+.aga-sv-ticks {
+    list-style: none;
+    margin: 8px 0 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(242, 239, 228, 0.24);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
+@media (max-width: 1080px) {
+    .aga-sv-row { grid-template-columns: 84px minmax(0, 1fr); gap: 28px; }
+    .aga-sv-row-body { grid-template-columns: 1fr; gap: 12px; }
+    .aga-sv-band { grid-template-columns: 1fr; }
+    .aga-sv-band > img { height: 420px; }
+    .aga-sv-band-text { margin-left: 0; max-width: none; }
+}
 
-/* CTA band inherits the page fade — no colour step before the footer */
-.services-page .cta-wrap {
-    background: transparent;
+@media (max-width: 720px) {
+    .aga-sv-row { grid-template-columns: 1fr; gap: 14px; }
+    .aga-sv-n { font-size: 44px; }
+    .aga-sv-row-title { font-size: 34px; }
+    .aga-sv-band-text { padding: 40px 26px; }
+    .aga-sv-band-t { font-size: 34px; }
 }

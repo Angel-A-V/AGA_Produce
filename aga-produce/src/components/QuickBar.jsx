@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLocation, Link as RouterLink } from 'react-router-dom'
 import './QuickBar.css'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { widgetsCopy } from './widgets.copy'
 
 const TEL = '3234771177'
 const TEL_DISPLAY = '(323) 477-1177'
@@ -15,7 +16,7 @@ const TEL_DISPLAY = '(323) 477-1177'
 function QuickBar() {
     const [visible, setVisible] = useState(false)
     const { pathname } = useLocation()
-    const { t } = useLanguage()
+    const c = useCopy(widgetsCopy)    // words — src/components/widgets.copy.js
 
     useEffect(() => {
         const onScroll = () => setVisible(window.scrollY > 320)
@@ -36,7 +37,7 @@ function QuickBar() {
                 >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                {t('quickBar.call')(TEL_DISPLAY)}
+                {c.quickBar.call(TEL_DISPLAY)}
             </a>
             <RouterLink className="quick-bar-btn quick-bar-msg" to="/contact" tabIndex={visible ? 0 : -1}>
                 <svg
@@ -46,7 +47,7 @@ function QuickBar() {
                 >
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
-                {t('quickBar.message')}
+                {c.quickBar.message}
             </RouterLink>
         </div>
     )

@@ -1,684 +1,391 @@
-.contact-page {
-    width: 100%;
-}
+.aga-contact-hero { position: relative; padding-bottom: 104px; }
 
-.contact-hero {
+.aga-contact-hero-img {
     position: relative;
-    height: clamp(420px, 70vh, 760px);
+    height: clamp(260px, 31vw, 440px);
+    overflow: hidden;
+    background: var(--aga-ink);
+    clip-path: polygon(0 0, 100% 0, 100% 93%, 92% 96.5%, 84% 92%, 71% 97.5%, 60% 93.5%, 48% 98%, 36% 93%, 25% 97%, 13% 92.5%, 0 96%);
 }
-
-.contact-hero-bg {
-    position: fixed;
-    top: 0;
+.aga-contact-hero-img img {
+    position: absolute;
     left: 0;
+    top: -14%;
     width: 100%;
-    height: 100vh;
-    z-index: -1;
-    /* neutral — the green plate tinted the photo while it loaded */
-    background-color: #111;
+    height: 128%;
+    object-fit: cover;
+    filter: saturate(0.86) contrast(1.06) brightness(0.72);
+    will-change: transform;
 }
-
-
-.contact-hero-bg::after {
-    content: '';
+.aga-contact-hero-scrim {
     position: absolute;
     inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-        to bottom,
-        rgba(8, 28, 6, 0.55) 0%,
-        rgba(8, 28, 6, 0.35) 45%,
-        rgba(8, 28, 6, 0.65) 100%
-    );
+    background: linear-gradient(180deg, rgba(16, 21, 14, 0.6) 0%, rgba(16, 21, 14, 0.34) 44%, rgba(16, 21, 14, 0.72) 100%);
 }
 
-.contact-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-.contact-hero-overlay {
+.aga-contact-hero-grid {
     position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    /* background removed — tint now lives on .contact-hero-bg::after */
+    z-index: 3;
+    margin-top: -152px;
+    display: grid;
+    grid-template-columns: minmax(0, 860px) 1fr;
+    align-items: end;
+    gap: 40px;
 }
-
-.contact-hero-eyebrow {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    color: #d8bf73;
-    margin: 0 0 12px;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+.aga-contact-hero-text { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+.aga-contact-h1 {
+    color: var(--aga-paper);
+    text-shadow: 0 2px 26px rgba(16, 21, 14, 0.55);
 }
-
-.contact-hero-title {
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(2.4rem, 6vw, 4.5rem);
-    font-weight: 900;
-    color: #fff;
-    margin: 0 0 16px;
-    text-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
-}
-
-.contact-hero-sub {
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.95);
-    max-width: 620px;
-    line-height: 1.6;
+.aga-contact-hero-sub {
     margin: 0;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+    max-width: 560px;
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--aga-body);
+}
+.aga-contact-mascot {
+    justify-self: end;
+    height: 280px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: -24px;
+    pointer-events: none;
 }
 
-.contact-body {
+.aga-contact-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+    gap: 72px;
+    align-items: start;
+    padding-bottom: 88px;
+}
+.aga-contact-desk { display: flex; flex-direction: column; }
+
+.aga-contact-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--aga-muted);
+}
+
+.aga-contact-phone {
     position: relative;
-    z-index: 1;
-    background-color: #eef1ea;
-    min-height: 60vh;
+    align-self: flex-start;
+    margin-top: 10px;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--aga-green);
+}
+.aga-contact-phone::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: 38%;
+    height: 0.28em;
+    background: var(--aga-brass-light);
+    opacity: 0.45;
+    clip-path: polygon(0 12%, 100% 0, 99% 86%, 1% 100%);
+    z-index: -1;
+}
+.aga-contact-phone:hover { color: var(--aga-brass); }
+
+.aga-contact-hours {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 34px;
+    border-top: 2px solid var(--aga-rule-strong);
+}
+.aga-contact-hours > div { display: flex; flex-direction: column; gap: 8px; padding: 24px 24px 24px 0; }
+.aga-contact-hours > div + div { padding: 24px 0 24px 26px; border-left: 1px solid rgba(16, 21, 14, 0.16); }
+.aga-contact-hours-v {
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--aga-ink);
 }
 
-.fade-img {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.fade-img.is-loaded {
-    opacity: 1;
-}
-
-.contact-reveal {
-    opacity: 0;
-}
-
-
-
-.faq-list {
-    width: 100%;
-}
-
-.faq-item {
-    background-color: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 2px 10px rgba(45, 90, 27, 0.08);
-    margin-bottom: 14px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.faq-item:hover {
-    background-color: #f4f8ef;
-}
-
-.faq-item.open {
-    background-color: #eef5e8;
-    box-shadow: inset 4px 0 0 #c9a84c, 0 4px 14px rgba(45, 90, 27, 0.12);
-}
-
-.faq-question {
-    width: 100%;
+.aga-contact-rows { display: flex; flex-direction: column; border-top: 1px solid rgba(16, 21, 14, 0.16); }
+.aga-contact-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 20px 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: #2d5a1b;
-    transition: color 0.25s ease;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(16, 21, 14, 0.12);
 }
+.aga-contact-row:last-child { border-bottom: none; }
+.aga-contact-row-v { font-size: 19px; color: var(--aga-green); }
+.aga-contact-row-v--plain { color: var(--aga-body); }
+a.aga-contact-row:hover .aga-contact-row-v { color: var(--aga-brass); }
 
-.faq-item:hover .faq-question {
-    color: #4a8c2a;
-}
+.aga-contact-place { position: relative; padding-top: 8px; }
 
-.faq-chevron {
-    flex-shrink: 0;
-    color: #c9a84c;
-    transition: transform 0.3s ease;
-}
-
-.faq-chevron.open {
-    transform: rotate(180deg);
-}
-
-.faq-answer-wrap {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s ease;
-}
-
-.faq-answer-wrap.open {
-    grid-template-rows: 1fr;
-}
-
-.faq-answer-inner {
-    overflow: hidden;
-    min-height: 0;
-    padding: 0 24px;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 500;
-    font-size: 1.02rem;
-    line-height: 1.6;
-    color: #3d3228;
-    opacity: 0;
-    transition: opacity 0.3s ease, padding 0.4s ease;
-}
-
-.faq-answer-wrap.open .faq-answer-inner {
-    opacity: 1;
-    padding: 0 24px 22px;
-}
-
-.contact-info-card {
+.aga-contact-crate {
     position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1c3d10, #2d5a1b 60%, #3f7524);
-    border-radius: 20px;
-    padding: 38px;
-    color: #fff;
-    box-shadow: 0 20px 44px rgba(26, 46, 15, 0.22);
-}
-
-.contact-info-card::after {
-    content: '';
-    position: absolute;
-    right: -50px;
-    bottom: -50px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(201, 168, 76, 0.28), transparent 70%);
-    pointer-events: none;
-}
-
-.contact-info-title.MuiTypography-root {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 1.4rem;
-    line-height: 1.2;
-    color: #fff;
-    margin: 0 0 26px;
-    position: relative;
-    z-index: 1;
-}
-
-.contact-info-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
-    text-decoration: none;
-    color: #fff;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.5;
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.contact-info-row svg {
-    color: #c9a84c;
-    flex-shrink: 0;
-}
-
-.contact-info-row.is-static {
-    cursor: default;
-}
-
-.contact-info-row:not(.is-static):hover {
-    color: #c9a84c;
-    transform: translateX(4px);
-}
-
-.contact-map {
-    border-radius: 14px;
-    overflow: hidden;
-    margin-top: 8px;
-    position: relative;
-    z-index: 1;
-    height: 190px;
-    /* light plate so a loading/blocked embed never reads as an
-       empty green hole in the card */
-    background: #e9efe4;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-}
-
-/* Fallback layer (under the iframe) — visible only if the embed
-   doesn't paint. Clicking opens Google Maps in a new tab. */
-.contact-map-fallback {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-decoration: none;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
-    color: #2d5a1b;
+    padding: 32px 32px 28px;
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    transform: rotate(-1.4deg);
+}
+.aga-contact-crate-c { position: absolute; width: 22px; height: 22px; }
+.aga-contact-crate-c.tl { left: 12px; top: 12px; border-left: 2px solid rgba(201, 174, 114, 0.5); border-top: 2px solid rgba(201, 174, 114, 0.5); }
+.aga-contact-crate-c.tr { right: 12px; top: 12px; border-right: 2px solid rgba(201, 174, 114, 0.5); border-top: 2px solid rgba(201, 174, 114, 0.5); }
+.aga-contact-crate-c.bl { left: 12px; bottom: 12px; border-left: 2px solid rgba(201, 174, 114, 0.5); border-bottom: 2px solid rgba(201, 174, 114, 0.5); }
+.aga-contact-crate-c.br { right: 12px; bottom: 12px; border-right: 2px solid rgba(201, 174, 114, 0.5); border-bottom: 2px solid rgba(201, 174, 114, 0.5); }
+.aga-contact-crate-num {
+    font-family: var(--aga-sans);
+    font-weight: 700;
+    font-size: 96px;
+    letter-spacing: -0.02em;
+    line-height: 0.82;
+    color: var(--aga-brass-light);
+}
+.aga-contact-crate-addr {
+    margin-top: 10px;
+    font-family: var(--aga-sans);
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: 0.1em;
+    line-height: 1.24;
 }
 
-.contact-map-fallback svg {
-    font-size: 30px;
-    color: #c9a84c;
-}
-
-.contact-map iframe {
+.aga-contact-map {
     position: relative;
-    z-index: 1;
-    display: block;
+    margin-top: -14px;
+    height: clamp(220px, 21vw, 300px);
+    overflow: hidden;
+    background: var(--aga-paper-2);
+    clip-path: polygon(0 5%, 7% 1.5%, 19% 5.5%, 32% 1%, 46% 5%, 58% 1.5%, 72% 5.5%, 86% 1%, 100% 4.5%, 100% 100%, 0 100%);
+}
+.aga-contact-map iframe {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     border: 0;
+    filter: saturate(0.62) contrast(1.05);
 }
+.aga-contact-directions { margin-top: 18px; padding: 15px 24px; }
 
-.contact-map-link {
-    display: inline-block;
-    margin-top: 12px;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
-    color: #c9a84c;
-    text-decoration: none;
-    position: relative;
-    z-index: 1;
-}
-
-.contact-map-link:hover {
-    text-decoration: underline;
-}
-
-.contact-form-card {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 38px;
-    box-shadow: 0 16px 40px rgba(26, 46, 15, 0.14);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.contact-form-title.MuiTypography-root {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 1.4rem;
-    line-height: 1.2;
-    color: #2d5a1b;
-    margin: 0 0 4px;
-}
-
-.contact-mascot-strip {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    margin-top: 52px;
-}
-
-.contact-mascot-img {
-    height: 175px;
-    width: auto;
-    flex-shrink: 0;
-    display: block;
-    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.22));
-    transition: transform 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
-}
-
-.contact-mascot-strip:hover .contact-mascot-img {
-    transform: translateY(-8px) rotate(-5deg);
-}
-
-.contact-mascot-text.MuiTypography-root {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #2d5a1b;
-    max-width: 520px;
-    line-height: 1.6;
-    margin: 0;
-}
-
-.contact-mascot-text.MuiTypography-root b {
-    color: #c9a84c;
-    font-weight: 800;
-}
-
-.contact-hours-band {
-    margin-top: 52px;
+.aga-contact-trust {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 28px rgba(26, 46, 15, 0.14);
+    background: var(--aga-paper-2);
+    border-bottom: 1px solid rgba(16, 21, 14, 0.16);
 }
-
-.hour-card {
-    background: #fff;
-    padding: 30px 20px;
-    text-align: center;
+.aga-contact-trust-cell {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid rgba(45, 90, 27, 0.1);
-    transition: background-color 0.2s ease;
+    gap: 8px;
+    padding: 32px 26px;
+    border-right: 1px solid rgba(16, 21, 14, 0.14);
 }
-
-.hour-card:last-child {
-    border-right: none;
-}
-
-.hour-card:hover {
-    background: #f6f4ee;
-}
-
-.hour-card svg {
-    color: #c9a84c;
-    margin-bottom: 12px;
-    width: 26px;
-    height: 26px;
-}
-
-.hour-label {
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
+.aga-contact-trust-cell:last-child { border-right: none; }
+.aga-contact-trust-k {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #2d5a1b;
-    margin: 0 0 4px;
+    color: var(--aga-brass);
+}
+.aga-contact-trust-v { font-size: 17px; line-height: 1.45; color: var(--aga-body); }
+
+.aga-contact-lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); }
+
+.aga-contact-faq {
+    display: flex;
+    flex-direction: column;
+    padding-top: 88px;
+    padding-bottom: 88px;
+}
+.aga-contact-faq .aga-h2 { margin-bottom: 26px; }
+.aga-contact-faq-item {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 26px 0;
+    border-top: 1px solid rgba(16, 21, 14, 0.16);
+}
+.aga-contact-faq-q { font-size: 21px; font-weight: 600; line-height: 1.3; color: var(--aga-green); }
+.aga-contact-faq-a { font-size: 18px; line-height: 1.65; color: var(--aga-body); max-width: 720px; }
+
+.aga-contact-form {
+    display: flex;
+    flex-direction: column;
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    padding: 88px 60px;
+}
+.aga-contact-form-h2 { color: var(--aga-paper); margin-bottom: 10px; }
+.aga-contact-form-sub {
+    margin: 0 0 34px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--aga-on-dark-strong);
+}
+.aga-contact-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+.aga-field { display: flex; flex-direction: column; gap: 9px; padding-bottom: 24px; }
+.aga-field > span { font-size: 16px; font-weight: 600; color: var(--aga-paper); }
+.aga-field input,
+.aga-field textarea {
+    appearance: none;
+    background: rgba(242, 239, 228, 0.07);
+    border: 1px solid rgba(242, 239, 228, 0.35);
+    padding: 15px 14px;
+    font-family: var(--aga-sans);
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--aga-paper);
+    outline: none;
+}
+.aga-field textarea { resize: vertical; }
+.aga-field input:focus,
+.aga-field textarea:focus {
+    border-color: var(--aga-brass-light);
+    background: rgba(242, 239, 228, 0.12);
+}
+.aga-contact-send { align-self: stretch; justify-content: center; padding: 20px 32px; font-size: 17px; }
+.aga-contact-prefer {
+    margin: 16px 0 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: rgba(242, 239, 228, 0.7);
+}
+.aga-contact-prefer a { color: var(--aga-brass-light); border-bottom: 1px solid rgba(201, 174, 114, 0.5); }
+.aga-contact-prefer a:hover { color: var(--aga-paper); }
+
+@media (max-width: 1080px) {
+    .aga-contact-hero-img img { top: -7%; height: 114%; }
+    .aga-contact-hero-grid { grid-template-columns: 1fr; margin-top: -110px; }
+    .aga-contact-mascot { display: none; }
+    .aga-contact-main { grid-template-columns: 1fr; gap: 48px; }
+    .aga-contact-trust { grid-template-columns: 1fr 1fr; }
+    .aga-contact-lower { grid-template-columns: 1fr; }
+    .aga-contact-form { padding: 72px var(--aga-gutter); }
 }
 
-.hour-val {
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #3d3228;
-    opacity: 0.75;
-    margin: 0;
-}
-
-@media (max-width: 900px) {
-    .contact-mascot-strip {
+@media (max-width: 720px) {
+    .aga-contact-hero-img img { top: 0; height: 100%; }
+    .aga-contact-hero { padding-bottom: 64px; }
+    .aga-contact-row {
         flex-direction: column;
-        text-align: center;
+        align-items: flex-start;
+        gap: 7px;
+        padding: 18px 0;
     }
-
-    .contact-hours-band {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .hour-card:nth-child(2n) {
-        border-right: none;
-    }
-
-    .hour-card:last-child {
-        grid-column: 1 / -1;
-    }
-
-    .contact-info-card,
-    .contact-form-card {
-        padding: 28px;
-    }
+    .aga-contact-row-v { font-size: 17px; overflow-wrap: anywhere; }
+    .aga-contact-hours { grid-template-columns: 1fr; }
+    .aga-contact-hours > div + div { padding-left: 0; border-left: none; border-top: 1px solid rgba(16, 21, 14, 0.16); }
+    .aga-contact-trust { grid-template-columns: 1fr; }
+    .aga-contact-trust-cell { border-right: none; border-bottom: 1px solid rgba(16, 21, 14, 0.14); }
+    .aga-contact-form-grid { grid-template-columns: 1fr; }
+    .aga-contact-crate { padding: 24px; }
+    .aga-contact-crate-num { font-size: 72px; }
+    .aga-contact-crate-addr { font-size: 17px; }
 }
 
-
-.mail-picker-backdrop {
+.aga-picker-backdrop {
     position: fixed;
     inset: 0;
-    z-index: 2000;
-    /* No backdrop-filter here: blurring the whole page behind the
-       modal forces an expensive repaint on every hover/state change,
-       which made the picker feel laggy. A slightly deeper tint gives
-       the same separation for free. */
-    background: rgba(12, 24, 8, 0.62);
+    z-index: 200;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
-    animation: mailPickerFade 0.18s ease;
+    background: rgba(16, 21, 14, 0.62);
 }
-
-@keyframes mailPickerFade {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-.mail-picker {
+.aga-picker {
     position: relative;
     width: 100%;
-    max-width: 440px;
-    background: #fff;
-    border-radius: 20px;
-    padding: 34px 32px 30px;
-    box-shadow: 0 26px 60px rgba(12, 24, 8, 0.35);
-    animation: mailPickerPop 0.22s cubic-bezier(0.22, 1.2, 0.36, 1);
+    max-width: 460px;
+    padding: 40px 36px 32px;
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    border: 1px solid rgba(201, 174, 114, 0.4);
+    max-height: 100%;
+    overflow-y: auto;
 }
-
-@keyframes mailPickerPop {
-    from { opacity: 0; transform: translateY(14px) scale(0.98); }
-    to   { opacity: 1; transform: none; }
-}
-
-.mail-picker-close {
+.aga-picker-x {
     position: absolute;
     top: 14px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: 28px;
-    line-height: 1;
-    color: #3d3228;
-    opacity: 0.45;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 8px;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
-}
-
-.mail-picker-close:hover {
-    opacity: 1;
-    background: #f2efe7;
-}
-
-.mail-picker-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 1.3rem;
-    color: #2d5a1b;
-    margin: 0 0 8px;
-    padding-right: 24px;
-}
-
-.mail-picker-sub {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: #3d3228;
-    opacity: 0.75;
-    line-height: 1.5;
-    margin: 0 0 22px;
-}
-
-.mail-picker-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.mail-picker-option {
+    right: 14px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--aga-on-dark);
+    cursor: pointer;
+}
+.aga-picker-x:hover { color: var(--aga-paper); }
+.aga-picker-t {
+    margin: 0;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 1.1;
+    color: var(--aga-paper);
+}
+.aga-picker-b {
+    margin: 12px 0 26px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--aga-on-dark-strong);
+}
+.aga-picker-options { display: flex; flex-direction: column; }
+.aga-picker-option {
+    display: block;
     width: 100%;
-    padding: 14px 18px;
-    border-radius: 12px;
-    border: 2px solid rgba(45, 90, 27, 0.18);
-    background: #fff;
-    color: #2d5a1b;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
+    padding: 17px 4px;
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(242, 239, 228, 0.22);
+    color: var(--aga-paper);
+    font-family: var(--aga-sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     text-align: left;
     cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        border-color 0.15s ease;
+    transition: color 0.18s ease, padding-left 0.18s ease;
 }
-
-.mail-picker-option:hover,
-.mail-picker-option:focus-visible {
-    background: #2d5a1b;
-    color: #fff;
-    border-color: #2d5a1b;
-    outline: none;
-}
-
-.mail-picker-arrow {
-    transition: transform 0.2s ease;
-}
-
-.mail-picker-option:hover .mail-picker-arrow {
-    transform: translateX(4px);
-}
-
-.mail-picker-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0 16px;
-    color: #3d3228;
-    opacity: 0.45;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.82rem;
+.aga-picker-option:last-child { border-bottom: 1px solid rgba(242, 239, 228, 0.22); }
+.aga-picker-option:hover { color: var(--aga-brass-light); padding-left: 12px; }
+.aga-picker-foot { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+.aga-picker-copy {
+    align-self: flex-start;
+    padding: 0 0 4px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201, 174, 114, 0.55);
+    color: var(--aga-brass-light);
+    font-family: var(--aga-sans);
+    font-size: 12.5px;
     font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.mail-picker-divider::before,
-.mail-picker-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(45, 90, 27, 0.18);
-}
-
-.mail-picker-copy {
-    width: 100%;
-    padding: 13px 18px;
-    border-radius: 12px;
-    border: 2px solid #c9a84c;
-    background: #fff;
-    color: #71591c;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.98rem;
     cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease;
 }
+.aga-picker-copy:hover { color: var(--aga-paper); }
+.aga-picker-note { font-size: 13.5px; line-height: 1.5; color: var(--aga-on-dark); }
 
-.mail-picker-copy:hover,
-.mail-picker-copy:focus-visible {
-    background: #c9a84c;
-    color: #1a2e0f;
-    outline: none;
-}
-
-.mail-picker-copied {
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.88rem;
-    color: #2d5a1b;
-    margin: 12px 0 0;
-    text-align: center;
-    line-height: 1.5;
-}
-
-.mail-picker-copied b {
-    font-weight: 800;
-}
-
-@media (max-width: 520px) {
-    .mail-picker {
-        padding: 28px 22px 24px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .mail-picker-backdrop,
-    .mail-picker {
-        animation: none;
-    }
-
-    .mail-picker-option:hover,
-    .mail-picker-copy:hover {
-        transform: none;
-    }
-}
-
-
-/* ── FAQ section: smooth colour transition ────────────────────
-   Previously the beige (#E7DECE) was an inline bgcolor meeting the
-   page's #eef1ea in a hard line. The gradient bridges the two over
-   the first 140px, then holds solid beige. */
-.faq-section-wrapper {
-    background: linear-gradient(180deg, #eef1ea 0%, #E7DECE 140px, #E7DECE 100%);
-}
-
-
-/* ── Mobile / portrait tablets: kill the parallax zoom ──────────
-   The fixed 100vh bg made object-fit:cover blow the landscape photo
-   up to fill a tall, narrow viewport (hyper-zoomed centre crop).
-   Below 900px the bg is absolute and sized to the hero itself. */
-@media (max-width: 900px) {
-    .contact-hero-bg {
-        position: absolute;
-        inset: 0;
-        height: 100%;
-    }
-
-    /* The white bar under the hero: .contact-mascot-strip's 52px
-       margin-top collapsed THROUGH .contact-body (no top padding or
-       border to stop it), pushing the whole section down and exposing
-       a strip of bare white page background. Invisible before, when
-       the fixed full-viewport photo showed through the gap.
-       display: flow-root stops the margin from escaping, so it becomes
-       space INSIDE the body's background instead. margin-top: -1px
-       additionally covers any subpixel rounding seam. */
-    .contact-body {
-        display: flow-root;
-        margin-top: -1px;
-    }
-}
-
-@media (max-width: 700px) {
-    .contact-hero {
-        height: clamp(300px, 46vh, 420px);
-    }
+@media (max-width: 720px) {
+    .aga-picker { padding: 34px 24px 26px; }
+    .aga-picker-t { font-size: 26px; }
+    .aga-picker-option { padding: 18px 4px; }
 }

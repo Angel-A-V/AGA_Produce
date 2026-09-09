@@ -1,106 +1,151 @@
-import { useRef, useEffect } from 'react'
-import { animate, stagger } from 'animejs'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { Link } from 'react-router-dom'
 import './About.css'
-import storyImg from '../assets/home/about.webp'
-import CtaBanner from '../components/CtaBanner'
-import StatsBand from '../components/StatsBand'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { aboutCopy } from './About.copy'
+import { sharedCopy } from '../components/shared.copy'
+import { PHONE, PHONE_HREF, ADDRESS_LINE1, ADDRESS_LINE2 } from '../siteInfo'
+import { useParallax, useCountUp } from '../hooks/useAgaMotion'
 
-const GREEN_DARK = '#2d5a1b'
-/* Darker gold step than the brand's #c9a84c accent — this one is used
-   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
-const EYEBROW_GOLD = '#71591c'
-const TEXT_DARK = '#3d3228'
-const FONT = 'Nunito, sans-serif'
+import heroImg from '../assets/home/about.webp'
+import mascot from '../assets/products/crate_char.webp'
+import coldRoom from '../assets/about/cold-room.webp'
+import repackLine from '../assets/about/repack-line.webp'
+import weighing from '../assets/about/weighing.webp'
+
+import primusgfs from '../assets/certifications/primusgfs.webp'
+import usda from '../assets/certifications/usda.webp'
+import pco from '../assets/certifications/pco.webp'
+import ifco from '../assets/certifications/ifco.webp'
+
+const CERT_LOGOS = [primusgfs, usda, pco, ifco]
+const INSIDE_IMGS = [coldRoom, repackLine, weighing]
 
 function About() {
-    const pageRef = useRef(null)
-    const { t } = useLanguage()
-    const values = t('about.values')
-    const statsLabels = t('about.statsLabels')
-
-    useEffect(() => {
-        if (pageRef.current) {
-            animate(pageRef.current.querySelectorAll('.about-reveal'), {
-                opacity: [0, 1],
-                translateY: [24, 0],
-                delay: stagger(80),
-                duration: 650,
-                ease: 'out(3)',
-            })
-        }
-    }, [])
+    const c = useCopy(aboutCopy)
+    const shared = useCopy(sharedCopy)
+    const heroRef = useParallax(0.14)
+    const statsRef = useCountUp()
 
     return (
-        <div className="about-page" ref={pageRef}>
-            <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 12, md: 16 }, pb: { xs: 3, md: 5 } }}>
-                <Typography className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: EYEBROW_GOLD, mb: 1.25 }}>
-                    {t('about.eyebrow')}
-                </Typography>
-                <Typography component="h2" className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '2rem', md: '2.6rem' }, color: GREEN_DARK, lineHeight: 1.1 }}>
-                    {t('about.title')}
-                </Typography>
-                <Typography className="about-reveal" sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 640, mx: 'auto' }}>
-                    {t('about.sub')}
-                </Typography>
-            </Box>
+        <div className="aga-about">
+            <section className="aga-about-hero">
+                <div className="aga-about-hero-text aga-pad">
+                    <p className="aga-eyebrow">{c.eyebrow}</p>
+                    <h1 className="aga-h1">{c.title}</h1>
+                    <p className="aga-lede">{c.sub}</p>
+                    <div className="aga-about-stamps">
+                        <span className="aga-stamp aga-stamp--green">{c.stampFamily}</span>
+                        <span className="aga-stamp aga-stamp--brass">{c.stampWholesale}</span>
+                    </div>
+                    <Link to="/contact" className="aga-link">{c.cta}</Link>
+                </div>
+                <div className="aga-about-hero-img">
+                    <img ref={heroRef} src={heroImg} alt={c.caption} />
+                    <span className="aga-about-hero-cap">{c.caption}</span>
+                </div>
+            </section>
 
-            <Box sx={{ maxWidth: 1100, mx: 'auto', px: 3, pt: { xs: 4, md: 6 }, pb: { xs: 6, md: 9 } }}>
-                <Box
-                    className="about-reveal"
-                    sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: { xs: 3, md: 6 }, alignItems: 'center' }}
-                >
-                    <Box sx={{ borderRadius: 5, overflow: 'hidden', boxShadow: 4 }}>
-                        <Box component="img" src={storyImg} alt="AGA Produce reception" loading="lazy" decoding="async" sx={{ width: '100%', height: { xs: 300, md: 440 }, objectFit: 'cover', display: 'block' }} />
-                    </Box>
-                    <Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.6rem', md: '2.1rem' }, color: GREEN_DARK, mb: 2, lineHeight: 1.15 }}>
-                            {t('about.startedTitle')}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65, mb: 2 }}>
-                            {t('about.para1')}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65 }}>
-                            {t('about.para2')}
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+            <section className="aga-stats" ref={statsRef}>
+                {shared.stats.map((s, i) => (
+                    <div className="aga-stat" key={s.label}>
+                        <span
+                            className="aga-stat-num"
+                            data-count={s.v}
+                            data-from={i === 0 ? '2000' : '0'}
+                        >{s.v}</span>
+                        <span className="aga-stat-label">{s.label}</span>
+                    </div>
+                ))}
+            </section>
 
-            <Box className="about-reveal" sx={{ mb: { xs: 6, md: 9 } }}>
-                <StatsBand
-                    stats={[
-                        { value: 2020, label: statsLabels[0] },
-                        { value: 6, suffix: ' Days', label: statsLabels[1] },
-                        { value: 'LA', label: statsLabels[2] },
-                    ]}
-                />
-            </Box>
+            <section className="aga-about-story aga-pad">
+                <div className="aga-about-ledger">
+                    <span className="aga-about-ledger-head">{c.metaHead}</span>
+                    {c.meta.map((m) => <span key={m}>{m}</span>)}
+                </div>
+                <div className="aga-about-story-text">
+                    <h2 className="aga-h2">{c.storyTitle}</h2>
+                    <p className="aga-body">{c.storyP1}</p>
+                    <p className="aga-body">{c.storyP2}</p>
+                    <p className="aga-body">{c.storyP3}</p>
+                </div>
+            </section>
 
-            <Box className="value-wrap about-reveal">
-                <Typography className="vg-eyebrow">{t('about.valuesEyebrow')}</Typography>
-                <Typography className="vg-title">{t('about.valuesTitle')}</Typography>
-                <Typography className="vg-sub">{t('about.valuesSub')}</Typography>
-                <Box className="rowsA">
-                    {values.map((v) => (
-                        <Box className="rowA" key={v.num}>
-                            <span className="rowA-num">{v.num}</span>
-                            <div>
-                                <p className="rowA-title">{v.title}</p>
-                                <p className="rowA-text">{v.text}</p>
+            <section className="aga-about-quote aga-pad">
+                <div className="aga-about-quote-inner">
+                    <span className="aga-about-quote-k">{c.quoteKicker}</span>
+                    <p className="aga-about-quote-t">{c.quote}</p>
+                    <span className="aga-about-quote-by">{c.quoteBy}</span>
+                </div>
+            </section>
+
+            <section className="aga-about-values aga-pad">
+                <div className="aga-about-sec-head">
+                    <h2 className="aga-h2">{c.valuesTitle}</h2>
+                    <span className="aga-kicker">{c.valuesKicker}</span>
+                </div>
+                {c.values.map((v) => (
+                    <div className="aga-about-value" key={v.n}>
+                        <span className="aga-about-value-n">{v.n}</span>
+                        <span className="aga-about-value-t">{v.t}</span>
+                        <span className="aga-about-value-d">{v.d}</span>
+                    </div>
+                ))}
+            </section>
+
+            <section className="aga-about-inside aga-pad">
+                <div className="aga-about-sec-head aga-about-inside-head">
+                    <h2 className="aga-h2">{c.insideTitle}</h2>
+                    <span className="aga-kicker">{c.insideKicker}</span>
+                </div>
+                {c.inside.map((p, i) => (
+                    <figure className="aga-figure" key={p.k}>
+                        <div className="aga-figure-img aga-about-inside-img">
+                            <img src={INSIDE_IMGS[i]} alt={p.alt} loading="lazy" />
+                        </div>
+                        <figcaption className="aga-figure-cap">
+                            <span className="aga-figure-k">{p.k}</span>
+                            <span className="aga-figure-d">{p.d}</span>
+                        </figcaption>
+                    </figure>
+                ))}
+            </section>
+
+            <section className="aga-certs">
+                <div>
+                    <span className="aga-certs-head">{shared.certsHeading}</span>
+                    <div className="aga-certs-list">
+                        {shared.certs.map((cert, i) => (
+                            <div className="aga-cert" key={cert.n}>
+                                <span className="aga-cert-logo">
+                                    <img src={CERT_LOGOS[i]} alt={cert.n} loading="lazy" />
+                                </span>
+                                <span className="aga-cert-text">
+                                    <span className="aga-cert-n">{cert.n}</span>
+                                    <span className="aga-cert-d">{cert.d}</span>
+                                </span>
                             </div>
-                        </Box>
-                    ))}
-                </Box>
-            </Box>
+                        ))}
+                    </div>
+                </div>
+                <div className="aga-certs-addr">
+                    <span className="aga-certs-addr-k">{c.warehouseLabel}</span>
+                    <span>{ADDRESS_LINE1}<br />{ADDRESS_LINE2}</span>
+                    <a href={PHONE_HREF}>{PHONE}</a>
+                </div>
+            </section>
 
-            <CtaBanner
-                className="about-reveal"
-                title={t('about.ctaTitle')}
-                subtitle={t('about.ctaSubtitle')}
-            />
+            <section className="aga-about-cta aga-pad">
+                <div className="aga-about-cta-text">
+                    <h2 className="aga-h2">{c.ctaTitle}</h2>
+                    <p className="aga-body">{c.ctaP}</p>
+                    <div className="aga-about-cta-btns">
+                        <a href={PHONE_HREF} className="aga-btn aga-btn--fill">{PHONE}</a>
+                        <Link to="/contact" className="aga-btn aga-btn--line">{c.ctaSecondary}</Link>
+                    </div>
+                </div>
+                <img className="aga-about-cta-mascot" src={mascot} alt="" aria-hidden="true" />
+            </section>
         </div>
     )
 }

@@ -6,7 +6,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import crateChar from '../assets/products/crate_char.webp'
 import './Buttons.css'
 import './CtaBanner.css'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { widgetsCopy } from './widgets.copy'
 
 const FONT = 'Nunito, sans-serif'
 
@@ -17,10 +18,10 @@ function CtaBanner({
     to = '/contact',
     className = '',
 }) {
-    const { t } = useLanguage()
-    const resolvedTitle = title ?? t('ctaBanner.defaultTitle')
-    const resolvedSubtitle = subtitle ?? t('ctaBanner.defaultSubtitle')
-    const resolvedButton = button ?? t('ctaBanner.defaultButton')
+    const c = useCopy(widgetsCopy)    // words — src/components/widgets.copy.js
+    const resolvedTitle = title ?? c.ctaBanner.defaultTitle
+    const resolvedSubtitle = subtitle ?? c.ctaBanner.defaultSubtitle
+    const resolvedButton = button ?? c.ctaBanner.defaultButton
 
     return (
         <section className={`cta-wrap ${className}`.trim()}>

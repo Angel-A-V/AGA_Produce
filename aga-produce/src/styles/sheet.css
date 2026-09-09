@@ -1,0 +1,101 @@
+.aga-sheet-mast {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 72px;
+    align-items: end;
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+.aga-sheet-mast-text { display: flex; flex-direction: column; gap: 22px; }
+.aga-sheet-label {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--aga-muted);
+}
+.aga-sheet-h1 {
+    font-size: 104px;
+    line-height: 0.88;
+    letter-spacing: -0.028em;
+    color: var(--aga-ink);
+}
+.aga-sheet-stamp {
+    align-self: flex-start;
+    background: var(--aga-brass);
+    color: var(--aga-ink);
+    padding: 10px 18px 9px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 99% 88%, 100% 100%, 2% 100%, 0 90%);
+}
+.aga-sheet-lede {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--aga-body);
+    border-left: 2px solid var(--aga-brass);
+    padding-left: 24px;
+}
+
+.aga-sheet-cta {
+    background: var(--aga-green);
+    color: var(--aga-paper);
+    padding-top: 76px;
+    padding-bottom: 76px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 56px;
+    align-items: center;
+}
+.aga-sheet-cta--torn {
+    margin-top: 96px;
+    clip-path: polygon(0 4%, 9% 0.5%, 22% 4.4%, 36% 0.8%, 49% 4%, 63% 0.6%,
+        77% 4.4%, 89% 1%, 100% 3.8%, 100% 100%, 0 100%);
+}
+.aga-sheet-cta--ink { background: var(--aga-ink); }
+.aga-sheet-cta-text { display: flex; flex-direction: column; gap: 18px; }
+.aga-sheet-cta-k {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--aga-brass-light);
+}
+.aga-sheet-cta-t {
+    margin: 0;
+    font-family: var(--aga-serif);
+    font-weight: 300;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+.aga-sheet-cta-b {
+    margin: 0;
+    max-width: 560px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--aga-on-dark-strong);
+}
+.aga-sheet-cta-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+.aga-sheet-mascot {
+    justify-self: end;
+    height: 230px;
+    width: auto;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+@media (max-width: 1080px) {
+    .aga-sheet-mast { grid-template-columns: 1fr; gap: 36px; }
+    .aga-sheet-h1 { font-size: 66px; }
+    .aga-sheet-cta { grid-template-columns: 1fr; }
+    .aga-sheet-mascot,     .aga-sheet-mascot { height: 180px; }
+}
+
+@media (max-width: 720px) {
+    .aga-sheet-h1 { font-size: 44px; }
+    .aga-sheet-cta-t { font-size: 38px; }
+}

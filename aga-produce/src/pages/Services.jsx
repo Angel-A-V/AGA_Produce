@@ -1,93 +1,71 @@
-import { useRef, useEffect } from 'react'
-import { animate, stagger } from 'animejs'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import AcUnitIcon from '@mui/icons-material/AcUnit'
-import Inventory2Icon from '@mui/icons-material/Inventory2'
-import RestaurantIcon from '@mui/icons-material/Restaurant'
-import StorefrontIcon from '@mui/icons-material/Storefront'
+import { Link } from 'react-router-dom'
 import './Services.css'
-import CtaBanner from '../components/CtaBanner'
-import CertBadges from '../components/CertBadges'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { servicesCopy } from './Services.copy'
+import { PHONE, PHONE_HREF } from '../siteInfo'
 
-const GREEN_DARK = '#2d5a1b'
-/* Darker gold step than the brand's #c9a84c accent — this one is used
-   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
-const EYEBROW_GOLD = '#71591c'
-const TEXT_DARK = '#3d3228'
-const FONT = 'Nunito, sans-serif'
+import bandImg from '../assets/home/docks.webp'
+import mascot from '../assets/products/crate_char.webp'
 
-const ICONS = [LocalShippingIcon, RestaurantIcon, Inventory2Icon, AcUnitIcon, StorefrontIcon]
+const pad = (i) => `${i < 9 ? '0' : ''}${i + 1}`
 
 function Services() {
-    const pageRef = useRef(null)
-    const { t } = useLanguage()
-    const services = t('services.list')
-
-    useEffect(() => {
-        if (pageRef.current) {
-            animate(pageRef.current.querySelectorAll('.svc-reveal'), {
-                opacity: [0, 1],
-                translateY: [24, 0],
-                delay: stagger(80),
-                duration: 650,
-                ease: 'out(3)',
-            })
-        }
-    }, [])
+    const c = useCopy(servicesCopy)
 
     return (
-        <div className="services-page" ref={pageRef}>
-            <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 12, md: 16 }, pb: { xs: 3, md: 5 } }}>
-                <Typography
-                    className="svc-reveal"
-                    sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: EYEBROW_GOLD, mb: 1.25 }}
-                >
-                    {t('services.eyebrow')}
-                </Typography>
-                <Typography
-                    component="h2"
-                    className="svc-reveal"
-                    sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.9rem', md: '2.5rem' }, color: GREEN_DARK, lineHeight: 1.1 }}
-                >
-                    {t('services.title')}
-                </Typography>
-                <Typography
-                    className="svc-reveal"
-                    sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 600, mx: 'auto' }}
-                >
-                    {t('services.sub')}
-                </Typography>
-            </Box>
+        <div className="aga-sv">
+            <header className="aga-sheet-mast aga-pad">
+                <div className="aga-sheet-mast-text">
+                    <span className="aga-sheet-label">{c.eyebrow}</span>
+                    <h1 className="aga-h1 aga-sheet-h1">
+                        {c.titleA}
+                        <br />
+                        {c.titleB}
+                    </h1>
+                    <span className="aga-sheet-stamp">{c.stamp}</span>
+                </div>
+                <p className="aga-sheet-lede">{c.lede}</p>
+            </header>
 
-            <Box className="services-wrap">
-                <Box className="gridB">
-                    {services.map((s, i) => {
-                        const Icon = ICONS[i]
-                        return (
-                            <Box className="cardB svc-reveal" key={i}>
-                                <div className="cardB-icon"><Icon /></div>
-                                <div>
-                                    <p className="cardB-title">{s.title}</p>
-                                    <p className="cardB-text">{s.text}</p>
-                                </div>
-                            </Box>
-                        )
-                    })}
-                </Box>
-            </Box>
+            <section className="aga-sv-rows aga-pad">
+                {c.list.map((s, i) => (
+                    <article key={s.title} className="aga-sv-row">
+                        <span className="aga-sv-n">{pad(i)}</span>
+                        <div className="aga-sv-row-body">
+                            <h2 className="aga-sv-row-title">{s.title}</h2>
+                            <div className="aga-sv-row-text">
+                                <p>{s.text}</p>
+                                <span className="aga-sv-row-meta">{s.meta}</span>
+                            </div>
+                        </div>
+                    </article>
+                ))}
+            </section>
 
-            <Box className="svc-reveal">
-                <CertBadges variant="light" />
-            </Box>
+            <section className="aga-sv-band">
+                <img src={bandImg} alt={c.bandAlt} loading="lazy" />
+                <div className="aga-sv-band-text">
+                    <span className="aga-sv-band-k">{c.bandK}</span>
+                    <h2 className="aga-sv-band-t">{c.bandTitle}</h2>
+                    <p className="aga-sv-band-b">{c.bandText}</p>
+                    <ul className="aga-sv-ticks">
+                        {c.bandTicks.map((t) => <li key={t}>{t}</li>)}
+                    </ul>
+                </div>
+            </section>
 
-            <CtaBanner
-                className="svc-reveal"
-                title={t('services.ctaTitle')}
-                subtitle={t('services.ctaSubtitle')}
-            />
+            <section className="aga-sheet-cta aga-sheet-cta--torn aga-pad">
+                <div className="aga-sheet-cta-text">
+                    <span className="aga-sheet-cta-k">{c.ctaK}</span>
+                    <h2 className="aga-sheet-cta-t">{c.ctaTitle}</h2>
+                    <p className="aga-sheet-cta-b">{c.ctaText}</p>
+                    <div className="aga-sheet-cta-actions">
+                        <a href={PHONE_HREF} className="aga-btn aga-btn--fill">{PHONE}</a>
+                        <Link to="/products" className="aga-btn aga-btn--line-light">{c.ctaAlt}</Link>
+                    </div>
+                </div>
+                <img className="aga-sheet-mascot" src={mascot} alt="" aria-hidden="true" />
+            </section>
         </div>
     )
 }

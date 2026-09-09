@@ -1,5 +1,6 @@
 import './Productcard.css'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { widgetsCopy } from './widgets.copy'
 
 const itemName = (item) => (typeof item === 'string' ? item : item.name)
 const itemTag = (item) => (typeof item === 'string' ? null : item.tag)
@@ -12,7 +13,7 @@ const itemTag = (item) => (typeof item === 'string' ? null : item.tag)
  * long divider list.
  */
 function ProductCard({ title, items = [], image }) {
-    const { t } = useLanguage()
+    const c = useCopy(widgetsCopy)    // words — src/components/widgets.copy.js
 
     return (
         <article className="pcard">
@@ -24,7 +25,7 @@ function ProductCard({ title, items = [], image }) {
                 <div className="pcard-heading">
                     <h3 className="pcard-title">{title}</h3>
                     <span className="pcard-count">
-                        {items.length} {items.length === 1 ? t('productCard.varietyOne') : t('productCard.varietyMany')}
+                        {items.length} {items.length === 1 ? c.productCard.varietyOne : c.productCard.varietyMany}
                     </span>
                 </div>
             </div>

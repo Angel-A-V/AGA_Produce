@@ -1,172 +1,161 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import './Navbar.css'
-import logo from '../assets/logo/logo-transparency.png'
-import fruit from '../assets/logo/fruit-bowl.png'
-import character from '../assets/logo/aga_c.png'
-import tiktokLogo from '../assets/logo/tiktok.webp'
-import DehazeIcon from '@mui/icons-material/Dehaze'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import logo from '../assets/logo/logo-transparency.webp'
+import fruit from '../assets/logo/fruit-bowl.webp'
+import character from '../assets/logo/aga_c.webp'
 import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { sharedCopy } from './shared.copy'
+import { homeCopy } from '../pages/Home.copy'
+import { IG_URL, TIKTOK_URL } from '../siteInfo'
+import { useSectionSpy } from '../hooks/useAgaMotion'
+
+function InstagramIcon() {
+    return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        </svg>
+    )
+}
+
+function TiktokIcon() {
+    return (
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M14.5 3.5v10.2a3.8 3.8 0 1 1-3.8-3.8" />
+            <path d="M14.5 3.5c.3 2.6 2.3 4.5 4.9 4.7" />
+        </svg>
+    )
+}
+
+const HOME_SECTIONS = ['intro', 'about', 'products', 'repacking', 'safety', 'contact']
+
+function SectionRail({ labels }) {
+    const { active, shown } = useSectionSpy(HOME_SECTIONS)
+    return (
+        <div className={`aga-nav-rail${shown ? ' is-shown' : ''}`} aria-hidden="true">
+            <div className="aga-nav-rail-inner">
+                <span className="aga-nav-rail-mark">AGA</span>
+                {labels.map((l, i) => (
+                    <span key={l} className={`aga-nav-rail-item${i === active ? ' is-active' : ''}`}>{l}</span>
+                ))}
+            </div>
+        </div>
+    )
+}
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [aboutOpen, setAboutOpen] = useState(false)
-    const [isResizing, setIsResizing] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
-    const { lang, toggleLang, t } = useLanguage()
+    const { toggleLang } = useLanguage()
+    const c = useCopy(sharedCopy).nav
+    const railLabels = useCopy(homeCopy).index
 
     const location = useLocation()
     const aboutActive = ['/about', '/services', '/safety'].includes(location.pathname)
+    const isHome = location.pathname === '/'
 
-    useEffect(() => {
-        let resizeTimer
-        const handleResize = () => {
-            setIsResizing(true)
-            clearTimeout(resizeTimer)
-            if (window.innerWidth > 768) {
-                setMenuOpen(false)
-            }
-            resizeTimer = setTimeout(() => setIsResizing(false), 200)
-        }
-        window.addEventListener('resize', handleResize)
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            clearTimeout(resizeTimer)
-        }
-    }, [])
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const y = window.scrollY
-            setScrolled(prev => {
-                if (!prev && y > 90) return true
-                if (prev && y < 40) return false
-                return prev
-            })
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const navClass = [
-        isResizing ? 'resizing' : '',
-        scrolled ? 'nav-scrolled' : '',
-    ].filter(Boolean).join(' ')
-
-    const linkClass = ({ isActive }) =>
-        `hvr-underline-from-center${isActive ? ' active' : ''}`
-
-    const closeAll = () => {
+    const [lastPath, setLastPath] = useState(location.pathname)
+    if (lastPath !== location.pathname) {
+        setLastPath(location.pathname)
         setMenuOpen(false)
         setAboutOpen(false)
     }
 
+    useEffect(() => {
+        const onResize = () => { if (window.innerWidth > 1080) setMenuOpen(false) }
+        window.addEventListener('resize', onResize)
+        return () => window.removeEventListener('resize', onResize)
+    }, [])
+
+    const [scrolled, setScrolled] = useState(false)
+    useEffect(() => {
+        const onScroll = () => setScrolled((prev) => (prev ? window.scrollY >= 40 : window.scrollY > 90))
+        window.addEventListener('scroll', onScroll, { passive: true })
+        onScroll()
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
+
+    const linkClass = ({ isActive }) => `aga-nav-link${isActive ? ' is-active' : ''}`
+    const closeAll = () => { setMenuOpen(false); setAboutOpen(false) }
+
     return (
-        <nav id='navbar' className={navClass}>
-            <img id='fruitbowl1' src={fruit} alt="Fruit-bowl" />
+        <header className={`aga-nav${scrolled ? ' is-scrolled' : ''}`}>
+            <div className="aga-nav-bar">
+                <img className="aga-nav-fruit aga-nav-fruit--l" src={fruit} alt="" aria-hidden="true" />
+                <img className="aga-nav-fruit aga-nav-fruit--r" src={fruit} alt="" aria-hidden="true" />
 
-            <div className='nav-left'>
-                <Link to="/">
-                    <img id='logo' src={logo} alt="Aga Produce Logo" />
-                </Link>
-            </div>
-
-            <button className='hamburger' onClick={() => setMenuOpen(!menuOpen)}>
-                <DehazeIcon />
-            </button>
-
-            <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-                <NavLink to="/" end className={linkClass} onClick={closeAll}>{t('nav.home')}</NavLink>
-
-                <div className={`nav-dropdown ${aboutOpen ? 'open' : ''}`}>
-                    <div className='nav-dropdown-trigger'>
-                        <NavLink
-                            to="/about"
-                            className={({ isActive }) =>
-                                `hvr-underline-from-center${isActive || aboutActive ? ' active' : ''}`}
-                            onClick={closeAll}
-                        >
-                            {t('nav.about')}
-                        </NavLink>
-                        <button
-                            type='button'
-                            className='nav-dropdown-toggle'
-                            aria-label={t('nav.toggleAbout')}
-                            aria-expanded={aboutOpen}
-                            onClick={() => setAboutOpen(o => !o)}
-                        >
-                            <KeyboardArrowDownIcon className='nav-dropdown-chevron' />
-                        </button>
-                    </div>
-
-                    <div className='nav-dropdown-menu'>
-                        <NavLink to="/services" className='nav-dropdown-item' onClick={closeAll}>{t('nav.services')}</NavLink>
-                        <NavLink to="/safety" className='nav-dropdown-item' onClick={closeAll}>{t('nav.safety')}</NavLink>
-                    </div>
+                <div className="aga-nav-logo">
+                    <Link to="/" onClick={closeAll}>
+                        <img src={logo} alt="AGA Produce Company" />
+                    </Link>
                 </div>
-
-                <NavLink to="/products" className={linkClass} onClick={closeAll}>{t('nav.products')}</NavLink>
-                <NavLink to="/contact" className={linkClass} onClick={closeAll}>{t('nav.contact')}</NavLink>
 
                 <button
-                    type='button'
-                    className='nav-lang-toggle nav-lang-toggle--mobile'
-                    onClick={toggleLang}
-                    aria-label={t('nav.switchLang')}
+                    type="button"
+                    className="aga-nav-burger"
+                    aria-label={c.menu}
+                    aria-expanded={menuOpen}
+                    onClick={() => setMenuOpen(o => !o)}
                 >
-                    {t('nav.langShort')}
+                    <span /><span /><span />
                 </button>
-            </div>
 
-            <div className='nav-right'>
-                <img
-                    id='nav-character'
-                    src={character}
-                    alt="AGA Mascot"
-                />
-                <div className='nav-socials'>
-                    <button
-                        type='button'
-                        className='nav-lang-toggle'
-                        onClick={toggleLang}
-                        aria-label={t('nav.switchLang')}
-                        lang={lang === 'en' ? 'es' : 'en'}
-                    >
-                        {t('nav.langShort')}
+                <nav className={`aga-nav-links${menuOpen ? ' is-open' : ''}`}>
+                    <NavLink to="/" end className={linkClass} onClick={closeAll}>{c.home}</NavLink>
+
+                    <div className={`aga-nav-drop${aboutOpen ? ' is-open' : ''}`}>
+                        <div className="aga-nav-drop-trigger">
+                            <NavLink
+                                to="/about"
+                                className={({ isActive }) => `aga-nav-link${isActive || aboutActive ? ' is-active' : ''}`}
+                                onClick={closeAll}
+                            >
+                                {c.about}
+                            </NavLink>
+                            <button
+                                type="button"
+                                className="aga-nav-drop-toggle"
+                                aria-label={c.toggleAbout}
+                                aria-expanded={aboutOpen}
+                                onClick={() => setAboutOpen(o => !o)}
+                            >
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="aga-nav-drop-menu">
+                            <NavLink to="/services" className="aga-nav-drop-item" onClick={closeAll}>{c.services}</NavLink>
+                            <NavLink to="/safety" className="aga-nav-drop-item" onClick={closeAll}>{c.safety}</NavLink>
+                        </div>
+                    </div>
+
+                    <NavLink to="/products" className={linkClass} onClick={closeAll}>{c.products}</NavLink>
+                    <NavLink to="/contact" className={linkClass} onClick={closeAll}>{c.contact}</NavLink>
+
+                    <button type="button" className="aga-nav-lang aga-nav-lang--sheet" onClick={toggleLang} aria-label={c.switchLang}>
+                        {c.langShort}
                     </button>
-                    <a
-                        href="https://www.instagram.com/aga_producecompanyinc/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className='nav-social-icon nav-instagram'
-                        aria-label={t('nav.instagram')}
-                    >
+                </nav>
+
+                <div className="aga-nav-util">
+                    <button type="button" className="aga-nav-lang" onClick={toggleLang} aria-label={c.switchLang}>
+                        {c.langShort}
+                    </button>
+                    <a href={IG_URL} target="_blank" rel="noreferrer" className="aga-nav-social" aria-label={c.instagram}>
                         <InstagramIcon />
                     </a>
-                    <a
-                        href="https://www.tiktok.com/@aga.produce.company.inc"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className='nav-social-icon nav-tiktok'
-                        aria-label={t('nav.tiktok')}
-                    >
-                        <span
-                            className='nav-tiktok-img'
-                            style={{
-                                WebkitMaskImage: `url(${tiktokLogo})`,
-                                maskImage: `url(${tiktokLogo})`,
-                            }}
-                            aria-hidden="true"
-                        />
+                    <a href={TIKTOK_URL} target="_blank" rel="noreferrer" className="aga-nav-social" aria-label={c.tiktok}>
+                        <TiktokIcon />
                     </a>
+                    <img className="aga-nav-mascot" src={character} alt="" aria-hidden="true" />
                 </div>
             </div>
-
-            <img id='fruitbowl2' src={fruit} alt="Fruit-bowl" />
-        </nav>
+            {isHome && <SectionRail labels={railLabels} />}
+        </header>
     )
 }
 

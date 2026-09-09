@@ -5,7 +5,8 @@ import primusgfs from '../assets/certifications/primusgfs.webp'
 import usda from '../assets/certifications/usda.webp'
 import ifco from '../assets/certifications/ifco.webp'
 import pco from '../assets/certifications/pco.webp'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { widgetsCopy } from './widgets.copy'
 
 const FONT = 'Nunito, sans-serif'
 
@@ -24,10 +25,10 @@ function CertBadges({
     subtext,
     className = '',
 }) {
-    const { t } = useLanguage()
-    const resolvedHeading = heading === null ? null : (heading ?? t('certBadges.heading'))
-    const resolvedSubtext = subtext === null ? null : (subtext ?? t('certBadges.subtextDefault'))
-    const seals = t('certBadges.seals')
+    const c = useCopy(widgetsCopy)    // words — src/components/widgets.copy.js
+    const resolvedHeading = heading === null ? null : (heading ?? c.certBadges.heading)
+    const resolvedSubtext = subtext === null ? null : (subtext ?? c.certBadges.subtextDefault)
+    const seals = c.certBadges.seals
 
     const SEALS = [
         { src: primusgfs, alt: 'PrimusGFS Certified', note: seals.primusgfs },

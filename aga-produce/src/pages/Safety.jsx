@@ -1,127 +1,116 @@
-import { useRef, useEffect } from 'react'
-import { animate, stagger } from 'animejs'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import AcUnitIcon from '@mui/icons-material/AcUnit'
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
-import FactCheckIcon from '@mui/icons-material/FactCheck'
+import { Link } from 'react-router-dom'
 import './Safety.css'
-import safetyImg from '../assets/home/safety.webp'
-import CtaBanner from '../components/CtaBanner'
-import CertBadges from '../components/CertBadges'
-import { useLanguage } from '../i18n/useLanguage'
+import { useCopy } from '../i18n/useCopy'
+import { safetyCopy } from './Safety.copy'
+import { PHONE, PHONE_HREF, ADDRESS_LINE1, ADDRESS_LINE2 } from '../siteInfo'
 
-const GREEN_DARK = '#2d5a1b'
-/* Darker gold step than the brand's #c9a84c accent — this one is used
-   for eyebrow text on light backgrounds, where #c9a84c fails 4.5:1. */
-const EYEBROW_GOLD = '#71591c'
-const TEXT_DARK = '#3d3228'
-const FONT = 'Nunito, sans-serif'
+import pillarImg from '../assets/home/stations.webp'
+import storyImg1 from '../assets/home/cold-room-door.webp'
+import storyImg2 from '../assets/home/docks.webp'
+import primusgfs from '../assets/certifications/primusgfs.webp'
+import usda from '../assets/certifications/usda.webp'
+import pco from '../assets/certifications/pco.webp'
+import ifco from '../assets/certifications/ifco.webp'
 
-const TILE_ICONS = [VerifiedUserIcon, CleaningServicesIcon, FactCheckIcon]
+const CERT_LOGOS = [primusgfs, usda, pco, ifco]
+
+const pad = (i) => `${i < 9 ? '0' : ''}${i + 1}`
 
 function Safety() {
-    const pageRef = useRef(null)
-    const { t } = useLanguage()
-    const heroPillar = t('safety.heroPillar')
-    const tiles = t('safety.tiles')
-
-    useEffect(() => {
-        if (pageRef.current) {
-            animate(pageRef.current.querySelectorAll('.safety-reveal'), {
-                opacity: [0, 1],
-                translateY: [24, 0],
-                delay: stagger(80),
-                duration: 650,
-                ease: 'out(3)',
-            })
-        }
-    }, [])
+    const c = useCopy(safetyCopy)
 
     return (
-        <div className="safety-page" ref={pageRef}>
-            <Box sx={{ textAlign: 'center', px: 3, pt: { xs: 12, md: 16 }, pb: { xs: 3, md: 5 } }}>
-                <Typography className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', fontSize: '0.8rem', color: EYEBROW_GOLD, mb: 1.25 }}>
-                    {t('safety.eyebrow')}
-                </Typography>
-                <Typography component="h2" className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.9rem', md: '2.5rem' }, color: GREEN_DARK, lineHeight: 1.1 }}>
-                    {t('safety.title')}
-                </Typography>
-                <Typography className="safety-reveal" sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.05rem', color: TEXT_DARK, opacity: 0.75, mt: 1.5, maxWidth: 620, mx: 'auto' }}>
-                    {t('safety.sub')}
-                </Typography>
-            </Box>
+        <div className="aga-sf">
+            <header className="aga-sheet-mast aga-pad">
+                <div className="aga-sheet-mast-text">
+                    <span className="aga-sheet-label">{c.eyebrow}</span>
+                    <h1 className="aga-h1 aga-sheet-h1">
+                        {c.titleLines.map((line, i) => (
+                            <span key={line}>
+                                {line}
+                                {i < c.titleLines.length - 1 && <br />}
+                            </span>
+                        ))}
+                    </h1>
+                    <span className="aga-sheet-stamp">{c.stamp}</span>
+                </div>
+                <p className="aga-sheet-lede">{c.lede}</p>
+            </header>
 
-            <Box className="safety-wrap">
-                <Box className="heroC safety-reveal">
-                    <div className="heroC-icon"><AcUnitIcon sx={{ fontSize: 32 }} /></div>
-                    <div>
-                        <p className="heroC-title">{heroPillar.title}</p>
-                        <p className="heroC-text">{heroPillar.text}</p>
-                    </div>
-                </Box>
-
-                <Box className="tilesC">
-                    {tiles.map((tile, i) => {
-                        const Icon = TILE_ICONS[i]
-                        return (
-                            <div className="tileC safety-reveal" key={i}>
-                                <div className="tileC-icon"><Icon /></div>
-                                <p className="tileC-title">{tile.title}</p>
-                                <p className="tileC-text">{tile.text}</p>
+            <section className="aga-sf-pillar">
+                <div className="aga-sf-pillar-text">
+                    <span className="aga-sf-pillar-k">{c.pillarK}</span>
+                    <h2 className="aga-sf-pillar-t">{c.pillarTitle}</h2>
+                    <p className="aga-sf-pillar-b">{c.pillarText}</p>
+                    <div className="aga-sf-stats">
+                        {c.pillarStats.map((s) => (
+                            <div key={s.l} className="aga-sf-stat">
+                                <span className="aga-sf-stat-n">{s.n}</span>
+                                <span className="aga-sf-stat-l">{s.l}</span>
                             </div>
-                        )
-                    })}
-                </Box>
-            </Box>
+                        ))}
+                    </div>
+                </div>
+                <img src={pillarImg} alt={c.pillarAlt} loading="lazy" />
+            </section>
 
-            <Box
-                className="safety-reveal"
-                sx={{
-                    background: 'linear-gradient(135deg, #1c3d10, #2d5a1b 65%, #35661f)',
-                    py: { xs: 1, md: 2 },
-                    mb: { xs: 6, md: 8 },
-                }}
-            >
-                <CertBadges
-                    variant="dark"
-                    subtext={t('safety.certSubtext')}
-                />
-            </Box>
+            <section className="aga-sf-tiles aga-pad">
+                {c.tiles.map((t, i) => (
+                    <div key={t.title} className="aga-sf-tile">
+                        <span className="aga-sf-tile-n">{pad(i)}</span>
+                        <h3 className="aga-sf-tile-t">{t.title}</h3>
+                        <p className="aga-sf-tile-b">{t.text}</p>
+                    </div>
+                ))}
+            </section>
 
-            <Box sx={{ maxWidth: 1100, mx: 'auto', px: 3, pb: { xs: 7, md: 10 } }}>
-                <Box
-                    className="safety-reveal"
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-                        gap: { xs: 3, md: 6 },
-                        alignItems: 'center',
-                    }}
-                >
-                    <Box sx={{ borderRadius: 5, overflow: 'hidden', boxShadow: 4 }}>
-                        <Box component="img" src={safetyImg} alt="AGA team member weighing produce in protective gear" loading="lazy" decoding="async" sx={{ width: '100%', height: { xs: 320, md: 460 }, objectFit: 'cover', display: 'block' }} />
-                    </Box>
-                    <Box>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 900, fontSize: { xs: '1.6rem', md: '2.1rem' }, color: GREEN_DARK, mb: 2, lineHeight: 1.15 }}>
-                            {t('safety.sectionTitle')}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65, mb: 2 }}>
-                            {t('safety.para1')}
-                        </Typography>
-                        <Typography sx={{ fontFamily: FONT, fontWeight: 500, fontSize: '1.08rem', color: TEXT_DARK, opacity: 0.85, lineHeight: 1.65 }}>
-                            {t('safety.para2')}
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+            <section className="aga-sf-story aga-pad">
+                <div className="aga-sf-story-text">
+                    <h2 className="aga-sf-story-t">{c.storyTitle}</h2>
+                    <p className="aga-sf-story-b">{c.storyP1}</p>
+                    <p className="aga-sf-story-b">{c.storyP2}</p>
+                    <Link to="/contact" className="aga-link">{c.storyLink}</Link>
+                </div>
+                <div className="aga-sf-story-imgs">
+                    <img src={storyImg1} alt={c.storyAlt1} loading="lazy" />
+                    <img src={storyImg2} alt={c.storyAlt2} loading="lazy" />
+                </div>
+            </section>
 
-            <CtaBanner
-                className="safety-reveal"
-                title={t('safety.ctaTitle')}
-                subtitle={t('safety.ctaSubtitle')}
-            />
+            <section className="aga-sf-cert aga-pad">
+                <div>
+                    <span className="aga-sf-cert-head">{c.certHead}</span>
+                    <div className="aga-sf-cert-list">
+                        {c.certs.map((cert, i) => (
+                            <div key={cert.n} className="aga-sf-cert-item">
+                                <span className="aga-sf-cert-logo">
+                                    <img src={CERT_LOGOS[i]} alt={cert.n} loading="lazy" />
+                                </span>
+                                <span className="aga-sf-cert-txt">
+                                    <span className="aga-sf-cert-n">{cert.n}</span>
+                                    <span className="aga-sf-cert-d">{cert.d}</span>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="aga-sf-cert-addr">
+                    <span className="aga-sf-cert-addr-k">{c.warehouse}</span>
+                    <span>{ADDRESS_LINE1}<br />{ADDRESS_LINE2}</span>
+                </div>
+            </section>
+
+            <section className="aga-sheet-cta aga-sheet-cta--ink aga-pad">
+                <div className="aga-sheet-cta-text">
+                    <span className="aga-sheet-cta-k">{c.ctaK}</span>
+                    <h2 className="aga-sheet-cta-t">{c.ctaTitle}</h2>
+                    <p className="aga-sheet-cta-b">{c.ctaText}</p>
+                    <div className="aga-sheet-cta-actions">
+                        <a href={PHONE_HREF} className="aga-btn aga-btn--fill">{PHONE}</a>
+                        <Link to="/contact" className="aga-btn aga-btn--line-light">{c.ctaAlt}</Link>
+                    </div>
+                </div>
+            </section>
         </div>
     )
 }

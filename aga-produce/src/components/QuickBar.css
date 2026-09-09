@@ -8,10 +8,10 @@
     display: none; /* mobile only — enabled in the media query below */
     gap: 10px;
     padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-    background: rgba(245, 240, 232, 0.96);
+    background: rgba(242, 239, 228, 0.96);
     backdrop-filter: blur(8px);
-    border-top: 1.5px solid rgba(45, 90, 27, 0.18);
-    box-shadow: 0 -8px 24px rgba(26, 46, 15, 0.14);
+    border-top: 1px solid var(--aga-rule-strong);
+    box-shadow: 0 -8px 24px rgba(16, 21, 14, 0.14);
 
     transform: translateY(110%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -27,44 +27,45 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    min-height: 52px;
     padding: 13px 12px;
-    border-radius: 12px;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
+    font-family: var(--aga-sans);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .quick-bar-call {
-    background: #2d5a1b;
-    color: #f5f0e8;
+    background: var(--aga-brass);
+    color: var(--aga-ink);
 }
 
 .quick-bar-call:active {
-    background: #c9a84c;
-    color: #1a2e0f;
+    background: #96763a;
+    color: var(--aga-ink);
 }
 
 .quick-bar-msg {
-    background: #fff;
-    color: #2d5a1b;
-    border: 2px solid rgba(45, 90, 27, 0.3);
+    background: transparent;
+    color: var(--aga-green);
+    border: 1px solid var(--aga-green);
 }
 
 .quick-bar-msg:active {
-    background: #2d5a1b;
-    color: #fff;
+    background: var(--aga-green);
+    color: var(--aga-paper);
 }
 
 /* Mobile only */
-@media (max-width: 700px) {
+@media (max-width: 720px) {
     .quick-bar {
         display: flex;
     }
 
-    /* keep the back-to-top button clear of the bar */
     .back-to-top {
         bottom: calc(78px + env(safe-area-inset-bottom));
     }
