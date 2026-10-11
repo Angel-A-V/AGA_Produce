@@ -39,25 +39,12 @@ function Products() {
         [c]
     )
 
-    const totalItems = useMemo(
-        () => categories.reduce((a, cat) => a + cat.items.length, 0),
-        [categories]
-    )
-
     const q = query.trim().toLowerCase()
 
-    const results = useMemo(() => {
-        if (!q) return categories
-        return categories
-            .map((cat) => {
-                if (cat.title.toLowerCase().includes(q)) return { ...cat, titleHit: true }
-                const items = cat.items.filter((it) => it.n.toLowerCase().includes(q))
-                return items.length ? { ...cat, items } : null
-            })
-            .filter(Boolean)
-    }, [q, categories])
-
-    const shown = results.reduce((a, cat) => a + cat.items.length, 0)
+    const results = useMemo(
+        () => (q ? categories.filter((cat) => cat.title.toLowerCase().includes(q)) : categories),
+        [q, categories]
+    )
 
     const pick = (title) => () =>
         setQuery((cur) => (cur.trim().toLowerCase() === title.toLowerCase() ? '' : title))
@@ -75,9 +62,6 @@ function Products() {
                     <div className="aga-pl-badges">
                         <span className="aga-pl-badge aga-pl-badge--brass">
                             {c.badgeCats(categories.length)}
-                        </span>
-                        <span className="aga-pl-badge aga-pl-badge--green">
-                            {c.badgeItems(totalItems)}
                         </span>
                     </div>
                     <p className="aga-pl-lede">{c.lede}</p>
@@ -103,8 +87,8 @@ function Products() {
                     <span className="aga-pl-search-k">{c.searchLabel}</span>
                     <span className="aga-pl-tally" role="status" aria-live="polite">
                         {q
-                            ? c.tallyMatch(shown, totalItems, query.trim())
-                            : c.tallyIdle(totalItems, categories.length)}
+                            ? c.tallyMatch(results.length, categories.length, query.trim())
+                            : c.tallyIdle(categories.length)}
                     </span>
                 </div>
 
@@ -157,23 +141,6 @@ function Products() {
                             <h2 className="aga-pl-cat">
                                 <Marked text={cat.title} q={q} />
                             </h2>
-                            <ul className="aga-pl-items">
-                                {cat.items.map((it) => (
-                                    <li key={it.n} className="aga-pl-item">
-                                        <span>
-                                            <Marked text={it.n} q={cat.titleHit ? '' : q} />
-                                        </span>
-                                        {it.tag && <span className="aga-pl-item-tag">{it.tag}</span>}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="aga-pl-count">
-                            <span className="aga-pl-count-n">{cat.items.length}</span>
-                            <span className="aga-pl-count-l">
-                                {cat.items.length === 1 ? c.varietyOne : c.varietyMany}
-                            </span>
                         </div>
                     </article>
                 ))}

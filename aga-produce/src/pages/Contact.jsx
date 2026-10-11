@@ -125,14 +125,35 @@ function Contact() {
                     <span className="aga-contact-label">{c.deskLabel}</span>
                     <a href={PHONE_HREF} className="aga-contact-phone">{PHONE}</a>
 
-                    <div className="aga-contact-hours">
-                        <div>
-                            <span className="aga-contact-label">{c.hoursWeek}</span>
-                            <span className="aga-contact-hours-v">{c.hoursWeekVal}</span>
+                    <div className="aga-contact-schedule">
+                        <span className="aga-contact-schedule-k">{c.shippingLabel}</span>
+                        <div className="aga-contact-hours">
+                            <div>
+                                <span className="aga-contact-label">{c.shippingWeek}</span>
+                                <span className="aga-contact-hours-v">{c.shippingWeekVal}</span>
+                            </div>
+                            <div>
+                                <span className="aga-contact-label">{c.shippingSat}</span>
+                                <span className="aga-contact-hours-v">{c.shippingSatVal}</span>
+                            </div>
+                            <div>
+                                <span className="aga-contact-label">{c.shippingSun}</span>
+                                <span className="aga-contact-hours-v">{c.shippingSunVal}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span className="aga-contact-label">{c.hoursSat}</span>
-                            <span className="aga-contact-hours-v">{c.hoursSatVal}</span>
+                    </div>
+
+                    <div className="aga-contact-schedule">
+                        <span className="aga-contact-schedule-k">{c.officeLabel}</span>
+                        <div className="aga-contact-hours">
+                            <div>
+                                <span className="aga-contact-label">{c.officeWeek}</span>
+                                <span className="aga-contact-hours-v">{c.officeWeekVal}</span>
+                            </div>
+                            <div>
+                                <span className="aga-contact-label">{c.officeWeekend}</span>
+                                <span className="aga-contact-hours-v">{c.officeWeekendVal}</span>
+                            </div>
                         </div>
                     </div>
 

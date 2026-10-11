@@ -10,29 +10,23 @@ export const productsCopy = {
         en: (n) => `${n} categories`,
         es: (n) => `${n} categorías`,
     },
-    badgeItems: {
-        en: (n) => `${n} varieties`,
-        es: (n) => `${n} variedades`,
-    },
     lede: {
         en: "Usually in stock and moving through the building six days a week. Search the list, then call for today's availability and pricing.",
         es: 'Generalmente en existencia y en movimiento seis días a la semana. Busque en la lista y llámenos para disponibilidad y precios de hoy.',
     },
 
     searchLabel: { en: 'Find it on the list', es: 'Búsquelo en la lista' },
-    searchPlaceholder: { en: 'jalapeño, citrus, rice…', es: 'jalapeño, cítricos, arroz…' },
+    searchPlaceholder: { en: 'chiles, citrus, onions…', es: 'chiles, cítricos, cebollas…' },
     searchAria: { en: 'Search the product list', es: 'Buscar en la lista de productos' },
     clear: { en: 'Clear', es: 'Borrar' },
     tallyIdle: {
-        en: (items, cats) => `${items} items · ${cats} categories`,
-        es: (items, cats) => `${items} productos · ${cats} categorías`,
+        en: (cats) => `${cats} categories`,
+        es: (cats) => `${cats} categorías`,
     },
     tallyMatch: {
-        en: (shown, total, q) => `${shown} of ${total} items match “${q}”`,
-        es: (shown, total, q) => `${shown} de ${total} productos coinciden con “${q}”`,
+        en: (shown, total, q) => `${shown} of ${total} categories match “${q}”`,
+        es: (shown, total, q) => `${shown} de ${total} categorías coinciden con “${q}”`,
     },
-    varietyOne: { en: 'variety', es: 'variedad' },
-    varietyMany: { en: 'varieties', es: 'variedades' },
 
     emptyKicker: { en: 'Not on the list', es: 'No está en la lista' },
     emptyTitle: {
@@ -82,69 +76,31 @@ export const productsCopy = {
             id: 'chiles',
             title: { en: 'Chiles', es: 'Chiles' },
             short: { en: 'Chiles', es: 'Chiles' },
-            items: [
-                { n: { en: 'Anaheim', es: 'Anaheim' } },
-                { n: { en: 'Habanero', es: 'Habanero' } },
-                { n: { en: 'Jalapeño', es: 'Jalapeño' } },
-                { n: { en: 'Pasilla', es: 'Pasilla' } },
-                { n: { en: 'Serrano', es: 'Serrano' } },
-            ],
         },
         {
             id: 'onions',
             title: { en: 'Onions', es: 'Cebollas' },
             short: { en: 'Onions', es: 'Cebollas' },
-            items: [
-                { n: { en: 'Red', es: 'Rojas' } },
-                { n: { en: 'Brown / Yellow', es: 'Cafés / Amarillas' } },
-                { n: { en: 'White', es: 'Blancas' } },
-            ],
         },
         {
             id: 'tomatoes',
             title: { en: 'Tomatoes', es: 'Tomates' },
             short: { en: 'Tomatoes', es: 'Tomates' },
-            items: [
-                { n: { en: 'Beefsteak', es: 'Bistec' } },
-                { n: { en: 'Milpero', es: 'Milpero' } },
-                { n: { en: 'Tomatillo', es: 'Tomatillo' } },
-                { n: { en: 'Roma', es: 'Roma' } },
-            ],
         },
         {
             id: 'dry-grains',
             title: { en: 'Dry grains', es: 'Granos secos' },
             short: { en: 'Grains', es: 'Granos' },
-            items: [
-                { n: { en: 'Rice', es: 'Arroz' }, tag: { en: '50 lb bags', es: 'sacos de 50 lb' } },
-                { n: { en: 'Beans', es: 'Frijoles' }, tag: { en: '50 lb bags', es: 'sacos de 50 lb' } },
-                { n: { en: 'Lentil', es: 'Lentejas' }, tag: { en: '50 lb bags', es: 'sacos de 50 lb' } },
-            ],
         },
         {
             id: 'leafy-greens',
             title: { en: 'Leafy greens', es: 'Verduras de hoja' },
             short: { en: 'Greens', es: 'Hoja' },
-            items: [
-                {
-                    n: { en: 'Lettuce', es: 'Lechuga' },
-                    tag: { en: 'Cello / Romaine / Butter', es: 'Cello / Romana / Mantequilla' },
-                },
-                { n: { en: 'Cabbage', es: 'Repollo' } },
-                { n: { en: 'Cilantro', es: 'Cilantro' }, tag: { en: '60ct / 30ct', es: '60ct / 30ct' } },
-            ],
         },
         {
             id: 'citrus',
             title: { en: 'Citrus', es: 'Cítricos' },
             short: { en: 'Citrus', es: 'Cítricos' },
-            items: [
-                { n: { en: 'Oranges', es: 'Naranjas' } },
-                { n: { en: 'Grapefruit', es: 'Toronja' } },
-                { n: { en: 'Mandarin', es: 'Mandarina' } },
-                { n: { en: 'Lemon', es: 'Limón amarillo' } },
-                { n: { en: 'Limes', es: 'Limas' } },
-            ],
         },
     ],
 }

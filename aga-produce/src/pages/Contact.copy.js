@@ -13,10 +13,19 @@ export const contactCopy = {
     },
 
     deskLabel: { en: 'Call the desk', es: 'Llame al mostrador' },
-    hoursWeek: { en: 'Monday to Friday', es: 'Lunes a viernes' },
-    hoursWeekVal: { en: '1:00 AM to 3:00 PM', es: '1:00 AM a 3:00 PM' },
-    hoursSat: { en: 'Saturday', es: 'Sábado' },
-    hoursSatVal: { en: '1:00 AM to 10:00 AM', es: '1:00 AM a 10:00 AM' },
+    shippingLabel: { en: 'Shipping and receiving', es: 'Envíos y recepción' },
+    shippingWeek: { en: 'Monday to Friday', es: 'Lunes a viernes' },
+    shippingWeekVal: { en: '2:00 AM to 4:00 PM', es: '2:00 AM a 4:00 PM' },
+    shippingSat: { en: 'Saturday', es: 'Sábado' },
+    shippingSatVal: { en: '2:00 AM to 10:00 AM', es: '2:00 AM a 10:00 AM' },
+    shippingSun: { en: 'Sunday', es: 'Domingo' },
+    shippingSunVal: { en: 'Closed', es: 'Cerrado' },
+
+    officeLabel: { en: 'Office', es: 'Oficina' },
+    officeWeek: { en: 'Monday to Friday', es: 'Lunes a viernes' },
+    officeWeekVal: { en: '6:00 AM to 2:30 PM', es: '6:00 AM a 2:30 PM' },
+    officeWeekend: { en: 'Saturday and Sunday', es: 'Sábado y domingo' },
+    officeWeekendVal: { en: 'Closed', es: 'Cerrado' },
     email: { en: 'Email', es: 'Correo' },
     instagram: { en: 'Instagram', es: 'Instagram' },
     fax: { en: 'Fax', es: 'Fax' },
@@ -78,16 +87,6 @@ export const contactCopy = {
             a: {
                 en: 'Give us a call or send a message through this page with your business name and what you are looking to source. We will get you set up and quoting within a day.',
                 es: 'Llámanos o envía un mensaje a través de esta página con el nombre de tu negocio y lo que buscas abastecer. Te configuramos y cotizamos en un día.',
-            },
-        },
-        {
-            q: {
-                en: 'Can you source produce you do not normally stock?',
-                es: '¿Pueden conseguir producto que normalmente no manejan?',
-            },
-            a: {
-                en: 'Often, yes. We source by request through our supplier network. Tell us what you need and we will let you know availability and pricing.',
-                es: 'A menudo, sí. Abastecemos por encargo a través de nuestra red de proveedores. Dinos qué necesitas y te informamos disponibilidad y precio.',
             },
         },
         {

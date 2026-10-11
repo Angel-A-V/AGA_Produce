@@ -70,6 +70,7 @@ function Home() {
                     <h2 className="aga-h2">{c.companyTitle}</h2>
                     <p className="aga-body">{c.companyP1}</p>
                     <p className="aga-body">{c.companyP2}</p>
+                    <p className="aga-body">{c.companyP3}</p>
                     <Link to="/about" className="aga-link">{c.companyLink}</Link>
                 </div>
                 <div className="aga-home-company-media">
@@ -107,7 +108,6 @@ function Home() {
             <section className="aga-home-range aga-pad" data-sec="products">
                 <div className="aga-home-range-text">
                     <p className="aga-eyebrow aga-eyebrow--plain">{c.rangeEyebrow}</p>
-                    <h2 className="aga-h2 aga-home-range-h2">{c.rangeTitle}</h2>
                     <div className="aga-home-cats">
                         {c.categories.map((cat_, i) => (
                             <Link
@@ -119,9 +119,7 @@ function Home() {
                             >
                                 <span className="aga-home-cat-head">
                                     <span className="aga-home-cat-n">{cat_.name}</span>
-                                    <span className="aga-home-cat-c">{cat_.count}</span>
                                 </span>
-                                <span className="aga-home-cat-i">{cat_.items}</span>
                             </Link>
                         ))}
                     </div>

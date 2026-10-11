@@ -11,16 +11,6 @@ export const aboutCopy = {
     cta: { en: 'Talk to the desk', es: 'Hablar con el mostrador' },
     caption: { en: 'Reception · 1146 S Vail Ave', es: 'Recepción · 1146 S Vail Ave' },
 
-    metaHead: { en: 'On the record', es: 'Datos' },
-    meta: [
-        { en: 'Established 2020', es: 'Establecida en 2020' },
-        { en: 'Montebello, California', es: 'Montebello, California' },
-        {
-            en: 'Owners · Julio Cesar & Gabriela Navarro',
-            es: 'Dueños · Julio César y Gabriela Navarro',
-        },
-        { en: 'Wholesale accounts', es: 'Cuentas de mayoreo' },
-    ],
     storyTitle: {
         en: 'A distribution house, run by the family that built it.',
         es: 'Una casa de distribución, operada por la familia que la creó.',
@@ -44,43 +34,6 @@ export const aboutCopy = {
         es: '“La clave de nuestro crecimiento y éxito continuo ha sido, y seguirá siendo, la dedicación de muchos empleados leales y el apoyo de nuestros proveedores y clientes leales.”',
     },
     quoteBy: { en: 'AGA Produce Company Inc.', es: 'AGA Produce Company Inc.' },
-
-    valuesTitle: { en: 'Our values', es: 'Nuestros valores' },
-    valuesKicker: { en: 'The principles behind every delivery', es: 'Los principios detrás de cada entrega' },
-    values: [
-        {
-            n: { en: '01', es: '01' },
-            t: { en: 'Freshness first', es: 'Frescura primero' },
-            d: {
-                en: 'Only fresh goods. Received, weighed and inspected before it moves, on every order.',
-                es: 'Solo producto fresco. Recibido, pesado e inspeccionado antes de salir, en cada pedido.',
-            },
-        },
-        {
-            n: { en: '02', es: '02' },
-            t: { en: 'Family run', es: 'De familia' },
-            d: {
-                en: 'The Navarro family is in the building. Decisions get made by the people you already talk to.',
-                es: 'La familia Navarro está en el edificio. Las decisiones las toman las personas con las que ya habla.',
-            },
-        },
-        {
-            n: { en: '03', es: '03' },
-            t: { en: 'Dependable delivery', es: 'Entrega confiable' },
-            d: {
-                en: 'Six days a week across greater Los Angeles, on a schedule accounts can plan around.',
-                es: 'Seis días a la semana en el área de Los Ángeles, con un horario que las cuentas pueden planear.',
-            },
-        },
-        {
-            n: { en: '04', es: '04' },
-            t: { en: 'Community rooted', es: 'Raíces en la comunidad' },
-            d: {
-                en: 'Long relationships with growers, buyers and the neighborhood we operate in.',
-                es: 'Relaciones largas con productores, compradores y el barrio donde operamos.',
-            },
-        },
-    ],
 
     insideTitle: { en: 'Inside the building', es: 'Dentro del edificio' },
     insideKicker: { en: '1146 S Vail Ave', es: '1146 S Vail Ave' },

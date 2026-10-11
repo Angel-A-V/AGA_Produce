@@ -20,16 +20,20 @@ export const homeCopy = {
 
     companyEyebrow: { en: 'The company', es: 'La empresa' },
     companyTitle: {
-        en: 'A distribution house, run by the family that owns it.',
-        es: 'Una casa de distribución, operada por la familia que la creó.',
+        en: 'About AGA Produce Company Inc',
+        es: 'Acerca de AGA Produce Company Inc',
     },
     companyP1: {
-        en: 'Julio Cesar Navarro and Gabriela Navarro opened AGA in Montebello in 2020. The building on Vail Avenue handles receiving, cold storage, repacking and dispatch under one roof.',
-        es: 'Julio César Navarro y Gabriela Navarro abrieron AGA en Montebello en 2020. El edificio en Vail Avenue concentra recepción, almacenamiento en frío, reempaque y despacho bajo un solo techo.',
+        en: 'At AGA Produce Company Inc, we pride ourselves on being a family-owned and operated food service distributor dedicated to quality, reliability, and service. Founded in 2020 and based in Montebello, California, just a stone\u2019s throw from LA Produce Row, we\u2019ve built strong relationships with growers and customers alike by focusing on what matters most: fresh produce, honest pricing, and personal attention.',
+        es: 'En AGA Produce Company Inc nos enorgullece ser un distribuidor de servicio de alimentos de propiedad y operaci\u00f3n familiar, dedicado a la calidad, la confiabilidad y el servicio. Fundada en 2020 y con sede en Montebello, California, a un paso de LA Produce Row, hemos construido relaciones s\u00f3lidas con productores y clientes enfoc\u00e1ndonos en lo que m\u00e1s importa: producto fresco, precios honestos y atenci\u00f3n personal.',
     },
     companyP2: {
-        en: 'Buyers deal with the same people every week. That is the whole model.',
-        es: 'Los compradores tratan con las mismas personas cada semana. Ese es el modelo completo.',
+        en: 'We specialize in Hispanic-line chilis and offer a diverse selection of fruits and vegetables tailored to meet the needs of restaurants, grocery stores, and food service businesses. Our PrimusGFS-certified packing house ensures every product we handle meets the highest standards of safety and quality.',
+        es: 'Nos especializamos en chiles de l\u00ednea hispana y ofrecemos una selecci\u00f3n diversa de frutas y verduras adaptada a las necesidades de restaurantes, tiendas de abarrotes y negocios de servicio de alimentos. Nuestra casa de empaque certificada por PrimusGFS garantiza que cada producto cumpla con los m\u00e1s altos est\u00e1ndares de seguridad y calidad.',
+    },
+    companyP3: {
+        en: 'From our family to yours, we\u2019re here to help you serve the freshest, best-tasting produce every day.',
+        es: 'De nuestra familia a la suya, estamos aqu\u00ed para ayudarle a servir el producto m\u00e1s fresco y sabroso cada d\u00eda.',
     },
     companyLink: { en: 'Read the full story', es: 'Conozca la historia' },
 
@@ -71,49 +75,24 @@ export const homeCopy = {
     ],
 
     rangeEyebrow: { en: 'The range', es: 'El catálogo' },
-    rangeTitle: { en: 'Six categories, packed to order.', es: 'Seis categorías, empacadas a pedido.' },
     categories: [
         {
             name: { en: 'Chiles', es: 'Chiles' },
-            count: { en: '5 varieties', es: '5 variedades' },
-            items: {
-                en: 'Anaheim · Habanero · Jalapeño · Pasilla · Serrano',
-                es: 'Anaheim · Habanero · Jalapeño · Pasilla · Serrano',
-            },
         },
         {
             name: { en: 'Onions', es: 'Cebollas' },
-            count: { en: '3 varieties', es: '3 variedades' },
-            items: { en: 'Red · Brown · White', es: 'Rojas · Cafés · Blancas' },
         },
         {
             name: { en: 'Tomatoes', es: 'Tomates' },
-            count: { en: '4 varieties', es: '4 variedades' },
-            items: {
-                en: 'Beefsteak · Milpero · Tomatillo · Roma',
-                es: 'Bistec · Milpero · Tomatillo · Roma',
-            },
         },
         {
             name: { en: 'Dry grains', es: 'Granos secos' },
-            count: { en: '3 varieties', es: '3 variedades' },
-            items: {
-                en: 'Rice · Beans · Lentil, 50 lb bags',
-                es: 'Arroz · Frijol · Lenteja, sacos de 50 lb',
-            },
         },
         {
             name: { en: 'Leafy greens', es: 'Verduras de hoja' },
-            count: { en: '3 varieties', es: '3 variedades' },
-            items: { en: 'Lettuce · Cabbage · Cilantro', es: 'Lechuga · Repollo · Cilantro' },
         },
         {
             name: { en: 'Citrus', es: 'Cítricos' },
-            count: { en: '5 varieties', es: '5 variedades' },
-            items: {
-                en: 'Oranges · Grapefruit · Mandarin · Lemon · Limes',
-                es: 'Naranja · Toronja · Mandarina · Limón · Lima',
-            },
         },
     ],
 
@@ -156,8 +135,8 @@ export const homeCopy = {
         es: 'Llame en horario de recepción y hablará con alguien que puede cotizarle el mismo día.',
     },
     hours: [
-        { en: 'Mon to Fri, 1:00 AM to 3:00 PM', es: 'Lun a Vie, 1:00 AM a 3:00 PM' },
-        { en: 'Saturday, 1:00 AM to 10:00 AM', es: 'Sábado, 1:00 AM a 10:00 AM' },
+        { en: 'Shipping and receiving: Mon to Fri 2:00 AM to 4:00 PM, Sat 2:00 AM to 10:00 AM', es: 'Envíos y recepción: Lun a Vie 2:00 AM a 4:00 PM, Sáb 2:00 AM a 10:00 AM' },
+        { en: 'Office: Mon to Fri 6:00 AM to 2:30 PM', es: 'Oficina: Lun a Vie 6:00 AM a 2:30 PM' },
     ],
     contactMsg: { en: 'Send a message', es: 'Enviar un mensaje' },
     contactLink: { en: 'Contact page', es: 'Página de contacto' },

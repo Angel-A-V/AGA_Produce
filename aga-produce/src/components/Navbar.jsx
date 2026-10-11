@@ -49,7 +49,7 @@ function SectionRail({ labels }) {
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [aboutOpen, setAboutOpen] = useState(false)
-    const { toggleLang } = useLanguage()
+    const { toggleLang, spanishEnabled } = useLanguage()
     const c = useCopy(sharedCopy).nav
     const railLabels = useCopy(homeCopy).index
 
@@ -136,15 +136,19 @@ function Navbar() {
                     <NavLink to="/products" className={linkClass} onClick={closeAll}>{c.products}</NavLink>
                     <NavLink to="/contact" className={linkClass} onClick={closeAll}>{c.contact}</NavLink>
 
-                    <button type="button" className="aga-nav-lang aga-nav-lang--sheet" onClick={toggleLang} aria-label={c.switchLang}>
-                        {c.langShort}
-                    </button>
+                    {spanishEnabled && (
+                        <button type="button" className="aga-nav-lang aga-nav-lang--sheet" onClick={toggleLang} aria-label={c.switchLang}>
+                            {c.langShort}
+                        </button>
+                    )}
                 </nav>
 
                 <div className="aga-nav-util">
-                    <button type="button" className="aga-nav-lang" onClick={toggleLang} aria-label={c.switchLang}>
-                        {c.langShort}
-                    </button>
+                    {spanishEnabled && (
+                        <button type="button" className="aga-nav-lang" onClick={toggleLang} aria-label={c.switchLang}>
+                            {c.langShort}
+                        </button>
+                    )}
                     <a href={IG_URL} target="_blank" rel="noreferrer" className="aga-nav-social" aria-label={c.instagram}>
                         <InstagramIcon />
                     </a>

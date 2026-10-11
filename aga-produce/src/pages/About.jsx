@@ -59,10 +59,6 @@ function About() {
             </section>
 
             <section className="aga-about-story aga-pad">
-                <div className="aga-about-ledger">
-                    <span className="aga-about-ledger-head">{c.metaHead}</span>
-                    {c.meta.map((m) => <span key={m}>{m}</span>)}
-                </div>
                 <div className="aga-about-story-text">
                     <h2 className="aga-h2">{c.storyTitle}</h2>
                     <p className="aga-body">{c.storyP1}</p>
@@ -77,20 +73,6 @@ function About() {
                     <p className="aga-about-quote-t">{c.quote}</p>
                     <span className="aga-about-quote-by">{c.quoteBy}</span>
                 </div>
-            </section>
-
-            <section className="aga-about-values aga-pad">
-                <div className="aga-about-sec-head">
-                    <h2 className="aga-h2">{c.valuesTitle}</h2>
-                    <span className="aga-kicker">{c.valuesKicker}</span>
-                </div>
-                {c.values.map((v) => (
-                    <div className="aga-about-value" key={v.n}>
-                        <span className="aga-about-value-n">{v.n}</span>
-                        <span className="aga-about-value-t">{v.t}</span>
-                        <span className="aga-about-value-d">{v.d}</span>
-                    </div>
-                ))}
             </section>
 
             <section className="aga-about-inside aga-pad">

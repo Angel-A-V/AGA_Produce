@@ -96,19 +96,28 @@
 }
 .aga-contact-phone:hover { color: var(--aga-brass); }
 
+.aga-contact-schedule { margin-top: 34px; }
+.aga-contact-schedule-k {
+    display: block;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--aga-rule-strong);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--aga-brass);
+}
 .aga-contact-hours {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-top: 34px;
-    border-top: 2px solid var(--aga-rule-strong);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
-.aga-contact-hours > div { display: flex; flex-direction: column; gap: 8px; padding: 24px 24px 24px 0; }
-.aga-contact-hours > div + div { padding: 24px 0 24px 26px; border-left: 1px solid rgba(16, 21, 14, 0.16); }
+.aga-contact-hours > div { display: flex; flex-direction: column; gap: 8px; padding: 20px 24px 20px 0; }
+.aga-contact-hours > div + div { padding-left: 26px; border-left: 1px solid rgba(16, 21, 14, 0.16); }
 .aga-contact-hours-v {
     font-family: var(--aga-serif);
     font-weight: 300;
-    font-size: 32px;
-    line-height: 1;
+    font-size: 26px;
+    line-height: 1.1;
     color: var(--aga-ink);
 }
 
@@ -287,6 +296,7 @@ a.aga-contact-row:hover .aga-contact-row-v { color: var(--aga-brass); }
     }
     .aga-contact-row-v { font-size: 17px; overflow-wrap: anywhere; }
     .aga-contact-hours { grid-template-columns: 1fr; }
+    .aga-contact-hours > div { padding-right: 0; }
     .aga-contact-hours > div + div { padding-left: 0; border-left: none; border-top: 1px solid rgba(16, 21, 14, 0.16); }
     .aga-contact-trust { grid-template-columns: 1fr; }
     .aga-contact-trust-cell { border-right: none; border-bottom: 1px solid rgba(16, 21, 14, 0.14); }

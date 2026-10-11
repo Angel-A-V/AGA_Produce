@@ -165,24 +165,6 @@
     transition: font-size 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 .aga-home-cat.is-active .aga-home-cat-n { font-size: 40px; color: var(--aga-brass); }
-.aga-home-cat-c {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #7A7565;
-}
-.aga-home-cat-i {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    font-size: 14.5px;
-    letter-spacing: 0.02em;
-    line-height: 1.5;
-    color: var(--aga-muted);
-    transition: max-height 0.35s ease, opacity 0.3s ease;
-}
-.aga-home-cat.is-active .aga-home-cat-i { max-height: 60px; opacity: 1; }
 
 .aga-home-range-media {
     position: relative;
@@ -391,9 +373,6 @@
     .aga-home-cat.is-active { padding-left: 0; gap: 10px; box-shadow: none; }
     .aga-home-cat-n,
     .aga-home-cat.is-active .aga-home-cat-n { font-size: 30px; color: var(--aga-green); }
-    .aga-home-cat-i,
-    .aga-home-cat.is-active .aga-home-cat-i { max-height: none; opacity: 1; }
-
     .aga-home-repack-panel { margin-top: -48px; padding: 32px 26px; }
 
     .aga-home-safety-media { grid-template-columns: 1fr; gap: 16px; }
