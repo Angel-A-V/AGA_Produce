@@ -146,8 +146,8 @@
 }
 .aga-sf-cert-list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 24px 22px;
     margin-top: 14px;
 }
 .aga-sf-cert-item { display: flex; align-items: center; gap: 14px; }
@@ -162,11 +162,12 @@
     background: var(--aga-paper);
 }
 .aga-sf-cert-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.aga-sf-cert-txt { display: flex; flex-direction: column; gap: 3px; }
+.aga-sf-cert-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .aga-sf-cert-n {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
     color: var(--aga-brass-light);
     line-height: 1.2;

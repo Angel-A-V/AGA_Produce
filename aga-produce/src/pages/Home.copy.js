@@ -16,7 +16,7 @@ export const homeCopy = {
         es: 'Frutas y verduras al mayoreo para restaurantes, mercados y servicio de alimentos en todo Los Ángeles.',
     },
     ctaRange: { en: 'See the product range', es: 'Ver el catálogo' },
-    caption: { en: 'Milpero tomatillo, receiving', es: 'Tomatillo milpero, recepción' },
+    heroAlt: { en: 'Tomatillo in receiving crates', es: 'Tomatillo en cajas de recepción' },
 
     companyEyebrow: { en: 'The company', es: 'La empresa' },
     companyTitle: {
@@ -28,8 +28,8 @@ export const homeCopy = {
         es: 'En AGA Produce Company Inc nos enorgullece ser un distribuidor de servicio de alimentos de propiedad y operaci\u00f3n familiar, dedicado a la calidad, la confiabilidad y el servicio. Fundada en 2020 y con sede en Montebello, California, a un paso de LA Produce Row, hemos construido relaciones s\u00f3lidas con productores y clientes enfoc\u00e1ndonos en lo que m\u00e1s importa: producto fresco, precios honestos y atenci\u00f3n personal.',
     },
     companyP2: {
-        en: 'We specialize in Hispanic-line chilis and offer a diverse selection of fruits and vegetables tailored to meet the needs of restaurants, grocery stores, and food service businesses. Our PrimusGFS-certified packing house ensures every product we handle meets the highest standards of safety and quality.',
-        es: 'Nos especializamos en chiles de l\u00ednea hispana y ofrecemos una selecci\u00f3n diversa de frutas y verduras adaptada a las necesidades de restaurantes, tiendas de abarrotes y negocios de servicio de alimentos. Nuestra casa de empaque certificada por PrimusGFS garantiza que cada producto cumpla con los m\u00e1s altos est\u00e1ndares de seguridad y calidad.',
+        en: 'We specialize in Hispanic-line chilis and offer a diverse selection of fruits and vegetables tailored to meet the needs of restaurants, grocery stores, and food service businesses. Our packing house is PrimusGFS certified and certified organic, so every product we handle meets the highest standards of safety and quality.',
+        es: 'Nos especializamos en chiles de l\u00ednea hispana y ofrecemos una selecci\u00f3n diversa de frutas y verduras adaptada a las necesidades de restaurantes, tiendas de abarrotes y negocios de servicio de alimentos. Nuestra casa de empaque cuenta con certificaci\u00f3n PrimusGFS y certificaci\u00f3n org\u00e1nica, por lo que cada producto que manejamos cumple con los m\u00e1s altos est\u00e1ndares de seguridad y calidad.',
     },
     companyP3: {
         en: 'From our family to yours, we\u2019re here to help you serve the freshest, best-tasting produce every day.',

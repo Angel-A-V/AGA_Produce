@@ -39,7 +39,7 @@ function Home() {
     return (
         <div className="aga-home">
             <section className="aga-home-hero" data-sec="intro">
-                <img ref={imgRef} className="aga-home-hero-img" src={heroImg} alt={c.caption} />
+                <img ref={imgRef} className="aga-home-hero-img" src={heroImg} alt={c.heroAlt} />
                 <div className="aga-home-hero-scrim" />
                 <div className="aga-home-hero-inner aga-pad">
                     <div className="aga-home-hero-text" ref={textRef}>
@@ -51,7 +51,6 @@ function Home() {
                             <a href={PHONE_HREF} className="aga-btn aga-btn--line-light">{PHONE}</a>
                         </div>
                     </div>
-                    <span className="aga-home-hero-cap">{c.caption}</span>
                 </div>
             </section>
 

@@ -228,8 +228,8 @@ a:hover { color: var(--aga-brass); }
 }
 .aga-certs-list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 26px 22px;
     max-width: 820px;
     margin-top: 14px;
 }
@@ -248,9 +248,10 @@ a:hover { color: var(--aga-brass); }
 .aga-cert-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .aga-cert-n {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
     color: var(--aga-brass-light);
     line-height: 1.2;
